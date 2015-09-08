@@ -83,9 +83,12 @@ module TSOS {
             sc = new ShellCommand(this.shellPrompt,
                                   "ps",
                                   "- list the running proccesses and their IDs");
-            this.commmandList[this.commandList.length] = sc;
+            this.commandList[this.commandList.length] = sc;
             // kill <id> - kills the specified process id.
-
+            sc = new ShellCommand(this.shellPrompt,
+                                  "kill",
+                                  "<id> - kills the specified process id");
+            this.commandList[this.commandList.length] = sc;
             //
             // Display the initial prompt.
             this.putPrompt();
