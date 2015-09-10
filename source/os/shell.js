@@ -196,6 +196,10 @@ var TSOS;
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         };
+        Shell.prototype.shellPs = function (args) {
+        };
+        Shell.prototype.shellKill = function (args) {
+        };
         return Shell;
     })();
     TSOS.Shell = Shell;
