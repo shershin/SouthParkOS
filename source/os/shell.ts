@@ -80,17 +80,44 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
+            //figure out how to implement this
             sc = new ShellCommand(this.shellPrompt,
                                   "ps",
                                   "- list the running proccesses and their IDs");
             this.commandList[this.commandList.length] = sc;
 
             // kill <id> - kills the specified process id.
+            //figure out how to implement this
             sc = new ShellCommand(this.shellPrompt,
                                   "kill",
                                   "<id> - kills the specified process id");
             this.commandList[this.commandList.length] = sc;
-            //
+            //shershins added functions or commands
+            //date - displays the current date and time
+            sc = new ShellCommand(this.shellPrompt,
+                                  "date",
+                                  "- displays the current date and time");
+            this.commandList[this.commandList.length] = sc;
+            //whereami - displays the current location
+            sc = new ShellCommand(this.shellPrompt,
+                                  "whereami",
+                                  "- displays the current location");
+            this.commandList[this.commandList.length] = sc;
+            //imagination - atempting to be clever but failing
+            sc = new ShellCommand(this.shellPrompt,
+                                  "imagination",
+                                  "- attempting to be clever but failing");
+            this.commandList[this.commandList.length] = sc;
+            //happythoughts - get transported to a happy place
+            sc = new ShellCommand(this.shellPrompt,
+                                  "happythoughts",
+                                  "- get transported to a happy place");
+            this.commandList[this.commandList.length] = sc;
+            //curse - for when all else fails
+            sc = new ShellCommand(this.shellPrompt,
+                                  "curse",
+                                  "- for when all else fails");
+            this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
         }
