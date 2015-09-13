@@ -81,42 +81,37 @@ module TSOS {
 
             // ps  - list the running processes and their IDs
             //figure out how to implement this
-            sc = new ShellCommand(this.shellPrompt,
+            sc = new ShellCommand(this.shellPs,
                                   "ps",
-                                  "- list the running proccesses and their IDs");
+                                  "- list the running proccesses and their IDs.");
             this.commandList[this.commandList.length] = sc;
 
             // kill <id> - kills the specified process id.
             //figure out how to implement this
-            sc = new ShellCommand(this.shellPrompt,
+            sc = new ShellCommand(this.shellKill,
                                   "kill",
-                                  "<id> - kills the specified process id");
+                                  "<id> - kills the specified process id.");
             this.commandList[this.commandList.length] = sc;
             //shershins added functions or commands
             //date - displays the current date and time
-            sc = new ShellCommand(this.shellPrompt,
+            sc = new ShellCommand(this.shellDate,
                                   "date",
-                                  "- displays the current date and time");
+                                  "- displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
             //whereami - displays the current location
-            sc = new ShellCommand(this.shellPrompt,
+            sc = new ShellCommand(this.shellWhereami,
                                   "whereami",
-                                  "- displays the current location");
+                                  "- displays the current location.");
             this.commandList[this.commandList.length] = sc;
             //imagination - atempting to be clever but failing
-            sc = new ShellCommand(this.shellPrompt,
+            sc = new ShellCommand(this.shellImagination,
                                   "imagination",
-                                  "- attempting to be clever but failing");
+                                  "- attempting to be clever but failing.");
             this.commandList[this.commandList.length] = sc;
             //happythoughts - get transported to a happy place
-            sc = new ShellCommand(this.shellPrompt,
+            sc = new ShellCommand(this.shellHappythoughts,
                                   "happythoughts",
-                                  "- get transported to a happy place");
-            this.commandList[this.commandList.length] = sc;
-            //curse - for when all else fails
-            sc = new ShellCommand(this.shellPrompt,
-                                  "curse",
-                                  "- for when all else fails");
+                                  "- get transported to a happy place.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
@@ -272,7 +267,42 @@ module TSOS {
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
-                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+                    case "ver":
+                        _StdOut.putText("Shows the current version of the system.");
+                        break;
+                    case "shutdown":
+                        _StdOut.putText("Turns off the system.");
+                        break;
+                    case "man":
+                        _StdOut.putText("Manuals for all.");
+                        break;
+                    case "trace":
+                        _StdOut.putText("Tracing all the objects.");
+                        break;
+                    case "rot13":
+                        _StdOut.putText("Your guess is as good as mine.");
+                        break;
+                    case "prompt":
+                        _StdOut.putText("All I know is that this one hates me.");
+                        break;
+                    case "ps":
+                        _StdOut.putText("List all the proccesses.");
+                        break;
+                    case "kill":
+                        _StdOut.putText("Murder the selected process.");
+                        break;
+                    case "date":
+                        _StdOut.putText("It tells you the current date.");
+                        break;
+                    case "whereami":
+                        _StdOut.putText("The location of at least your computer and maybe you.");
+                        break;
+                    case "imagination":
+                        _StdOut.putText("Or lack there of.");
+                        break;
+                    case "happyplace":
+                        _StdOut.putText("You will need one after this project.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -326,6 +356,27 @@ module TSOS {
         }
         public shellKill(args){
 
+        }
+        public shellDate(args){
+          var displayDate = new Date().toLocaleDateString();
+          _StdOut.putText(displayDate);
+        }
+        public shellWhereami(args){
+          _StdOut.putText("In front of a computer looking at my project");
+          _StdOut.advanceLine();
+          _StdOut.putText("....or so I hope");
+        }
+        public shellImagination(args){
+          _StdOut.putText("Trying really hard to be clever but in reality just repeating one self and doing nothing different or original");
+          _StdOut.advanceLine();
+          _StdOut.putText("oh well *shrug emoji");
+        }
+        public shellHappythoughts(args){
+          _StdOut.putText("Deep breath");
+          _StdOut.advanceLine();
+          _StdOut.putText("DEEP BREATH");
+          _StdOut.advanceLine();
+          _StdOut.putText("try not to cry");
         }
 
     }
