@@ -352,7 +352,8 @@ module TSOS {
             }
         }
         public shellPs(args){
-
+          _StdOut.putText("Processes:");
+          //still trying to figure this out
         }
         public shellKill(args){
 

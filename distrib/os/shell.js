@@ -241,6 +241,7 @@ var TSOS;
             }
         };
         Shell.prototype.shellPs = function (args) {
+            _StdOut.putText("Processes:");
         };
         Shell.prototype.shellKill = function (args) {
         };
