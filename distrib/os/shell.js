@@ -43,6 +43,10 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<String> - change the status.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "<String> - change the status.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- gathers the data from the program input.");
+            this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };
         Shell.prototype.putPrompt = function () {
@@ -196,6 +200,9 @@ var TSOS;
                     case "status":
                         _StdOut.putText("Enter the new message you want the status to be.");
                         break;
+                    case "load":
+                        _StdOut.putText("Loads a program input only hex digits and spaces are valid.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -284,12 +291,16 @@ var TSOS;
         };
         Shell.prototype.shellStatus = function (args) {
             if (args.length > 0) {
-                document.getElementById(status).innerHTML = args[0];
+                document.getElementById("status").innerHTML = args[0];
                 _StdOut.putText("Changing status...");
             }
             else {
                 _StdOut.putText("But how is this supossed to work if you don't include a String?");
             }
+        };
+        Shell.prototype.shellLoad = function (args) {
+            var input = document.getElementById("tsProgramInput").toString();
+            _StdOut.putText(input);
         };
         return Shell;
     })();
