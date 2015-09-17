@@ -175,6 +175,7 @@ module TSOS {
                     } else {
                         ctx.lineTo( x + a[0]*mag, y - a[1]*mag);
                     }
+                    
                 }
                 ctx.stroke();
                 x += c.width*mag;

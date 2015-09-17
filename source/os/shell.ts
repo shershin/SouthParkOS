@@ -359,8 +359,19 @@ module TSOS {
 
         }
         public shellDate(args){
-          var displayDate = new Date().toLocaleDateString();
-          _StdOut.putText(displayDate);
+          var day = new Date().getDay().toString();
+          var month =  new Date().getMonth().toString();
+          var year = new Date().getFullYear().toString();
+          var hours =  new Date().getHours().toString();
+          var mins = new Date().getMinutes().toString();
+          var secs =  new Date().getSeconds().toString();
+          _StdOut.putText("date: day, month, year");
+          _StdOut.advanceLine();
+          _StdOut.putText(day + ", " + month + ", " + year);
+          _StdOut.advanceLine();
+          _StdOut.putText("time: hour:minutes:seconds");
+          _StdOut.advanceLine();
+          _StdOut.putText(hours + ":" + mins + ":" + secs);
         }
         public shellWhereami(args){
           _StdOut.putText("In front of a computer looking at my project");
