@@ -113,6 +113,11 @@ module TSOS {
                                   "happythoughts",
                                   "- get transported to a happy place.");
             this.commandList[this.commandList.length] = sc;
+            //status <String> - change the status
+            sc = new ShellCommand(this.shellStatus,
+                                  "status",
+                                  "<String> - change the status.");
+            this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -303,6 +308,9 @@ module TSOS {
                     case "happyplace":
                         _StdOut.putText("You will need one after this project.");
                         break;
+                    case "status":
+                        _StdOut.putText("Enter the new message you want the status to be.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -389,6 +397,14 @@ module TSOS {
           _StdOut.putText("DEEP BREATH");
           _StdOut.advanceLine();
           _StdOut.putText("try not to cry");
+        }
+        public shellStatus(args){
+          if (args.length > 0) {
+              document.getElementById(status).innerHTML = args[0];
+              _StdOut.putText("Changing status...");
+          } else {
+              _StdOut.putText("But how is this supossed to work if you don't include a String?");
+          }
         }
 
     }
