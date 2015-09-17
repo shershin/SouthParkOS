@@ -2,6 +2,7 @@
 ///<reference path="../utils.ts" />
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
+var LOCAL = "In front of a computer looking at my project.....or so I hope";
 var TSOS;
 (function (TSOS) {
     var Shell = (function () {
@@ -273,14 +274,12 @@ var TSOS;
             _StdOut.putText(hours + ":" + mins + ":" + secs);
         };
         Shell.prototype.shellWhereami = function (args) {
-            _StdOut.putText("In front of a computer looking at my project");
-            _StdOut.advanceLine();
-            _StdOut.putText("....or so I hope");
+            _StdOut.putText(LOCAL);
         };
         Shell.prototype.shellImagination = function (args) {
             _StdOut.putText("Trying really hard to be clever but in reality just repeating one self and doing nothing different or original");
             _StdOut.advanceLine();
-            _StdOut.putText("oh well *shrug emoji");
+            _StdOut.putText("oh well *shrug emoji*");
         };
         Shell.prototype.shellHappythoughts = function (args) {
             _StdOut.putText("Deep breath");
@@ -288,10 +287,11 @@ var TSOS;
             _StdOut.putText("DEEP BREATH");
             _StdOut.advanceLine();
             _StdOut.putText("try not to cry");
+            LOCAL = "Your Happy Place";
         };
         Shell.prototype.shellStatus = function (args) {
             if (args.length > 0) {
-                document.getElementById("status").innerHTML = args[0];
+                document.getElementById("status").innerHTML = args;
                 _StdOut.putText("Changing status...");
             }
             else {

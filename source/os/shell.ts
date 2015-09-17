@@ -14,7 +14,7 @@
    ------------ */
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
-
+var LOCAL = "In front of a computer looking at my project.....or so I hope";
 module TSOS {
     export class Shell {
         // Properties
@@ -393,14 +393,12 @@ module TSOS {
           _StdOut.putText(hours + ":" + mins + ":" + secs);
         }
         public shellWhereami(args){
-          _StdOut.putText("In front of a computer looking at my project");
-          _StdOut.advanceLine();
-          _StdOut.putText("....or so I hope");
+          _StdOut.putText(LOCAL);
         }
         public shellImagination(args){
           _StdOut.putText("Trying really hard to be clever but in reality just repeating one self and doing nothing different or original");
           _StdOut.advanceLine();
-          _StdOut.putText("oh well *shrug emoji");
+          _StdOut.putText("oh well *shrug emoji*");
         }
         public shellHappythoughts(args){
           _StdOut.putText("Deep breath");
@@ -408,10 +406,11 @@ module TSOS {
           _StdOut.putText("DEEP BREATH");
           _StdOut.advanceLine();
           _StdOut.putText("try not to cry");
+          LOCAL = "Your Happy Place";
         }
         public shellStatus(args){
           if (args.length > 0) {
-              document.getElementById("status").innerHTML = args[0];
+              document.getElementById("status").innerHTML = args;
               _StdOut.putText("Changing status...");
           } else {
               _StdOut.putText("But how is this supossed to work if you don't include a String?");
