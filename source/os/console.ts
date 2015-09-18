@@ -87,9 +87,17 @@ module TSOS {
 
             // TODO: Handle scrolling. (iProject 1)
             if(this.currentYPosition > _Canvas.height){
-              _Canvas.getContext;
-              _Canvas.height = _Canvas.offsetHeight;
-              
+              var context = _Canvas.getContext;
+              _Canvas.height = _Canvas.offsetHeight
+              this.currentYPosition += _DefaultFontSize +
+                                       _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                                       _FontHeightMargin;
+            }
+            //cli line wrap
+            if(this.currentXPosition > _Canvas.width){
+              this.currentYPosition += _DefaultFontSize +
+                                       _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                                       _FontHeightMargin;
             }
       }
     }

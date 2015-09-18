@@ -30,10 +30,6 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- list the running proccesses and their IDs.");
-            this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<id> - kills the specified process id.");
-            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- displays the current location.");
@@ -250,11 +246,6 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
-        };
-        Shell.prototype.shellPs = function (args) {
-            _StdOut.putText("Processes:");
-        };
-        Shell.prototype.shellKill = function (args) {
         };
         Shell.prototype.shellDate = function (args) {
             var day = new Date().getDay().toString();

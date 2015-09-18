@@ -78,7 +78,7 @@ module TSOS {
                                   "prompt",
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
-
+            /*/
             // ps  - list the running processes and their IDs
             //figure out how to implement this
             sc = new ShellCommand(this.shellPs,
@@ -92,6 +92,7 @@ module TSOS {
                                   "kill",
                                   "<id> - kills the specified process id.");
             this.commandList[this.commandList.length] = sc;
+            /*/
             //shershins added functions or commands
             //date - displays the current date and time
             sc = new ShellCommand(this.shellDate,
@@ -367,13 +368,13 @@ module TSOS {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
-        public shellPs(args){
+        /*/public shellPs(args){
           _StdOut.putText("Processes:");
           //still trying to figure this out
         }
         public shellKill(args){
 
-        }
+        }/*/
         public shellDate(args){
           var day = new Date().getDay().toString();
           var month =  new Date().getMonth().toString();
