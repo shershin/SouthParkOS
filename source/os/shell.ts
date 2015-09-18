@@ -117,9 +117,6 @@ module TSOS {
             sc = new ShellCommand(this.shellStatus,
                                   "status",
                                   "<String> - change the status.");
-            this.commandList[this.commandList.length] = sc;sc = new ShellCommand(this.shellStatus,
-                                  "status",
-                                  "<String> - change the status.");
             this.commandList[this.commandList.length] = sc;
             //load - gathers the data from the program input
             sc = new ShellCommand(this.shellLoad,
@@ -398,7 +395,7 @@ module TSOS {
         public shellImagination(args){
           _StdOut.putText("Trying really hard to be clever but in reality just repeating one self and doing nothing different or original");
           _StdOut.advanceLine();
-          _StdOut.putText("oh well *shrug emoji*");
+          _StdOut.putText("oh well -\\_(-,-)_/-");
         }
         public shellHappythoughts(args){
           _StdOut.putText("Deep breath");

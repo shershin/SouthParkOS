@@ -44,8 +44,6 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<String> - change the status.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellStatus, "status", "<String> - change the status.");
-            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- gathers the data from the program input.");
             this.commandList[this.commandList.length] = sc;
             this.putPrompt();
@@ -279,7 +277,7 @@ var TSOS;
         Shell.prototype.shellImagination = function (args) {
             _StdOut.putText("Trying really hard to be clever but in reality just repeating one self and doing nothing different or original");
             _StdOut.advanceLine();
-            _StdOut.putText("oh well *shrug emoji*");
+            _StdOut.putText("oh well -\\_(-,-)_/-");
         };
         Shell.prototype.shellHappythoughts = function (args) {
             _StdOut.putText("Deep breath");
