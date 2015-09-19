@@ -42,6 +42,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- gathers the data from the program input.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "to death the computer goes.");
+            this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };
         Shell.prototype.putPrompt = function () {
@@ -198,6 +200,9 @@ var TSOS;
                     case "load":
                         _StdOut.putText("Loads a program input only hex digits and spaces are valid.");
                         break;
+                    case "bsod":
+                        _StdOut.putText("Lets kill the computer.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -290,6 +295,9 @@ var TSOS;
         Shell.prototype.shellLoad = function (args) {
             var input = document.getElementById("tsProgramInput").toString();
             _StdOut.putText(input);
+        };
+        Shell.prototype.shellBsod = function (args) {
+            _KernelInterruptQueue();
         };
         return Shell;
     })();

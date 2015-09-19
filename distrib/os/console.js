@@ -32,17 +32,20 @@ var TSOS;
                 var chr = _KernelInputQueue.dequeue();
                 if (chr === String.fromCharCode(13)) {
                     _OsShell.handleInput(this.buffer);
-                    charArray[arrayInt] = _KernelInputQueue.queue();
+                    charArray[arrayInt] = this.buffer;
                     arrayInt++;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(38)) {
-                    _DrawingContext.drawText(charArray[arrayInt - 1]);
+                    _OsShell.handleInput(this.buffer);
+                    this.putText("testing");
                     if (chr === String.fromCharCode(40)) {
-                        _DrawingContext.drawText(charArray[arrayInt + 1]);
+                        this.putText(charArray[arrayInt + 1]);
                     }
                 }
                 else if (chr === String.fromCharCode(8)) {
+                }
+                else if (chr === String.fromCharCode(9)) {
                 }
                 else {
                     this.putText(chr);

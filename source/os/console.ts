@@ -46,18 +46,25 @@ module TSOS {
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
                     //put the buffer into the array
-                    charArray[arrayInt] = _KernelInputQueue.queue();
+                    charArray[arrayInt] = this.buffer;
                     //incerment the holder
                     arrayInt++;
                     // ... and reset our buffer.
                     this.buffer = "";
                 } else if (chr === String.fromCharCode(38)) {
-                  _DrawingContext.drawText(charArray[arrayInt - 1]);
+                  //up arrow
+                  _OsShell.handleInput(this.buffer);
+                  this.putText("testing");
                   if (chr === String.fromCharCode(40)){
-                    _DrawingContext.drawText(charArray[arrayInt + 1]);
+                    //down arrow
+                    this.putText(charArray[arrayInt + 1]);
                   }
                 }else if (chr === String.fromCharCode(8)){
+                  //backspace
 
+                } else if (chr === String.fromCharCode(9)){
+                  //tab
+                  
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
