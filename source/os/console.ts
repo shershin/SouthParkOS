@@ -35,6 +35,8 @@ module TSOS {
         }
 
         public handleInput(): void {
+          var charArray = new Array();
+          var arrayInt = 0;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
@@ -43,8 +45,19 @@ module TSOS {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
+                    //put the buffer into the array
+                    charArray[arrayInt] = _KernelInputQueue.queue();
+                    //incerment the holder
+                    arrayInt++;
                     // ... and reset our buffer.
                     this.buffer = "";
+                } else if (chr === String.fromCharCode(38)) {
+                  _DrawingContext.drawText(charArray[arrayInt - 1]);
+                  if (chr === String.fromCharCode(40)){
+                    _DrawingContext.drawText(charArray[arrayInt + 1]);
+                  }
+                }else if (chr === String.fromCharCode(8)){
+
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

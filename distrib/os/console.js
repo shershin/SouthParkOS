@@ -26,11 +26,23 @@ var TSOS;
             this.currentYPosition = this.currentFontSize;
         };
         Console.prototype.handleInput = function () {
+            var charArray = new Array();
+            var arrayInt = 0;
             while (_KernelInputQueue.getSize() > 0) {
                 var chr = _KernelInputQueue.dequeue();
                 if (chr === String.fromCharCode(13)) {
                     _OsShell.handleInput(this.buffer);
+                    charArray[arrayInt] = _KernelInputQueue.queue();
+                    arrayInt++;
                     this.buffer = "";
+                }
+                else if (chr === String.fromCharCode(38)) {
+                    _DrawingContext.drawText(charArray[arrayInt - 1]);
+                    if (chr === String.fromCharCode(40)) {
+                        _DrawingContext.drawText(charArray[arrayInt + 1]);
+                    }
+                }
+                else if (chr === String.fromCharCode(8)) {
                 }
                 else {
                     this.putText(chr);
