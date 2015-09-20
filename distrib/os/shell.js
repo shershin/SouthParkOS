@@ -293,11 +293,10 @@ var TSOS;
             }
         };
         Shell.prototype.shellLoad = function (args) {
-            var input = document.getElementById("tsProgramInput").toString();
+            var input = document.getElementById("taProgramInput").innerText;
             _StdOut.putText(input);
         };
         Shell.prototype.shellBsod = function (args) {
-            _KernelInterruptQueue();
         };
         return Shell;
     })();

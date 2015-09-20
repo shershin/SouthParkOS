@@ -423,11 +423,11 @@ module TSOS {
           }
         }
         public shellLoad(args){
-          var input = document.getElementById("tsProgramInput").toString();
+          var input = document.getElementById("taProgramInput").innerText;
           _StdOut.putText(input);
         }
         public shellBsod(args){
-          _KernelInterruptQueue();
+
         }
 
     }

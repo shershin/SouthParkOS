@@ -31,8 +31,8 @@ var TSOS;
             while (_KernelInputQueue.getSize() > 0) {
                 var chr = _KernelInputQueue.dequeue();
                 if (chr === String.fromCharCode(13)) {
-                    _OsShell.handleInput(this.buffer);
                     charArray[arrayInt] = this.buffer;
+                    _OsShell.handleInput(this.buffer);
                     arrayInt++;
                     this.buffer = "";
                 }
@@ -43,10 +43,14 @@ var TSOS;
                 }
                 else if (chr === String.fromCharCode(9)) {
                     var listInt = 0;
-                    if (_OsShell.commandList[listInt].indexOf(this.buffer)) {
-                        this.putText(_OsShell.commandList[listInt]);
-                        this.buffer = _OsShell.commandList[listInt];
-                        listInt++;
+                    while (_OsShell.commandList[listInt].length >= listInt) {
+                        if (_OsShell.commandList[listInt].indexOf(this.buffer)) {
+                            this.putText(_OsShell.commandList[listInt]);
+                            this.buffer = _OsShell.commandList[listInt];
+                        }
+                        else {
+                            listInt++;
+                        }
                     }
                 }
                 else {

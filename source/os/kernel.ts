@@ -174,7 +174,10 @@ module TSOS {
         public krnTrapError(msg) {
             Control.hostLog("OS ERROR - TRAP: " + msg);
             // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
-            
+            var bsod = new Image();
+            bsod.src = "distrib/images/bsod.png";
+            _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
+            _DrawingContext.drawImage(bsod, 0, 0);
             this.krnShutdown();
         }
     }
