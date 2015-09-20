@@ -36,13 +36,6 @@ var TSOS;
                     arrayInt++;
                     this.buffer = "";
                 }
-                else if (chr === String.fromCharCode(38)) {
-                    _OsShell.handleInput(this.buffer);
-                    this.putText("testing");
-                    if (chr === String.fromCharCode(40)) {
-                        this.putText(charArray[arrayInt + 1]);
-                    }
-                }
                 else if (chr === String.fromCharCode(8)) {
                 }
                 else if (chr === String.fromCharCode(9)) {
@@ -50,6 +43,14 @@ var TSOS;
                 else {
                     this.putText(chr);
                     this.buffer += chr;
+                }
+            }
+            if (chr === String.fromCharCode(38)) {
+                _OsShell.handleInput(this.buffer);
+                this.putText("testing");
+                if (chr === String.fromCharCode(40)) {
+                    _OsShell.handleInput(this.buffer);
+                    this.putText(charArray[arrayInt + 1]);
                 }
             }
         };

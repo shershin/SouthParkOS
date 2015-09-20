@@ -51,20 +51,12 @@ module TSOS {
                     arrayInt++;
                     // ... and reset our buffer.
                     this.buffer = "";
-                } else if (chr === String.fromCharCode(38)) {
-                  //up arrow
-                  _OsShell.handleInput(this.buffer);
-                  this.putText("testing");
-                  if (chr === String.fromCharCode(40)){
-                    //down arrow
-                    this.putText(charArray[arrayInt + 1]);
-                  }
                 }else if (chr === String.fromCharCode(8)){
                   //backspace
 
                 } else if (chr === String.fromCharCode(9)){
                   //tab
-                  
+
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -73,6 +65,16 @@ module TSOS {
                     this.buffer += chr;
                 }
                 // TODO: Write a case for Ctrl-C.
+            }
+            if (chr === String.fromCharCode(38)) {
+             //up arrow
+             _OsShell.handleInput(this.buffer);
+             this.putText("testing");
+             if (chr === String.fromCharCode(40)){
+               //down arrow
+               _OsShell.handleInput(this.buffer);
+               this.putText(charArray[arrayInt + 1]);
+              }
             }
         }
 
