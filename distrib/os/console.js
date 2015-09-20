@@ -67,10 +67,13 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             if (this.currentYPosition > _Canvas.height) {
+                var context = _Canvas.getContext("2d");
                 _Canvas.height = _Canvas.height + _Canvas.offsetHeight;
+                console.log(context);
             }
             if (this.currentXPosition > _Canvas.width) {
-                this.currentXPosition += _DefaultFontSize +
+                this.currentXPosition = 0;
+                this.currentYPosition += _DefaultFontSize +
                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                     _FontHeightMargin;
             }

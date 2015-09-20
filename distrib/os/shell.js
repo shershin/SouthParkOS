@@ -42,7 +42,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- gathers the data from the program input.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "to death the computer goes.");
+            sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- to death the computer goes.");
             this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };

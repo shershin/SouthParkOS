@@ -127,7 +127,7 @@ module TSOS {
             //bsod - to death the computer goes
             sc = new ShellCommand(this.shellBsod,
                                   "bsod",
-                                  "to death the computer goes.");
+                                  "- to death the computer goes.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
