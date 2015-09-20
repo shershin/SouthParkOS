@@ -37,8 +37,17 @@ var TSOS;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
+                    var back = this.buffer.slice(0, -1);
+                    this.buffer = back;
+                    this.putText(" " + this.buffer);
                 }
                 else if (chr === String.fromCharCode(9)) {
+                    var listInt = 0;
+                    if (_OsShell.commandList[listInt].indexOf(this.buffer)) {
+                        this.putText(_OsShell.commandList[listInt]);
+                        this.buffer = _OsShell.commandList[listInt];
+                        listInt++;
+                    }
                 }
                 else {
                     this.putText(chr);
@@ -46,11 +55,11 @@ var TSOS;
                 }
             }
             if (chr === String.fromCharCode(38)) {
-                _OsShell.handleInput(this.buffer);
-                this.putText("testing");
+                this.putText(charArray[arrayInt - 1]);
+                this.buffer = charArray[arrayInt - 1];
                 if (chr === String.fromCharCode(40)) {
-                    _OsShell.handleInput(this.buffer);
                     this.putText(charArray[arrayInt + 1]);
+                    this.buffer = charArray[arrayInt + 1];
                 }
             }
         };

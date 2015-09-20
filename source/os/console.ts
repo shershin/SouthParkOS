@@ -53,10 +53,17 @@ module TSOS {
                     this.buffer = "";
                 }else if (chr === String.fromCharCode(8)){
                   //backspace
-
+                  var back = this.buffer.slice(0,-1);
+                  this.buffer = back;
+                  this.putText(" " + this.buffer);
                 } else if (chr === String.fromCharCode(9)){
                   //tab
-
+                  var listInt = 0;
+                  if(_OsShell.commandList[listInt].indexOf(this.buffer)){
+                       this.putText(_OsShell.commandList[listInt]);
+                       this.buffer = _OsShell.commandList[listInt];
+                       listInt++;
+                     }
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
@@ -68,12 +75,12 @@ module TSOS {
             }
             if (chr === String.fromCharCode(38)) {
              //up arrow
-             _OsShell.handleInput(this.buffer);
-             this.putText("testing");
+             this.putText(charArray[arrayInt - 1]);
+             this.buffer = charArray[arrayInt - 1];
              if (chr === String.fromCharCode(40)){
                //down arrow
-               _OsShell.handleInput(this.buffer);
                this.putText(charArray[arrayInt + 1]);
+               this.buffer = charArray[arrayInt + 1];
               }
             }
         }
