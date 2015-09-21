@@ -30,6 +30,10 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- list the running proccesses and their IDs.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<id> - kills the specified process id.");
+            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- displays the current location.");
@@ -292,11 +296,23 @@ var TSOS;
                 _StdOut.putText("But how is this supossed to work if you don't include a String?");
             }
         };
+        Shell.prototype.shellPs = function (args) {
+            _StdOut.putText("This function is currently not obtional.");
+            _StdOut.advanceLine();
+            _StdOut.putText("Please check back later.");
+        };
+        Shell.prototype.shellKill = function (args) {
+            _StdOut.putText("This function is currently not obtional.");
+            _StdOut.advanceLine();
+            _StdOut.putText("Please check back later.");
+        };
         Shell.prototype.shellLoad = function (args) {
             var input = document.getElementById("taProgramInput").innerText;
             _StdOut.putText(input);
         };
         Shell.prototype.shellBsod = function (args) {
+            var msg = "ohhh nooo";
+            _Kernel.krnTrapError(msg);
         };
         return Shell;
     })();

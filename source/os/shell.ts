@@ -78,7 +78,7 @@ module TSOS {
                                   "prompt",
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
-            /*/
+
             // ps  - list the running processes and their IDs
             //figure out how to implement this
             sc = new ShellCommand(this.shellPs,
@@ -92,7 +92,7 @@ module TSOS {
                                   "kill",
                                   "<id> - kills the specified process id.");
             this.commandList[this.commandList.length] = sc;
-            /*/
+
             //shershins added functions or commands
             //date - displays the current date and time
             sc = new ShellCommand(this.shellDate,
@@ -422,12 +422,23 @@ module TSOS {
               _StdOut.putText("But how is this supossed to work if you don't include a String?");
           }
         }
+        public shellPs(args){
+          _StdOut.putText("This function is currently not obtional.");
+          _StdOut.advanceLine();
+          _StdOut.putText("Please check back later.");
+        }
+        public shellKill(args){
+          _StdOut.putText("This function is currently not obtional.");
+          _StdOut.advanceLine();
+          _StdOut.putText("Please check back later.");
+        }
         public shellLoad(args){
           var input = document.getElementById("taProgramInput").innerText;
           _StdOut.putText(input);
         }
         public shellBsod(args){
-
+          var msg = "ohhh nooo";
+          _Kernel.krnTrapError(msg);
         }
 
     }
