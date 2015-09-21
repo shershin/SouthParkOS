@@ -1,6 +1,9 @@
 ///<reference path="../globals.ts" />
 var TSOS;
 (function (TSOS) {
+    var past = [];
+    var arrayInt = 0;
+    var holderInt = 0;
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -26,14 +29,13 @@ var TSOS;
             this.currentYPosition = this.currentFontSize;
         };
         Console.prototype.handleInput = function () {
-            var charArray = new Array();
-            var arrayInt = 0;
             while (_KernelInputQueue.getSize() > 0) {
                 var chr = _KernelInputQueue.dequeue();
                 if (chr === String.fromCharCode(13)) {
-                    charArray[arrayInt] = this.buffer;
+                    past[arrayInt] = this.buffer;
                     _OsShell.handleInput(this.buffer);
                     arrayInt++;
+                    holderInt = arrayInt;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
@@ -42,29 +44,36 @@ var TSOS;
                     this.putText(" " + this.buffer);
                 }
                 else if (chr === String.fromCharCode(9)) {
-                    var listInt = 0;
-                    while (_OsShell.commandList[listInt].length >= listInt) {
-                        if (_OsShell.commandList[listInt].indexOf(this.buffer)) {
-                            this.putText(_OsShell.commandList[listInt]);
-                            this.buffer = _OsShell.commandList[listInt];
-                        }
-                        else {
-                            listInt++;
+                    for (var i in _OsShell.commandList) {
+                        if (!_OsShell.commandList[i].command.indexOf(this.buffer)) {
+                            this.putText(" " + _OsShell.commandList[i].command.toString());
+                            this.buffer = _OsShell.commandList[i].command.toString();
                         }
                     }
                 }
                 else {
-                    this.putText(chr);
-                    this.buffer += chr;
+                    if (chr != String.fromCharCode(38) &&
+                        chr != String.fromCharCode(40)) {
+                        this.putText(chr);
+                        this.buffer += chr;
+                    }
                 }
             }
             if (chr === String.fromCharCode(38)) {
-                this.putText(charArray[arrayInt - 1]);
-                this.buffer = charArray[arrayInt - 1];
-                if (chr === String.fromCharCode(40)) {
-                    this.putText(charArray[arrayInt + 1]);
-                    this.buffer = charArray[arrayInt + 1];
+                holderInt--;
+                if (holderInt < 0) {
+                    holderInt = 0;
                 }
+                this.putText(" " + past[holderInt - 1].toString());
+                this.buffer = past[holderInt - 1];
+            }
+            else if (chr === String.fromCharCode(40)) {
+                holderInt++;
+                if (holderInt >= arrayInt) {
+                    holderInt = arrayInt - 1;
+                }
+                this.putText(" " + past[holderInt].toString());
+                this.buffer = past[holderInt].toString();
             }
         };
         Console.prototype.putText = function (text) {
@@ -80,9 +89,12 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             if (this.currentYPosition > _Canvas.height) {
-                var context = _Canvas.getContext("2d");
+                var oldCanvas = _Canvas.toDataURL("image/png");
+                var img = new Image();
+                img.src = oldCanvas;
+                var getData = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
                 _Canvas.height = _Canvas.height + _Canvas.offsetHeight;
-                console.log(context);
+                _DrawingContext.drawImage(img, 0, 0);
             }
             if (this.currentXPosition > _Canvas.width) {
                 this.currentXPosition = 0;

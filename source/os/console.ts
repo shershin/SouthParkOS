@@ -10,7 +10,9 @@
      ------------ */
 
 module TSOS {
-
+var past = [];
+var arrayInt = 0;
+var holderInt = 0;
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,
@@ -35,8 +37,6 @@ module TSOS {
         }
 
         public handleInput(): void {
-          var charArray = new Array();
-          var arrayInt = 0;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
@@ -44,11 +44,12 @@ module TSOS {
                 if (chr === String.fromCharCode(13)) { //     Enter key
                     // The enter key marks the end of a console command, so ...
                     //put the buffer into the array
-                    charArray[arrayInt] = this.buffer;
+                    past[arrayInt] = this.buffer;
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
                     //incerment the holder
                     arrayInt++;
+                    holderInt = arrayInt;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }else if (chr === String.fromCharCode(8)){
@@ -58,34 +59,41 @@ module TSOS {
                   this.putText(" " + this.buffer);
                 } else if (chr === String.fromCharCode(9)){
                   //tab
-                  var listInt = 0;
-                  while (_OsShell.commandList[listInt].length >= listInt){
-                    if (_OsShell.commandList[listInt].indexOf(this.buffer)){
-                         this.putText(_OsShell.commandList[listInt]);
-                         this.buffer = _OsShell.commandList[listInt];
-                       } else {
-                         listInt++;
-                       }
+                  for (var i in _OsShell.commandList) {
+                    if (!_OsShell.commandList[i].command.indexOf(this.buffer)){
+                      this.putText(" " + _OsShell.commandList[i].command.toString());
+                      this.buffer = _OsShell.commandList[i].command.toString();
+                    }
                   }
-
                 } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
-                    this.putText(chr);
-                    // ... and add it to our buffer.
-                    this.buffer += chr;
+                    if (chr != String.fromCharCode(38)    &&
+                        chr != String.fromCharCode(40)){
+                          this.putText(chr);
+                          // ... and add it to our buffer.
+                          this.buffer += chr;
+                        }
                 }
                 // TODO: Write a case for Ctrl-C.
             }
             if (chr === String.fromCharCode(38)) {
              //up arrow
-             this.putText(charArray[arrayInt - 1]);
-             this.buffer = charArray[arrayInt - 1];
-             if (chr === String.fromCharCode(40)){
+             holderInt--;
+             if (holderInt < 0){
+               holderInt = 0;
+             }
+             this.putText(" " + past[holderInt - 1].toString());
+             this.buffer = past[holderInt - 1];
+           }else if (chr === String.fromCharCode(40)){
                //down arrow
-               this.putText(charArray[arrayInt + 1]);
-               this.buffer = charArray[arrayInt + 1];
-              }
+               holderInt++;
+               if (holderInt >= arrayInt){
+                 holderInt = arrayInt - 1;
+               }
+               this.putText(" " + past[holderInt].toString());
+               this.buffer = past[holderInt].toString();
+
             }
         }
 
@@ -114,15 +122,18 @@ module TSOS {
              * Font descent measures from the baseline to the lowest point in the font.
              * Font height margin is extra spacing between the lines.
              */
-            this.currentYPosition += _DefaultFontSize +
-                                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                                     _FontHeightMargin;
+             this.currentYPosition += _DefaultFontSize +
+                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                                      _FontHeightMargin;
 
             // TODO: Handle scrolling. (iProject 1)
             if(this.currentYPosition > _Canvas.height){
-              var context = _Canvas.getContext("2d");
+              var oldCanvas = _Canvas.toDataURL("image/png");
+              var img = new Image();
+              img.src = oldCanvas;
+              var getData = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
               _Canvas.height = _Canvas.height + _Canvas.offsetHeight;
-              console.log(context);
+              _DrawingContext.drawImage(img, 0, 0);
             }
             //cli line wrap
             if(this.currentXPosition > _Canvas.width){
