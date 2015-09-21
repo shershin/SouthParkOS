@@ -103,6 +103,13 @@ var TSOS;
                     _FontHeightMargin;
             }
         };
+        Console.prototype.removeLine = function (text) {
+            if (text !== "") {
+                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                this.currentXPosition = this.currentXPosition + offset;
+                _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize - 1, offset, this.currentFontSize * 2);
+            }
+        };
         return Console;
     })();
     TSOS.Console = Console;

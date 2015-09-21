@@ -143,5 +143,16 @@ var holderInt = 0;
                                         _FontHeightMargin;
             }
       }
+      public removeLine(text): void{
+        if(text !== ""){
+          //move the xposition
+          var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+          this.currentXPosition = this.currentXPosition + offset;
+
+          //blank out text
+          _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize - 1,
+                                    offset, this.currentFontSize * 2);
+        }
+      }
     }
  }
