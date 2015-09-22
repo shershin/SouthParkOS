@@ -1,5 +1,3 @@
-///<reference path="../globals.ts" />
-///<reference path="queue.ts" />
 var TSOS;
 (function (TSOS) {
     var Kernel = (function () {
@@ -34,10 +32,6 @@ var TSOS;
             this.krnTrace("end shutdown OS");
         };
         Kernel.prototype.krnOnCPUClockPulse = function () {
-            /* This gets called from the host hardware simulation every time there is a hardware clock pulse.
-               This is NOT the same as a TIMER, which causes an interrupt and is handled like other interrupts.
-               This, on the other hand, is the clock pulse from the hardware / VM / host that tells the kernel
-               that it has to look for interrupts and process them if it finds any.                           */
             if (_KernelInterruptQueue.getSize() > 0) {
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
@@ -86,9 +80,11 @@ var TSOS;
         Kernel.prototype.krnTrapError = function (msg) {
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             var bsod = new Image();
-            bsod.src = ".../images/bsod.png";
             _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
-            _DrawingContext.drawImage(bsod, 0, 0);
+            bsod.onload = function () {
+                _DrawingContext.drawImage(bsod, 0, 0, _Canvas.width, _Canvas.height);
+            };
+            bsod.src = "distrib/images/bsod.png";
             this.krnShutdown();
         };
         return Kernel;

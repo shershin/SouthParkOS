@@ -1,7 +1,3 @@
-///<reference path="../globals.ts" />
-///<reference path="../utils.ts" />
-///<reference path="shellCommand.ts" />
-///<reference path="userCommand.ts" />
 var LOCAL = "In front of a computer looking at my project.....or so I hope";
 var TSOS;
 (function (TSOS) {
