@@ -442,6 +442,5 @@ module TSOS {
           var msg = "ohhh nooo";
           _Kernel.krnTrapError(msg);
         }
-
     }
 }
