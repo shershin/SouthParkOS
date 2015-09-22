@@ -416,7 +416,9 @@ module TSOS {
         }
         public shellStatus(args){
           if (args.length > 0) {
-              document.getElementById("status").innerHTML = args;
+              var str = args.toString();
+              var reString = str.replace(",", " ");
+              document.getElementById("status").innerHTML = reString;
               _StdOut.putText("Changing status...");
           } else {
               _StdOut.putText("But how is this supossed to work if you don't include a String?");
@@ -433,7 +435,7 @@ module TSOS {
           _StdOut.putText("Please check back later.");
         }
         public shellLoad(args){
-          var input = document.getElementById("taProgramInput").innerText;
+          var input = document.getElementById("taProgramInput").innerText.toString();
           _StdOut.putText(input);
         }
         public shellBsod(args){
