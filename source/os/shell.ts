@@ -417,7 +417,7 @@ module TSOS {
         public shellStatus(args){
           if (args.length > 0) {
               var str = args.toString();
-              var reString = str.replace(",", " ");
+              var reString = str.replace(/,/g, " ");
               document.getElementById("status").innerHTML = reString;
               _StdOut.putText("Changing status...");
           } else {
