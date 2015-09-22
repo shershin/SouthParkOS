@@ -435,8 +435,9 @@ module TSOS {
           _StdOut.putText("Please check back later.");
         }
         public shellLoad(args){
-          var input = document.getElementById("taProgramInput").innerText.toString();
-          _StdOut.putText(input);
+          var input = document.getElementById("taProgramInput");
+          var str = input.value;
+          _StdOut.putText(str);
         }
         public shellBsod(args){
           var msg = "ohhh nooo";
