@@ -285,7 +285,9 @@ var TSOS;
         };
         Shell.prototype.shellStatus = function (args) {
             if (args.length > 0) {
-                document.getElementById("status").innerHTML = args;
+                var str = args.toString();
+                var reString = str.replace(",", " ");
+                document.getElementById("status").innerHTML = reString;
                 _StdOut.putText("Changing status...");
             }
             else {
@@ -303,7 +305,7 @@ var TSOS;
             _StdOut.putText("Please check back later.");
         };
         Shell.prototype.shellLoad = function (args) {
-            var input = document.getElementById("taProgramInput").innerText;
+            var input = document.getElementById("taProgramInput").innerText.toString();
             _StdOut.putText(input);
         };
         Shell.prototype.shellBsod = function (args) {
