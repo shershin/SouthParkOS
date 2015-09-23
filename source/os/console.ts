@@ -128,7 +128,7 @@ var holderInt = 0;
 
             // TODO: Handle scrolling. (iProject 1)
             if(this.currentYPosition > _Canvas.height){
-              var oldCanvas = _Canvas.toDataURL("image/png");
+              var oldCanvas = _Canvas.toDataURL();
               var img = new Image();
               img.src = oldCanvas;
               var getData = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
