@@ -435,9 +435,19 @@ module TSOS {
           _StdOut.putText("Please check back later.");
         }
         public shellLoad(args){
-          var input = document.getElementById("taProgramInput");
+          var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
-          _StdOut.putText(str);
+          if (str.length > 0){
+            var re = /([^abcdefABCDEF0123456789\s])/;
+            var test = str.search(re);
+            if (!test){
+              _StdOut.putText("ERROR: Please enter a real program.");
+            }else{
+              _StdOut.putText("The program is loaded.");
+            }
+          }else{
+          _StdOut.putText("ERROR: No program detected.");
+          }
         }
         public shellBsod(args){
           var msg = "ohhh nooo";
