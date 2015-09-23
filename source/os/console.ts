@@ -132,7 +132,7 @@ var holderInt = 0;
               var img = new Image();
               img.src = oldCanvas;
               var getData = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
-              _Canvas.height = _Canvas.height + _Canvas.offsetHeight;
+              _Canvas.height = _Canvas.height + _Canvas.height;
               _DrawingContext.drawImage(img, 0, 0);
             }
             //cli line wrap
