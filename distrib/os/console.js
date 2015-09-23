@@ -88,12 +88,9 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             if (this.currentYPosition > _Canvas.height) {
-                var oldCanvas = _Canvas.toDataURL();
-                var img = new Image();
-                img.src = _Canvas.toDataURL();
-                var getData = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
+                var img = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
                 _Canvas.height = _Canvas.height + _Canvas.height;
-                _DrawingContext.drawImage(img, 0, 0);
+                _DrawingContext.putImageData(img, 0, 0);
             }
             if (this.currentXPosition > _Canvas.width) {
                 this.currentXPosition = 0;
