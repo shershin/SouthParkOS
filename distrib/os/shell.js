@@ -305,8 +305,21 @@ var TSOS;
             _StdOut.putText("Please check back later.");
         };
         Shell.prototype.shellLoad = function (args) {
-            var input = document.getElementById("taProgramInput").innerText.toString();
-            _StdOut.putText(input);
+            var input = document.getElementById("taProgramInput");
+            var str = input.value;
+            if (str.length > 0) {
+                var re = /([^abcdefABCDEF0123456789\s])/;
+                var test = str.search(re);
+                if (!test) {
+                    _StdOut.putText("ERROR: Please enter a real program.");
+                }
+                else {
+                    _StdOut.putText("The program is loaded.");
+                }
+            }
+            else {
+                _StdOut.putText("ERROR: No program detected.");
+            }
         };
         Shell.prototype.shellBsod = function (args) {
             var msg = "ohhh nooo";
