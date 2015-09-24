@@ -128,12 +128,11 @@ var holderInt = 0;
 
             // TODO: Handle scrolling. (iProject 1)
             if(this.currentYPosition > _Canvas.height){
-              var oldCanvas = _Canvas.toDataURL();
-              var img = new Image();
-              img.src = oldCanvas;
-              var getData = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
-              _Canvas.height = _Canvas.height + _Canvas.offsetHeight;
-              _DrawingContext.drawImage(img, 0, 0);
+              var div = document.getElementById("divConsole");
+              var img = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
+              _Canvas.height = _Canvas.height + _Canvas.height;
+              _DrawingContext.putImageData(img, 0, 0);
+              div.scrollIntoView(true);
             }
             //cli line wrap
             if(this.currentXPosition > _Canvas.width){
