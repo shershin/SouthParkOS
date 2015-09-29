@@ -139,7 +139,7 @@ var holderInt = 0;
               div.scrollIntoView(true);
             }
             //cli line wrap
-            if (this.currentXPosition >= _Canvas.height){
+            if (this.currentXPosition >= _Canvas.width){
               this.advanceLine();
             }
       }
@@ -147,7 +147,7 @@ var holderInt = 0;
         if(text !== ""){
           //move the xposition
           var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-          this.currentXPosition = this.currentXPosition + offset;
+          this.currentXPosition = this.currentXPosition - offset;
 
           //blank out text
           _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize - 1,

@@ -98,14 +98,14 @@ var TSOS;
                 _DrawingContext.putImageData(img, 0, 0);
                 div.scrollIntoView(true);
             }
-            if (this.currentXPosition >= _Canvas.height) {
+            if (this.currentXPosition >= _Canvas.width) {
                 this.advanceLine();
             }
         };
         Console.prototype.removeLine = function (text) {
             if (text !== "") {
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                this.currentXPosition = this.currentXPosition - offset;
                 _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize - 1, offset, this.currentFontSize * 2);
             }
         };
