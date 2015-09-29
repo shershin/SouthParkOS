@@ -38,14 +38,16 @@ var TSOS;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
+                    this.removeLine(this.buffer);
                     var back = this.buffer.slice(0, -1);
                     this.buffer = back;
-                    this.putText(" " + this.buffer);
+                    this.putText(this.buffer);
                 }
                 else if (chr === String.fromCharCode(9)) {
                     for (var i in _OsShell.commandList) {
                         if (!_OsShell.commandList[i].command.indexOf(this.buffer)) {
-                            this.putText(" " + _OsShell.commandList[i].command.toString());
+                            this.removeLine(this.buffer);
+                            this.putText(_OsShell.commandList[i].command.toString());
                             this.buffer = _OsShell.commandList[i].command.toString();
                         }
                     }
@@ -63,7 +65,8 @@ var TSOS;
                 if (holderInt < 0) {
                     holderInt = 0;
                 }
-                this.putText(" " + past[holderInt - 1].toString());
+                this.removeLine(this.buffer);
+                this.putText(past[holderInt - 1].toString());
                 this.buffer = past[holderInt - 1];
             }
             else if (chr === String.fromCharCode(40)) {
@@ -71,7 +74,8 @@ var TSOS;
                 if (holderInt >= arrayInt) {
                     holderInt = arrayInt - 1;
                 }
-                this.putText(" " + past[holderInt].toString());
+                this.removeLine(this.buffer);
+                this.putText(past[holderInt].toString());
                 this.buffer = past[holderInt].toString();
             }
         };
@@ -94,11 +98,8 @@ var TSOS;
                 _DrawingContext.putImageData(img, 0, 0);
                 div.scrollIntoView(true);
             }
-            if (this.currentXPosition > _Canvas.width) {
-                this.currentXPosition = 0;
-                this.currentYPosition += _DefaultFontSize +
-                    _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                    _FontHeightMargin;
+            if (this.currentXPosition >= _Canvas.height) {
+                this.advanceLine();
             }
         };
         Console.prototype.removeLine = function (text) {

@@ -54,14 +54,16 @@ var holderInt = 0;
                     this.buffer = "";
                 }else if (chr === String.fromCharCode(8)){
                   //backspace
+                  this.removeLine(this.buffer);
                   var back = this.buffer.slice(0,-1);
                   this.buffer = back;
-                  this.putText(" " + this.buffer);
+                  this.putText(this.buffer);
                 } else if (chr === String.fromCharCode(9)){
                   //tab
                   for (var i in _OsShell.commandList) {
                     if (!_OsShell.commandList[i].command.indexOf(this.buffer)){
-                      this.putText(" " + _OsShell.commandList[i].command.toString());
+                      this.removeLine(this.buffer);
+                      this.putText(_OsShell.commandList[i].command.toString());
                       this.buffer = _OsShell.commandList[i].command.toString();
                     }
                   }
@@ -83,7 +85,8 @@ var holderInt = 0;
              if (holderInt < 0){
                holderInt = 0;
              }
-             this.putText(" " + past[holderInt - 1].toString());
+             this.removeLine(this.buffer);
+             this.putText(past[holderInt - 1].toString());
              this.buffer = past[holderInt - 1];
            }else if (chr === String.fromCharCode(40)){
                //down arrow
@@ -91,7 +94,8 @@ var holderInt = 0;
                if (holderInt >= arrayInt){
                  holderInt = arrayInt - 1;
                }
-               this.putText(" " + past[holderInt].toString());
+               this.removeLine(this.buffer);
+               this.putText(past[holderInt].toString());
                this.buffer = past[holderInt].toString();
 
             }
@@ -135,11 +139,8 @@ var holderInt = 0;
               div.scrollIntoView(true);
             }
             //cli line wrap
-            if(this.currentXPosition > _Canvas.width){
-              this.currentXPosition = 0;
-              this.currentYPosition +=  _DefaultFontSize +
-                                        _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                                        _FontHeightMargin;
+            if (this.currentXPosition >= _Canvas.height){
+              this.advanceLine();
             }
       }
       public removeLine(text): void{
