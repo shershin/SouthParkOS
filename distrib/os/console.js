@@ -96,7 +96,7 @@ var TSOS;
                 var img = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
                 _Canvas.height = _Canvas.height + _Canvas.height;
                 _DrawingContext.putImageData(img, 0, 0);
-                div.scrollIntoView(true);
+                div.scrollTop = this.currentYPosition;
             }
             if (this.currentXPosition >= _Canvas.width) {
                 this.advanceLine();
