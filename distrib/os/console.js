@@ -3,6 +3,8 @@ var TSOS;
     var past = [];
     var arrayInt = 0;
     var holderInt = 0;
+    var memory = [];
+    var lastyPosition = 0;
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -35,6 +37,7 @@ var TSOS;
                     _OsShell.handleInput(this.buffer);
                     arrayInt++;
                     holderInt = arrayInt;
+                    lastyPosition = this.currentYPosition;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
@@ -92,14 +95,9 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             if (this.currentYPosition > _Canvas.height) {
-                var div = document.getElementById("divConsole");
-                var img = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
-                _Canvas.height = _Canvas.height + _Canvas.height;
+                var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
                 _DrawingContext.putImageData(img, 0, 0);
-                div.scrollTop = this.currentYPosition;
-            }
-            if (this.currentXPosition >= _Canvas.width) {
-                this.advanceLine();
+                this.currentYPosition = 480;
             }
         };
         Console.prototype.removeLine = function (text) {

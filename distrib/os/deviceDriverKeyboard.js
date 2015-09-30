@@ -26,8 +26,48 @@ var TSOS;
                 }
                 _KernelInputQueue.enqueue(chr);
             }
-            else if (((keyCode >= 48) && (keyCode <= 57)) ||
-                (keyCode == 32) ||
+            else if (((keyCode >= 48) && (keyCode <= 57))) {
+                if (isShifted) {
+                    switch (keyCode) {
+                        case 48:
+                            chr = ")";
+                            break;
+                        case 49:
+                            chr = "!";
+                            break;
+                        case 50:
+                            chr = "@";
+                            break;
+                        case 51:
+                            chr = "#";
+                            break;
+                        case 52:
+                            chr = "$";
+                            break;
+                        case 53:
+                            chr = "%";
+                            break;
+                        case 54:
+                            chr = "^";
+                            break;
+                        case 55:
+                            chr = "&";
+                            break;
+                        case 56:
+                            chr = "*";
+                            break;
+                        case 57:
+                            chr = "(";
+                            break;
+                    }
+                    _KernelInputQueue.enqueue(chr);
+                }
+                else {
+                    chr = String.fromCharCode(keyCode);
+                    _KernelInputQueue.enqueue(chr);
+                }
+            }
+            else if ((keyCode == 32) ||
                 (keyCode == 13) ||
                 (keyCode == 8) ||
                 (keyCode == 9) ||
@@ -43,6 +83,8 @@ var TSOS;
                         if (isShifted) {
                             chr = ":";
                         }
+                        chr = String.fromCharCode(keyCode);
+                        _KernelInputQueue.enqueue(chr);
                         break;
                     case 187:
                         chr = "=";

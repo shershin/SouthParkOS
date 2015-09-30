@@ -13,6 +13,8 @@ module TSOS {
 var past = [];
 var arrayInt = 0;
 var holderInt = 0;
+var memory = [];
+var lastyPosition = 0;
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,
@@ -50,6 +52,7 @@ var holderInt = 0;
                     //incerment the holder
                     arrayInt++;
                     holderInt = arrayInt;
+                    lastyPosition = this.currentYPosition;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }else if (chr === String.fromCharCode(8)){
@@ -116,6 +119,10 @@ var holderInt = 0;
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
+                /*/if (offset >= _Canvas.width){
+                  this.advanceLine();
+
+                }/*/
             }
          }
 
@@ -132,15 +139,9 @@ var holderInt = 0;
 
             // TODO: Handle scrolling. (iProject 1)
             if(this.currentYPosition > _Canvas.height){
-              var div = document.getElementById("divConsole");
-              var img = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
-              _Canvas.height = _Canvas.height + _Canvas.height;
+              var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
               _DrawingContext.putImageData(img, 0, 0);
-              div.scrollTop = this.currentYPosition;
-            }
-            //cli line wrap
-            if (this.currentXPosition >= _Canvas.width){
-              this.advanceLine();
+              this.currentYPosition = 480;
             }
       }
       public removeLine(text): void{
