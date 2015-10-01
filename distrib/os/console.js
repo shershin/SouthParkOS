@@ -3,6 +3,7 @@ var TSOS;
     var past = [];
     var arrayInt = 0;
     var holderInt = 0;
+    var memory = [];
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -38,14 +39,16 @@ var TSOS;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
+                    this.removeLine(this.buffer);
                     var back = this.buffer.slice(0, -1);
                     this.buffer = back;
-                    this.putText(" " + this.buffer);
+                    this.putText(this.buffer);
                 }
                 else if (chr === String.fromCharCode(9)) {
                     for (var i in _OsShell.commandList) {
                         if (!_OsShell.commandList[i].command.indexOf(this.buffer)) {
-                            this.putText(" " + _OsShell.commandList[i].command.toString());
+                            this.removeLine(this.buffer);
+                            this.putText(_OsShell.commandList[i].command.toString());
                             this.buffer = _OsShell.commandList[i].command.toString();
                         }
                     }
@@ -63,15 +66,17 @@ var TSOS;
                 if (holderInt < 0) {
                     holderInt = 0;
                 }
-                this.putText(" " + past[holderInt - 1].toString());
-                this.buffer = past[holderInt - 1];
+                this.removeLine(this.buffer);
+                this.putText(past[holderInt].toString());
+                this.buffer = past[holderInt].toString();
             }
             else if (chr === String.fromCharCode(40)) {
                 holderInt++;
                 if (holderInt >= arrayInt) {
                     holderInt = arrayInt - 1;
                 }
-                this.putText(" " + past[holderInt].toString());
+                this.removeLine(this.buffer);
+                this.putText(past[holderInt].toString());
                 this.buffer = past[holderInt].toString();
             }
         };
@@ -97,12 +102,15 @@ var TSOS;
                 this.currentYPosition += _DefaultFontSize +
                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                     _FontHeightMargin;
+                var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
+                _DrawingContext.putImageData(img, 0, 0);
+                this.currentYPosition = 495;
             }
         };
         Console.prototype.removeLine = function (text) {
             if (text !== "") {
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                this.currentXPosition = this.currentXPosition - offset;
                 _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize - 1, offset, this.currentFontSize * 2);
             }
         };

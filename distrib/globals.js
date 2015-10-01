@@ -1,13 +1,4 @@
-/* ------------
-   Globals.ts
-
-   Global CONSTANTS and _Variables.
-   (Global over both the OS and Hardware Simulation / Host.)
-
-   This code references page numbers in the text book:
-   Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
-   ------------ */
-var APP_NAME = "Companion Cube";
+var APP_NAME = "Drugs are bad m\'kay";
 var APP_VERSION = ".117";
 var CPU_CLOCK_INTERVAL = 100;
 var TIMER_IRQ = 0;

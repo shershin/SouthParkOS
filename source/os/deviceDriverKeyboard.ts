@@ -43,22 +43,71 @@ module TSOS {
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
-            } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
-                        (keyCode == 32)                     ||   // space
-                        (keyCode == 13)                     ||   // enter
-                        (keyCode == 8)                      ||   // backspace
-                        (keyCode == 9)                      ||   // tab
-                        (keyCode == 38)                     ||   // uparrow
-                        (keyCode == 40)) {                       // downarrow
-                chr = String.fromCharCode(keyCode);
-                _KernelInputQueue.enqueue(chr);
-            } else { //special characters
+            } else if (((keyCode >= 48) && (keyCode <= 57))) {    //digits
+                if(isShifted){
+                  switch (keyCode){
+                    //0
+                    case 48:
+                    chr = ")";
+                    break;
+                    //1
+                    case 49:
+                    chr = "!";
+                    break;
+                    //2
+                    case 50:
+                    chr = "@";
+                    break;
+                    //3
+                    case 51:
+                    chr = "#";
+                    break;
+                    //4
+                    case 52:
+                    chr = "$";
+                    break;
+                    //5
+                    case 53:
+                    chr = "%";
+                    break;
+                    //6
+                    case 54:
+                    chr = "^";
+                    break;
+                    //7
+                    case 55:
+                    chr = "&";
+                    break;
+                    //8
+                    case 56:
+                    chr = "*";
+                    break;
+                    //9
+                    case 57:
+                    chr = "(";
+                    break;
+                  }
+                  _KernelInputQueue.enqueue(chr);
+                }else {
+                  chr = String.fromCharCode(keyCode);
+                  _KernelInputQueue.enqueue(chr);
+                }
+            } else if   ((keyCode == 32)                     ||   // space
+                         (keyCode == 13)                     ||   // enter
+                         (keyCode == 8)                      ||   // backspace
+                         (keyCode == 9)                      ||   // tab
+                         (keyCode == 38)                     ||   // uparrow
+                         (keyCode == 40)) {                       //backspace
+                  chr = String.fromCharCode(keyCode);
+                  _KernelInputQueue.enqueue(chr);
+            }else { //special characters
               switch (keyCode){
                 case 186:
                 chr = ";";
                 if (isShifted){
                   chr = ":";
-                }
+                }  chr = String.fromCharCode(keyCode);
+                  _KernelInputQueue.enqueue(chr);
                 break;
                 case 187:
                 chr = "=";
@@ -66,7 +115,7 @@ module TSOS {
                   chr = "+";
                 }
                 break;
-                case 188:
+          case 188:
                 chr = ",";
                 if (isShifted){
                   chr = "<";
