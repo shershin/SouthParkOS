@@ -141,16 +141,6 @@ var memory = [];
               _DrawingContext.putImageData(img, 0, 0);
               this.currentYPosition = 495;
             }
-            //cli line wrap
-            if(this.currentXPosition > _Canvas.width){
-              this.currentXPosition = 0;
-              this.currentYPosition +=  _DefaultFontSize +
-                                        _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                                        _FontHeightMargin;
-              var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
-              _DrawingContext.putImageData(img, 0, 0);
-              this.currentYPosition = 495;
-            }
       }
       public removeLine(text): void{
         if(text !== ""){

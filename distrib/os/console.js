@@ -97,15 +97,6 @@ var TSOS;
                 _DrawingContext.putImageData(img, 0, 0);
                 this.currentYPosition = 495;
             }
-            if (this.currentXPosition > _Canvas.width) {
-                this.currentXPosition = 0;
-                this.currentYPosition += _DefaultFontSize +
-                    _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                    _FontHeightMargin;
-                var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
-                _DrawingContext.putImageData(img, 0, 0);
-                this.currentYPosition = 495;
-            }
         };
         Console.prototype.removeLine = function (text) {
             if (text !== "") {
