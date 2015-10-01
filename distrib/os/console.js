@@ -4,7 +4,6 @@ var TSOS;
     var arrayInt = 0;
     var holderInt = 0;
     var memory = [];
-    var lastyPosition = 0;
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -37,7 +36,6 @@ var TSOS;
                     _OsShell.handleInput(this.buffer);
                     arrayInt++;
                     holderInt = arrayInt;
-                    lastyPosition = this.currentYPosition;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) {
@@ -69,8 +67,8 @@ var TSOS;
                     holderInt = 0;
                 }
                 this.removeLine(this.buffer);
-                this.putText(past[holderInt - 1].toString());
-                this.buffer = past[holderInt - 1];
+                this.putText(past[holderInt].toString());
+                this.buffer = past[holderInt].toString();
             }
             else if (chr === String.fromCharCode(40)) {
                 holderInt++;
@@ -97,7 +95,7 @@ var TSOS;
             if (this.currentYPosition > _Canvas.height) {
                 var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
                 _DrawingContext.putImageData(img, 0, 0);
-                this.currentYPosition = 480;
+                this.currentYPosition = 495;
             }
         };
         Console.prototype.removeLine = function (text) {

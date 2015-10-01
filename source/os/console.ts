@@ -14,7 +14,6 @@ var past = [];
 var arrayInt = 0;
 var holderInt = 0;
 var memory = [];
-var lastyPosition = 0;
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,
@@ -52,7 +51,6 @@ var lastyPosition = 0;
                     //incerment the holder
                     arrayInt++;
                     holderInt = arrayInt;
-                    lastyPosition = this.currentYPosition;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }else if (chr === String.fromCharCode(8)){
@@ -89,8 +87,8 @@ var lastyPosition = 0;
                holderInt = 0;
              }
              this.removeLine(this.buffer);
-             this.putText(past[holderInt - 1].toString());
-             this.buffer = past[holderInt - 1];
+             this.putText(past[holderInt].toString());
+             this.buffer = past[holderInt].toString();
            }else if (chr === String.fromCharCode(40)){
                //down arrow
                holderInt++;
@@ -141,7 +139,7 @@ var lastyPosition = 0;
             if(this.currentYPosition > _Canvas.height){
               var img = _DrawingContext.getImageData(0, 20, _Canvas.width, _Canvas.height);
               _DrawingContext.putImageData(img, 0, 0);
-              this.currentYPosition = 480;
+              this.currentYPosition = 495;
             }
       }
       public removeLine(text): void{
