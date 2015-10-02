@@ -1,4 +1,6 @@
 var LOCAL = "In front of a computer looking at my project.....or so I hope";
+var memory = [];
+var pidInt = 0;
 var TSOS;
 (function (TSOS) {
     var Shell = (function () {
@@ -43,6 +45,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- gathers the data from the program input.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- to death the computer goes.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Choose a program to run.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellProgramlist, "programlist", "list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };
@@ -203,6 +209,12 @@ var TSOS;
                     case "bsod":
                         _StdOut.putText("Lets kill the computer.");
                         break;
+                    case "run":
+                        _StdOut.putText("Please don't run away, I am sweet, I promise.");
+                        break;
+                    case "programlist":
+                        _StdOut.putText("All the programs in memory.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -307,6 +319,9 @@ var TSOS;
         Shell.prototype.shellLoad = function (args) {
             var input = document.getElementById("taProgramInput");
             var str = input.value;
+            var progm = str.toString();
+            var cleanProgm = progm.trim();
+            var bits = cleanProgm.length / 8;
             if (str.length > 0) {
                 var re = /([^abcdefABCDEF0123456789\s])/;
                 var test = str.search(re);
@@ -315,6 +330,10 @@ var TSOS;
                 }
                 else {
                     _StdOut.putText("The program is loaded.");
+                    _StdOut.advanceLine();
+                    _StdOut.putText(cleanProgm.length);
+                    _StdOut.advanceLine();
+                    _StdOut.putText(bits);
                 }
             }
             else {
@@ -324,6 +343,17 @@ var TSOS;
         Shell.prototype.shellBsod = function (args) {
             var msg = "ohhh nooo";
             _Kernel.krnTrapError(msg);
+        };
+        Shell.prototype.shellRun = function (args) {
+            var holder = memory[args].toString();
+            _StdOut.putText(holder);
+        };
+        Shell.prototype.shellProgramlist = function (args) {
+            _StdOut.putText("Memory:");
+            for (var i in memory) {
+                _StdOut.advanceLine();
+                _StdOut.putText("  " + "PID" + " " + memory[i]);
+            }
         };
         return Shell;
     })();

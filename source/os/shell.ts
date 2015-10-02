@@ -15,6 +15,8 @@
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 var LOCAL = "In front of a computer looking at my project.....or so I hope";
+var memory = [];
+var pidInt = 0;
 module TSOS {
     export class Shell {
         // Properties
@@ -128,6 +130,16 @@ module TSOS {
             sc = new ShellCommand(this.shellBsod,
                                   "bsod",
                                   "- to death the computer goes.");
+            this.commandList[this.commandList.length] = sc;
+            //run <pid> - choose a program to run
+            sc = new ShellCommand(this.shellRun,
+                                  "run",
+                                  "<pid> - Choose a program to run.");
+            this.commandList[this.commandList.length] = sc;
+            //programlist - list all the programs in memory
+            sc = new ShellCommand(this.shellProgramlist,
+                                  "programlist",
+                                  "list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
@@ -328,6 +340,12 @@ module TSOS {
                     case "bsod":
                        _StdOut.putText("Lets kill the computer.");
                        break;
+                    case "run":
+                      _StdOut.putText("Please don't run away, I am sweet, I promise.");
+                      break;
+                    case "programlist":
+                      _StdOut.putText("All the programs in memory.");
+                      break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -376,13 +394,6 @@ module TSOS {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
-        /*/public shellPs(args){
-          _StdOut.putText("Processes:");
-          //still trying to figure this out
-        }
-        public shellKill(args){
-
-        }/*/
         public shellDate(args){
           var day = new Date().getDay().toString();
           var month =  new Date().getMonth().toString();
@@ -437,13 +448,26 @@ module TSOS {
         public shellLoad(args){
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
+          var progm = str.toString();
+          var cleanProgm = progm.trim();
+          var bits = cleanProgm.length / 8;
           if (str.length > 0){
             var re = /([^abcdefABCDEF0123456789\s])/;
             var test = str.search(re);
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
+              /*/memory[pidInt] = [];
+              for (var i = 0; i < 4; i++){
+                for (var j = 0; j < 2; j++){
+                memory[pidInt][i] += progm.charAt(j);
+                }
+              }/*/
               _StdOut.putText("The program is loaded.");
+              _StdOut.advanceLine();
+              _StdOut.putText(cleanProgm.length);
+              _StdOut.advanceLine();
+              _StdOut.putText(bits);
             }
           }else{
           _StdOut.putText("ERROR: No program detected.");
@@ -452,6 +476,17 @@ module TSOS {
         public shellBsod(args){
           var msg = "ohhh nooo";
           _Kernel.krnTrapError(msg);
+        }
+        public shellRun(args){
+          var holder = memory[args].toString();
+          _StdOut.putText(holder);
+        }
+        public shellProgramlist(args){
+          _StdOut.putText("Memory:");
+          for (var i in memory) {
+              _StdOut.advanceLine();
+              _StdOut.putText("  " + "PID" + " " + memory[i]);
+          }
         }
     }
 }

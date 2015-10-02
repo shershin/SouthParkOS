@@ -13,7 +13,6 @@ module TSOS {
 var past = [];
 var arrayInt = 0;
 var holderInt = 0;
-var memory = [];
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,

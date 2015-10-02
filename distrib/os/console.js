@@ -3,7 +3,6 @@ var TSOS;
     var past = [];
     var arrayInt = 0;
     var holderInt = 0;
-    var memory = [];
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
