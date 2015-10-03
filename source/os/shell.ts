@@ -136,10 +136,10 @@ module TSOS {
                                   "run",
                                   "<pid> - Choose a program to run.");
             this.commandList[this.commandList.length] = sc;
-            //programlist - list all the programs in memory
-            sc = new ShellCommand(this.shellProgramlist,
-                                  "programlist",
-                                  "list all the programs in memory.");
+            //Memory - list all the programs in memory
+            sc = new ShellCommand(this.shellMemory,
+                                  "memory",
+                                  "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
@@ -343,7 +343,7 @@ module TSOS {
                     case "run":
                       _StdOut.putText("Please don't run away, I am sweet, I promise.");
                       break;
-                    case "programlist":
+                    case "memory":
                       _StdOut.putText("All the programs in memory.");
                       break;
                     default:
@@ -449,26 +449,21 @@ module TSOS {
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var progm = str.toString();
-          var cleanProgm = progm.trim();
-          var bits = cleanProgm.length / 8;
+          var cleanProgm =<String> progm.replace(/\s/g, "");
           if (str.length > 0){
             var re = /([^abcdefABCDEF0123456789\s])/;
             var test = str.search(re);
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
-              /*/memory[pidInt] = [];
-              for (var i = 0; i < 4; i++){
+            memory[pidInt] = [];
+              for (var i = 0; i < cleanProgm.length; i++){
                 for (var j = 0; j < 2; j++){
-                memory[pidInt][i] += progm.charAt(j);
+                memory[pidInt][i] += cleanProgm.charAt(j);
                 }
-              }/*/
-              _StdOut.putText("The program is loaded.");
-              _StdOut.advanceLine();
-              _StdOut.putText(cleanProgm.length);
-              _StdOut.advanceLine();
-              _StdOut.putText(bits);
-            }
+              }
+            _StdOut.putText("Program loaded.");
+          }
           }else{
           _StdOut.putText("ERROR: No program detected.");
           }
@@ -478,14 +473,17 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          var holder = memory[args].toString();
+          var location = args.charAt(args.length - 1);
+          var holder = memory[location].toString();
           _StdOut.putText(holder);
         }
-        public shellProgramlist(args){
-          _StdOut.putText("Memory:");
+        public shellMemory(args){
+          _StdOut.putText("PID:");
           for (var i in memory) {
+            if(!memory[i].isEmpty){
               _StdOut.advanceLine();
-              _StdOut.putText("  " + "PID" + " " + memory[i]);
+              _StdOut.putText("  " + "Location:" + " $000" + i);
+            }
           }
         }
     }
