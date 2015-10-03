@@ -446,6 +446,9 @@ module TSOS {
           _StdOut.putText("Please check back later.");
         }
         public shellLoad(args){
+          var i = 0;
+          var j = 0;
+          var x = 0;
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var progm = str.toString();
@@ -456,13 +459,20 @@ module TSOS {
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
-            memory[pidInt] = [];
-              for (var i = 0; i < cleanProgm.length; i++){
-                for (var j = 0; j < 2; j++){
-                memory[pidInt][i] += cleanProgm.charAt(j);
+              while (i < cleanProgm.length){
+                while (j < 4){
+                  memory[pidInt] = [];
+                  while (x < 2){
+                    var con1 = cleanProgm.charAt(i);
+                    var con2 = cleanProgm.charAt(i+1);
+                    memory[pidInt][j] = con1.concat(con2);
+                    i = i + 2;
+                  }
+                  j = j + 1;
                 }
+                pidInt = pidInt + 1;
               }
-            _StdOut.putText("Program loaded.");
+              _StdOut.putText("Program loaded.");
           }
           }else{
           _StdOut.putText("ERROR: No program detected.");
