@@ -42,5 +42,24 @@ module TSOS {
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }
+        public memoryLoad(args){
+          var i = 0;
+          var j = 0;
+          var x = 0;
+          while (i < args.length){
+            while (j < 4){
+              _OsShell.memory[_OsShell.pidInt] = [];
+              while (x < 2){
+                var con1 = args.charAt(i);
+                var con2 = args.charAt(i+1);
+                _OsShell.memory[_OsShell.pidInt][j] = con1.concat(con2);
+                i = i + 2;
+              }
+              j = j + 1;
+            }
+            _OsShell.pidInt = _OsShell.pidInt + 1;
+          }
+          _StdOut.putText("Program loaded.");
+        }
     }
 }

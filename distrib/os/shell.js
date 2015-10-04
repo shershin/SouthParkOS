@@ -1,6 +1,4 @@
 var LOCAL = "In front of a computer looking at my project.....or so I hope";
-var memory = [];
-var pidInt = 0;
 var TSOS;
 (function (TSOS) {
     var Shell = (function () {
@@ -9,6 +7,8 @@ var TSOS;
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
+            this.memory = [];
+            this.pidInt = 0;
         }
         Shell.prototype.init = function () {
             var sc;
@@ -317,9 +317,6 @@ var TSOS;
             _StdOut.putText("Please check back later.");
         };
         Shell.prototype.shellLoad = function (args) {
-            var i = 0;
-            var j = 0;
-            var x = 0;
             var input = document.getElementById("taProgramInput");
             var str = input.value;
             var progm = str.toString();
@@ -331,20 +328,7 @@ var TSOS;
                     _StdOut.putText("ERROR: Please enter a real program.");
                 }
                 else {
-                    while (i < cleanProgm.length) {
-                        while (j < 4) {
-                            memory[pidInt] = [];
-                            while (x < 2) {
-                                var con1 = cleanProgm.charAt(i);
-                                var con2 = cleanProgm.charAt(i + 1);
-                                memory[pidInt][j] = con1.concat(con2);
-                                i = i + 2;
-                            }
-                            j = j + 1;
-                        }
-                        pidInt = pidInt + 1;
-                    }
-                    _StdOut.putText("Program loaded.");
+                    _CPU.memoryLoad(cleanProgm);
                 }
             }
             else {
@@ -357,13 +341,13 @@ var TSOS;
         };
         Shell.prototype.shellRun = function (args) {
             var location = args.charAt(args.length - 1);
-            var holder = memory[location].toString();
+            var holder = this.memory[location].toString();
             _StdOut.putText(holder);
         };
         Shell.prototype.shellMemory = function (args) {
             _StdOut.putText("PID:");
-            for (var i in memory) {
-                if (!memory[i].isEmpty) {
+            for (var i in this.memory) {
+                if (!this.memory[i].isEmpty) {
                     _StdOut.advanceLine();
                     _StdOut.putText("  " + "Location:" + " $000" + i);
                 }

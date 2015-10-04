@@ -15,8 +15,6 @@
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 var LOCAL = "In front of a computer looking at my project.....or so I hope";
-var memory = [];
-var pidInt = 0;
 module TSOS {
     export class Shell {
         // Properties
@@ -24,6 +22,8 @@ module TSOS {
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
+        public memory = [];
+        public pidInt = 0;
 
         constructor() {
         }
@@ -446,9 +446,6 @@ module TSOS {
           _StdOut.putText("Please check back later.");
         }
         public shellLoad(args){
-          var i = 0;
-          var j = 0;
-          var x = 0;
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var progm = str.toString();
@@ -459,20 +456,7 @@ module TSOS {
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
-              while (i < cleanProgm.length){
-                while (j < 4){
-                  memory[pidInt] = [];
-                  while (x < 2){
-                    var con1 = cleanProgm.charAt(i);
-                    var con2 = cleanProgm.charAt(i+1);
-                    memory[pidInt][j] = con1.concat(con2);
-                    i = i + 2;
-                  }
-                  j = j + 1;
-                }
-                pidInt = pidInt + 1;
-              }
-              _StdOut.putText("Program loaded.");
+              _CPU.memoryLoad(cleanProgm);
           }
           }else{
           _StdOut.putText("ERROR: No program detected.");
@@ -484,13 +468,13 @@ module TSOS {
         }
         public shellRun(args){
           var location = args.charAt(args.length - 1);
-          var holder = memory[location].toString();
+          var holder = this.memory[location].toString();
           _StdOut.putText(holder);
         }
         public shellMemory(args){
           _StdOut.putText("PID:");
-          for (var i in memory) {
-            if(!memory[i].isEmpty){
+          for (var i in this.memory) {
+            if(!this.memory[i].isEmpty){
               _StdOut.advanceLine();
               _StdOut.putText("  " + "Location:" + " $000" + i);
             }
