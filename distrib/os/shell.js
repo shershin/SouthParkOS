@@ -328,7 +328,7 @@ var TSOS;
                     _StdOut.putText("ERROR: Please enter a real program.");
                 }
                 else {
-                    _CPU.memoryLoad(cleanProgm);
+                    _Memory.memload(cleanProgm);
                 }
             }
             else {

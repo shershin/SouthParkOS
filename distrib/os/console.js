@@ -3,6 +3,7 @@ var TSOS;
     var past = [];
     var arrayInt = 0;
     var holderInt = 0;
+    var breakpoint = 0;
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -84,7 +85,16 @@ var TSOS;
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 if ((this.currentXPosition + offset) > _Canvas.width) {
                     if (text.length > 1) {
-                        _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                        var i = 0;
+                        while (breakpoint < _Canvas.width) {
+                            breakpoint += _DrawingContext.measureText(this.currentFont, this.currentFontSize, text[i]);
+                            i++;
+                        }
+                        var ministring = text.substring(0, breakpoint);
+                        var remainingtext = text.substring(breakpoint, text.length);
+                        _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, ministring);
+                        this.advanceLine();
+                        this.putText(remainingtext);
                     }
                     else {
                         this.advanceLine();

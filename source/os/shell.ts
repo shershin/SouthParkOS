@@ -456,7 +456,7 @@ module TSOS {
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
-              _CPU.memoryLoad(cleanProgm);
+              _Memory.memload(cleanProgm);
           }
           }else{
           _StdOut.putText("ERROR: No program detected.");

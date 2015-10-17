@@ -25,6 +25,7 @@ var _krnKeyboardDriver;
 var _hardwareClockID = null;
 var Glados = null;
 var _GLaDOS = null;
+var _Memory;
 var onDocumentLoad = function () {
     TSOS.Control.hostInit();
 };
