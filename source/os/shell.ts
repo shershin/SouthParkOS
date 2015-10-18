@@ -4,6 +4,7 @@
 ///<reference path="userCommand.ts" />
 
 
+
 /* ------------
    Shell.ts
 
@@ -472,7 +473,11 @@ module TSOS {
 
         }
         public shellMemory(args){
-
+          var i = 0
+          while (i < _Memory.pidint){
+            _StdOut.putText("PID: " + i);
+            _StdOut.advanceLine();
+          }
         }
     }
 }

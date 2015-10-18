@@ -344,6 +344,11 @@ var TSOS;
         Shell.prototype.shellRun = function (args) {
         };
         Shell.prototype.shellMemory = function (args) {
+            var i = 0;
+            while (i < _Memory.pidint) {
+                _StdOut.putText("PID: " + i);
+                _StdOut.advanceLine();
+            }
         };
         return Shell;
     })();
