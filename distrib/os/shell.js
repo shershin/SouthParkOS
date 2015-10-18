@@ -321,6 +321,7 @@ var TSOS;
             var str = input.value;
             var progm = str.toString();
             var cleanProgm = progm.replace(/\s/g, "");
+            var isValid = false;
             if (str.length > 0) {
                 var re = /([^abcdefABCDEF0123456789\s])/;
                 var test = str.search(re);
@@ -328,11 +329,14 @@ var TSOS;
                     _StdOut.putText("ERROR: Please enter a real program.");
                 }
                 else {
-                    _Memory.memload(cleanProgm);
+                    isValid = true;
                 }
             }
             else {
                 _StdOut.putText("ERROR: No program detected.");
+            }
+            if (isValid) {
+                _Memory.memload(cleanProgm);
             }
         };
         Shell.prototype.shellBsod = function (args) {

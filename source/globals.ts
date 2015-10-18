@@ -68,6 +68,9 @@ var _GLaDOS: any = null; // If the above is linked in, this is the instantiated 
 
 //my added files
 var _Memory: TSOS.Memory;
+var _MemoryManager: TSOS.MemoryManager;
+var _ProcessControlBlock: TSOS.PCB;
+
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();
 };

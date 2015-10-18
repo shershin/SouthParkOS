@@ -450,16 +450,20 @@ module TSOS {
           var str = input.value;
           var progm = str.toString();
           var cleanProgm =<String> progm.replace(/\s/g, "");
+          var isValid = false;
           if (str.length > 0){
             var re = /([^abcdefABCDEF0123456789\s])/;
             var test = str.search(re);
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
-              _Memory.memload(cleanProgm);
+              isValid = true;
           }
           }else{
           _StdOut.putText("ERROR: No program detected.");
+          }
+          if (isValid){
+            _Memory.memload(cleanProgm);
           }
         }
         public shellBsod(args){
