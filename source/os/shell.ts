@@ -470,11 +470,13 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-
+          var programToRun = _Memory.pid[args];
+          _CPU.execute(programToRun);
+          _StdOut.putText("Executing.");
         }
         public shellMemory(args){
           var i = 0
-          while (i < _Memory.pidint){
+          while (i < _ProcessControlBlock.pid){
             _StdOut.putText("PID: " + i);
             _StdOut.advanceLine();
           }

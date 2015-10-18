@@ -26,6 +26,43 @@ var TSOS;
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
         };
+        Cpu.prototype.execute = function (args) {
+            var exe = args;
+            var i = 0;
+            while (i < exe.length) {
+                switch (exe[i]) {
+                    case "A9":
+                        break;
+                    case "AD":
+                        break;
+                    case "8D":
+                        break;
+                    case "6D":
+                        break;
+                    case "A2":
+                        break;
+                    case "AE":
+                        break;
+                    case "A0":
+                        break;
+                    case "AC":
+                        break;
+                    case "EA":
+                        break;
+                    case "00":
+                        break;
+                    case "EC":
+                        break;
+                    case "D0":
+                        break;
+                    case "EE":
+                        break;
+                    case "FF":
+                        break;
+                }
+                i++;
+            }
+        };
         return Cpu;
     })();
     TSOS.Cpu = Cpu;
