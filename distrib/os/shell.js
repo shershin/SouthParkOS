@@ -7,8 +7,6 @@ var TSOS;
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
-            this.memory = [];
-            this.pidInt = 0;
         }
         Shell.prototype.init = function () {
             var sc;
@@ -320,7 +318,7 @@ var TSOS;
             var input = document.getElementById("taProgramInput");
             var str = input.value;
             var progm = str.toString();
-            var cleanProgm = progm.replace(/\s/g, "");
+            var cleanProgm = progm.trim();
             var isValid = false;
             if (str.length > 0) {
                 var re = /([^abcdefABCDEF0123456789\s])/;
@@ -344,18 +342,8 @@ var TSOS;
             _Kernel.krnTrapError(msg);
         };
         Shell.prototype.shellRun = function (args) {
-            var location = args.charAt(args.length - 1);
-            var holder = this.memory[location].toString();
-            _StdOut.putText(holder);
         };
         Shell.prototype.shellMemory = function (args) {
-            _StdOut.putText("PID:");
-            for (var i in this.memory) {
-                if (!this.memory[i].isEmpty) {
-                    _StdOut.advanceLine();
-                    _StdOut.putText("  " + "Location:" + " $000" + i);
-                }
-            }
         };
         return Shell;
     })();

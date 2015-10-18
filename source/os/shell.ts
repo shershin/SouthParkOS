@@ -22,8 +22,6 @@ module TSOS {
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
-        public memory = [];
-        public pidInt = 0;
 
         constructor() {
         }
@@ -449,7 +447,7 @@ module TSOS {
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var progm = str.toString();
-          var cleanProgm =<String> progm.replace(/\s/g, "");
+          var cleanProgm = progm.trim();
           var isValid = false;
           if (str.length > 0){
             var re = /([^abcdefABCDEF0123456789\s])/;
@@ -471,18 +469,10 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          var location = args.charAt(args.length - 1);
-          var holder = this.memory[location].toString();
-          _StdOut.putText(holder);
+
         }
         public shellMemory(args){
-          _StdOut.putText("PID:");
-          for (var i in this.memory) {
-            if(!this.memory[i].isEmpty){
-              _StdOut.advanceLine();
-              _StdOut.putText("  " + "Location:" + " $000" + i);
-            }
-          }
+
         }
     }
 }
