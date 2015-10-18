@@ -43,6 +43,7 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }
         public execute (args){
+          this.isExecuting = true;
           var exe = args;
           var i = 0;
           while (i < exe.length){

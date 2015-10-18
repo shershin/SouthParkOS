@@ -1,17 +1,27 @@
 var TSOS;
 (function (TSOS) {
     var Memory = (function () {
-        function Memory() {
-            this.memory = [];
-            this.pid = [];
-            this.pidint = 0;
+        function Memory(memory, pid, pidint) {
+            if (memory === void 0) { memory = []; }
+            if (pid === void 0) { pid = []; }
+            if (pidint === void 0) { pidint = 0; }
+            this.memory = memory;
+            this.pid = pid;
+            this.pidint = pidint;
         }
+        Memory.prototype.init = function () {
+            this.memory = [];
+            this.pidint = 0;
+            this.pid = [];
+        };
         Memory.prototype.memload = function (str) {
             var i = 0;
             var j = 0;
+            var x = 0;
             while (i < str.length) {
-                if (this.memory[j].value == 2) {
+                if (x = 2) {
                     j++;
+                    x = 0;
                 }
                 if (str.charAt(i) == " ") {
                     j++;
@@ -20,13 +30,12 @@ var TSOS;
                 else {
                     this.memory[j] += str.charAt(i);
                     i++;
-                }
-                if (this.memory.length == 16) {
-                    _StdOut.putText("Program loaded at PID:" + this.pid);
-                    this.pid[this.pidint] = this.memory;
-                    this.pidint++;
+                    x++;
                 }
             }
+            _StdOut.putText("Program loaded at PID:" + this.pidint);
+            this.pid[this.pidint] = this.memory;
+            this.pidint++;
         };
         return Memory;
     })();

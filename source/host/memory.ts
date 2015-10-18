@@ -5,15 +5,26 @@ all things memory
 
 module TSOS {
   export class Memory{
-    public memory = [];
-    public pid = [];
-    public pidint = 0;
-    public memload (str){
+    constructor(
+      public memory = [],
+      public pid = [],
+      public pidint = 0
+    ){
+
+    }
+    public init (){
+      this.memory = [];
+      this.pidint = 0;
+      this.pid = [];
+    }
+    public memload (str: String){
       var i = 0;
       var j = 0;
+      var x = 0
       while (i < str.length){
-        if (this.memory[j].value == 2){
+        if (x = 2){
           j++;
+          x = 0;
         }
         if (str.charAt(i) == " "){
           j++;
@@ -21,13 +32,13 @@ module TSOS {
         }else{
           this.memory[j] += str.charAt(i);
           i++;
-        }
-        if (this.memory.length == 16){
-          _StdOut.putText("Program loaded at PID:" + this.pid);
-          this.pid[this.pidint] = this.memory;
-          this.pidint ++;
+          x++;
         }
       }
+      _StdOut.putText("Program loaded at PID:" + this.pidint);
+      this.pid[this.pidint] = this.memory;
+      this.pidint ++;
+
     }
 
   }

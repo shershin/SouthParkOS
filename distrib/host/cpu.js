@@ -27,6 +27,7 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
         };
         Cpu.prototype.execute = function (args) {
+            this.isExecuting = true;
             var exe = args;
             var i = 0;
             while (i < exe.length) {

@@ -344,7 +344,7 @@ var TSOS;
         Shell.prototype.shellRun = function (args) {
             var programToRun = _Memory.pid[args];
             _CPU.execute(programToRun);
-            _StdOut.putText("Executing.");
+            _StdOut.putText(_Memory.pid[args].toString());
         };
         Shell.prototype.shellMemory = function (args) {
             var i = 0;

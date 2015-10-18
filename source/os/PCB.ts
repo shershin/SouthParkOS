@@ -5,5 +5,6 @@ module TSOS {
     public yreg = 0;
     public zflag = 0;
     public progCounter = 0;
+    public pidArray = [];
   }
 }

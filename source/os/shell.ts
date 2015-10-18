@@ -473,7 +473,7 @@ module TSOS {
         public shellRun(args){
           var programToRun = _Memory.pid[args];
           _CPU.execute(programToRun);
-          _StdOut.putText("Executing.");
+          _StdOut.putText(_Memory.pid[args].toString());
         }
         public shellMemory(args){
           var i = 0
