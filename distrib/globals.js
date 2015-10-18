@@ -6,6 +6,7 @@ var KEYBOARD_IRQ = 1;
 var _CPU;
 var _OSclock = 0;
 var _Mode = 0;
+var _Memory;
 var _Canvas;
 var _DrawingContext;
 var _DefaultFontFamily = "sans";
@@ -25,7 +26,6 @@ var _krnKeyboardDriver;
 var _hardwareClockID = null;
 var Glados = null;
 var _GLaDOS = null;
-var _Memory;
 var _MemoryManager;
 var _ProcessControlBlock;
 var onDocumentLoad = function () {

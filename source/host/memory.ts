@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 /*/
 all things memory
 /*/

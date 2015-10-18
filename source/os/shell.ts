@@ -1,5 +1,6 @@
 ///<reference path="../globals.ts" />
 ///<reference path="../utils.ts" />
+///<reference path="../host/memory.ts"/>
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
 
