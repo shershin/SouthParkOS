@@ -41,9 +41,9 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
-            this.execute(_ProcessControlBlock.pidArray[_ProcessControlBlock.pidToRun], _Memory.memory[_ProcessControlBlock.progCounter].toString());
+            this.execute(_Memory.memory[_ProcessControlBlock.progCounter].toString());
         }
-        public execute (arry, args){
+        public execute (args){
           _ProcessControlBlock.progCounter++;
           var caps = args.toUpperCase();
           switch (caps){
@@ -172,6 +172,7 @@ module TSOS {
           //time to take a break
           _ProcessControlBlock.progCounter++;
           Control.hostLog("coffee break");
+          this.isExecuting = false;
         }
         public cpx(){
           //compare a byte in memory to the x reg
@@ -212,8 +213,13 @@ module TSOS {
         }
         public sys(){
           //system call
+          if (_ProcessControlBlock.xreg === 1){
+            //print the int stored in yreg
+            _StdOut.putText(_ProcessControlBlock.yreg);
+          }else if(_ProcessControlBlock.xreg === 2){
+            //prints the string from memory starting at location saved in yreg
+          }
           _ProcessControlBlock.progCounter++;
-          this.isExecuting = false;
         }
     }
 }

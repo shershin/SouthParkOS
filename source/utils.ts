@@ -43,17 +43,25 @@ module TSOS {
             }
             return retVal;
         }
+        //takes a hex and transforms it into decimal
         public static fromHex(args){
           var dec = parseInt(args, 16);
           return dec;
         }
+        //swap them and swap them fast
         public static littleE(args1, args2){
           var swap = args2.concat(args1);
           return swap;
         }
+        //reverse of fromHex....why am i doing all this work argh
         public static toHex(args){
           var hex = args.toString(16);
           return hex
+        }
+        //takes a hex and converts it into my string of amazing
+        public static stringHex(args){
+          var str = String.fromCharCode(args);
+          return str;
         }
     }
 }

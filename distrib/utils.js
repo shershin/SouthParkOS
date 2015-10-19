@@ -37,6 +37,10 @@ var TSOS;
             var hex = args.toString(16);
             return hex;
         };
+        Utils.stringHex = function (args) {
+            var str = String.fromCharCode(args);
+            return str;
+        };
         return Utils;
     })();
     TSOS.Utils = Utils;

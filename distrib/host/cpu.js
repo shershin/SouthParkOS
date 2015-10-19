@@ -25,9 +25,9 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
-            this.execute(_ProcessControlBlock.pidArray[_ProcessControlBlock.pidToRun], _Memory.memory[_ProcessControlBlock.progCounter].toString());
+            this.execute(_Memory.memory[_ProcessControlBlock.progCounter].toString());
         };
-        Cpu.prototype.execute = function (arry, args) {
+        Cpu.prototype.execute = function (args) {
             _ProcessControlBlock.progCounter++;
             var caps = args.toUpperCase();
             switch (caps) {
@@ -145,6 +145,7 @@ var TSOS;
         Cpu.prototype.brk = function () {
             _ProcessControlBlock.progCounter++;
             TSOS.Control.hostLog("coffee break");
+            this.isExecuting = false;
         };
         Cpu.prototype.cpx = function () {
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
@@ -183,8 +184,12 @@ var TSOS;
             _ProcessControlBlock.progCounter + 2;
         };
         Cpu.prototype.sys = function () {
+            if (_ProcessControlBlock.xreg === 1) {
+                _StdOut.putText(_ProcessControlBlock.yreg);
+            }
+            else if (_ProcessControlBlock.xreg === 2) {
+            }
             _ProcessControlBlock.progCounter++;
-            this.isExecuting = false;
         };
         return Cpu;
     })();

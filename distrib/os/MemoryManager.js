@@ -18,7 +18,6 @@ var TSOS;
             }
             _ProcessControlBlock = new TSOS.PCB();
             _StdOut.putText("Program loaded at PID:" + _ProcessControlBlock.pid);
-            _ProcessControlBlock.newPCB(_Memory.memory);
         };
         return MemoryManager;
     })();
