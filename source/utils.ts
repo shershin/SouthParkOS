@@ -43,17 +43,5 @@ module TSOS {
             }
             return retVal;
         }
-        public static fromHex(args){
-          var dec = parseInt(args, 16);
-          return dec;
-        }
-        public static littleE(args1, args2){
-          var swap = args2.concat(args1);
-          return swap;
-        }
-        public static toHex(args){
-          var hex = args.toString(16);
-          return hex
-        }
     }
 }

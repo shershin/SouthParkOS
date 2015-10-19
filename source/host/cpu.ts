@@ -91,129 +91,65 @@ module TSOS {
               break;
               default:
               _StdOut.putText("Ummmm this is weird....now what do we do");
-              this.isExecuting = false;
             }
         }
 
         public ldaCon(){
           //load the accumulator with a constant
+          Control.hostLog("lda");
           _ProcessControlBlock.progCounter++;
-          Control.hostLog("lda" + _Memory.memory[_ProcessControlBlock.progCounter]);
           _ProcessControlBlock.accumulater = _Memory.memory[_ProcessControlBlock.progCounter];
         }
         public ldaMem(){
           //load the accumulator from memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("lda" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.accumulater = _Memory.memory[dec];
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public staMem(){
           //store the accumulator in memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("sta" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _Memory.memory[dec] = _ProcessControlBlock.accumulater;
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public adc(){
           //add with cary
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("adc" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.accumulater += dec;
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public ldxCon(){
           //load the x reg with a constant
-          _ProcessControlBlock.progCounter++;
-          Control.hostLog("ldx" + _Memory.memory[_ProcessControlBlock.progCounter]);
-          _ProcessControlBlock.xreg = _Memory.memory[_ProcessControlBlock.progCounter];
+
         }
         public ldxMem(){
           //load the x reg from memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("ldx" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.xreg = _Memory.memory[dec];
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public ldyCon(){
           //load the y reg with a constant
-          _ProcessControlBlock.progCounter++;
-          Control.hostLog("ldy" + _Memory.memory[_ProcessControlBlock.progCounter]);
-          _ProcessControlBlock.yreg = _Memory.memory[_ProcessControlBlock.progCounter];
+
         }
         public ldyMem(){
           //load the y reg from memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("ldy" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.yreg = _Memory.memory[dec];
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public nop(){
           //no operation
-          _ProcessControlBlock.progCounter++;
-          Control.hostLog("no operation");
+
         }
         public brk(){
           //time to take a break
-          _ProcessControlBlock.progCounter++;
-          Control.hostLog("coffee break");
         }
         public cpx(){
           //compare a byte in memory to the x reg
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("cpx" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          if (_ProcessControlBlock.xreg === _Memory.memory[dec]){
-            _ProcessControlBlock.zflag = 0;
-          }else{
-            _ProcessControlBlock.zflag = 1;
-          }
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public bne(){
           //brance n bytes if z
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("bne" + " " + spot1);
-          if(_ProcessControlBlock.zflag === 0){
-            _ProcessControlBlock.progCounter = spot1;
-          }else{
-            _ProcessControlBlock.progCounter++;
-          }
+
         }
         public inc(){
           //incermebt the value of a byte
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 2];
-          Control.hostLog("inc" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          var out = _Memory.memory[dec];
-          var dec2 = Utils.fromHex(out);
-          var hex = Utils.toHex(dec2 + 1);
-          _Memory.memory[dec] = hex;
-          _ProcessControlBlock.progCounter + 2;
+
         }
         public sys(){
           //system call
-          _ProcessControlBlock.progCounter++;
-          this.isExecuting = false;
+
         }
     }
 }
