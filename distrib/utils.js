@@ -25,6 +25,18 @@ var TSOS;
             }
             return retVal;
         };
+        Utils.fromHex = function (args) {
+            var dec = parseInt(args, 16);
+            return dec;
+        };
+        Utils.littleE = function (args1, args2) {
+            var swap = args2.concat(args1);
+            return swap;
+        };
+        Utils.toHex = function (args) {
+            var hex = args.toString(16);
+            return hex;
+        };
         return Utils;
     })();
     TSOS.Utils = Utils;
