@@ -44,6 +44,12 @@ var TSOS;
         Control.hostBtnReset_click = function (btn) {
             location.reload(true);
         };
+        Control.prototype.singleStep_click = function (btn) {
+            var on = false;
+            var butn = document.getElementById('stepOne');
+            if (butn.disabled) {
+            }
+        };
         return Control;
     })();
     TSOS.Control = Control;

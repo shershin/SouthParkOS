@@ -477,7 +477,6 @@ module TSOS {
             _StdOut.advanceLine();
             _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
           }else {
-            _ProcessControlBlock.pidToRun = args;
             _CPU.isExecuting = true;
             _StdOut.putText("Executing.");
           }
