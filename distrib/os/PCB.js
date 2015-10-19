@@ -8,6 +8,8 @@ var TSOS;
             this.zflag = 0;
             this.progCounter = 0;
             this.pidArray = [];
+            this.accumulater = 0;
+            this.pidToRun = 0;
         }
         PCB.prototype.newPCB = function (arry) {
             this.pidArray[this.pid] = arry;

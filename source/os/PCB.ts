@@ -6,6 +6,8 @@ module TSOS {
     public zflag = 0;
     public progCounter = 0;
     public pidArray = [];
+    public accumulater = 0;
+    public pidToRun = 0;
 
   public newPCB(arry){
     this.pidArray[this.pid] = arry;

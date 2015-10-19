@@ -41,58 +41,115 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+            this.execute(_ProcessControlBlock.pidArray[_ProcessControlBlock.pidToRun], _Memory.memory[_ProcessControlBlock.progCounter].toString());
         }
-        public execute (args){
-          this.isExecuting = true;
-          var exe = args;
-          var i = 0;
-          while (i < exe.length){
-            switch (exe[i]){
+        public execute (arry, args){
+          _ProcessControlBlock.progCounter++;
+          var caps = args.toUpperCase();
+          switch (caps){
               case "A9":
-
+                this.ldaCon();
               break;
               case "AD":
-
+                this.ldaMem();
               break;
               case "8D":
-
+                this.staMem();
               break;
               case "6D":
-
+                this.adc();
               break;
               case "A2":
-
+                this.ldxCon();
               break;
               case "AE":
-
+                this.ldxMem();
               break;
               case "A0":
-
+                this.ldaCon()
               break;
               case "AC":
-
+                this.ldaMem();
               break;
               case "EA":
-
+                this.nop();
               break;
               case "00":
-
+                this.brk();
               break;
               case "EC":
-
+                this.cpx();
               break;
               case "D0":
-
+                this.bne();
               break;
               case "EE":
-
+                this.inc();
               break;
               case "FF":
-
+                this.sys();
               break;
+              default:
+              _StdOut.putText("Ummmm this is weird....now what do we do");
             }
-            i++;
-          }
+        }
+
+        public ldaCon(){
+          //load the accumulator with a constant
+          Control.hostLog("lda");
+          _ProcessControlBlock.progCounter++;
+          _ProcessControlBlock.accumulater = _Memory.memory[_ProcessControlBlock.progCounter];
+        }
+        public ldaMem(){
+          //load the accumulator from memory
+
+        }
+        public staMem(){
+          //store the accumulator in memory
+
+        }
+        public adc(){
+          //add with cary
+
+        }
+        public ldxCon(){
+          //load the x reg with a constant
+
+        }
+        public ldxMem(){
+          //load the x reg from memory
+
+        }
+        public ldyCon(){
+          //load the y reg with a constant
+
+        }
+        public ldyMem(){
+          //load the y reg from memory
+
+        }
+        public nop(){
+          //no operation
+
+        }
+        public brk(){
+          //time to take a break
+        }
+        public cpx(){
+          //compare a byte in memory to the x reg
+
+        }
+        public bne(){
+          //brance n bytes if z
+
+        }
+        public inc(){
+          //incermebt the value of a byte
+
+        }
+        public sys(){
+          //system call
+
         }
     }
 }

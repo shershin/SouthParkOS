@@ -463,7 +463,8 @@ module TSOS {
           _StdOut.putText("ERROR: No program detected.");
           }
           if (isValid){
-            _Memory.memload(cleanProgm);
+            _MemoryManager = new MemoryManager();
+            _MemoryManager.memload(cleanProgm);
           }
         }
         public shellBsod(args){
@@ -471,9 +472,15 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          var programToRun = _ProcessControlBlock.pidArray[args];
-          _CPU.execute(programToRun);
-          _StdOut.putText("Executing.");
+          if (args > _ProcessControlBlock.pid){
+            _StdOut.putText("Please enter an appropriate PID:");
+            _StdOut.advanceLine();
+            _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
+          }else {
+            _ProcessControlBlock.pidToRun = args;
+            _CPU.isExecuting = true;
+            _StdOut.putText("Executing.");
+          }
         }
         public shellMemory(args){
           var i = 0
