@@ -115,7 +115,7 @@ var breakpoint = 0;
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 if ((this.currentXPosition + offset) > _Canvas.width){
-                  if(text.length > 1){
+                  if (text.length > 1){
                     var i = 0;
                     while (breakpoint < _Canvas.width){
                       breakpoint += _DrawingContext.measureText(this.currentFont, this.currentFontSize, text[i]);

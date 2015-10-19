@@ -449,7 +449,7 @@ module TSOS {
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var progm = str.toString();
-          var cleanProgm = progm.trim();
+          var cleanProgm = progm.replace(/\s/g, "");
           var isValid = false;
           if (str.length > 0){
             var re = /([^abcdefABCDEF0123456789\s])/;
@@ -471,9 +471,9 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          var programToRun = _Memory.pid[args];
+          var programToRun = _ProcessControlBlock.pidArray[args];
           _CPU.execute(programToRun);
-          _StdOut.putText(_Memory.pid[args].toString());
+          _StdOut.putText("Executing.");
         }
         public shellMemory(args){
           var i = 0

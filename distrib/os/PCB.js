@@ -9,6 +9,10 @@ var TSOS;
             this.progCounter = 0;
             this.pidArray = [];
         }
+        PCB.prototype.newPCB = function (arry) {
+            this.pidArray[this.pid] = arry;
+            this.pid++;
+        };
         return PCB;
     })();
     TSOS.PCB = PCB;

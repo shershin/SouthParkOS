@@ -17,25 +17,19 @@ var TSOS;
         Memory.prototype.memload = function (str) {
             var i = 0;
             var j = 0;
-            var x = 0;
             while (i < str.length) {
-                if (x = 2) {
-                    j++;
-                    x = 0;
-                }
-                if (str.charAt(i) == " ") {
+                if (str.charAt(i) == ",") {
                     j++;
                     i++;
                 }
                 else {
                     this.memory[j] += str.charAt(i);
                     i++;
-                    x++;
                 }
             }
-            _StdOut.putText("Program loaded at PID:" + this.pidint);
-            this.pid[this.pidint] = this.memory;
-            this.pidint++;
+            _ProcessControlBlock = new TSOS.PCB();
+            _StdOut.putText("Program loaded at PID:" + _ProcessControlBlock.pid);
+            _ProcessControlBlock.newPCB(this.memory);
         };
         return Memory;
     })();

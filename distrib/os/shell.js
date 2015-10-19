@@ -318,7 +318,7 @@ var TSOS;
             var input = document.getElementById("taProgramInput");
             var str = input.value;
             var progm = str.toString();
-            var cleanProgm = progm.trim();
+            var cleanProgm = progm.replace(/\s/g, "");
             var isValid = false;
             if (str.length > 0) {
                 var re = /([^abcdefABCDEF0123456789\s])/;
@@ -342,9 +342,9 @@ var TSOS;
             _Kernel.krnTrapError(msg);
         };
         Shell.prototype.shellRun = function (args) {
-            var programToRun = _Memory.pid[args];
+            var programToRun = _ProcessControlBlock.pidArray[args];
             _CPU.execute(programToRun);
-            _StdOut.putText(_Memory.pid[args].toString());
+            _StdOut.putText("Executing.");
         };
         Shell.prototype.shellMemory = function (args) {
             var i = 0;
