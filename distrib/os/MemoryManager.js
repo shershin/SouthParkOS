@@ -4,21 +4,16 @@ var TSOS;
         function MemoryManager() {
         }
         MemoryManager.prototype.memload = function (str) {
-            var i = 0;
-            var j = 0;
-            while (i < str.length) {
-                if (str.charAt(i) == ",") {
-                    j++;
-                    i++;
-                }
-                else {
-                    _Memory.memory[j] += str.charAt(i);
-                    i++;
+            var currByte = "";
+            var memLoc = 0;
+            for (var i = 0; i < str.length; i++) {
+                currByte = currByte + str[i];
+                if (currByte.length > 1) {
+                    _Memory.memory[memLoc] = currByte;
+                    memLoc++;
+                    currByte = "";
                 }
             }
-            _ProcessControlBlock = new TSOS.PCB();
-            _StdOut.putText("Program loaded at PID:" + _ProcessControlBlock.pid);
-            this.printMemory(str);
         };
         MemoryManager.prototype.printMemory = function (arry) {
             var inpt = document.getElementById('taMemLog');

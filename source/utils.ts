@@ -63,5 +63,9 @@ module TSOS {
           var str = String.fromCharCode(args);
           return str;
         }
+        //clean out all whitespace
+        public static whiteBeGone(str){
+          return str.replace(/\s/g, "");
+        }
     }
 }

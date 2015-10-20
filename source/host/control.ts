@@ -27,7 +27,7 @@ module TSOS {
 
     export class Control {
 
-        public singleStep = false;
+        public  static singleStep = false;
 
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.

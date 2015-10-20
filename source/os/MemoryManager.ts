@@ -3,24 +3,18 @@ manage that memory
 /*/
 module TSOS {
   export class MemoryManager{
-    public memload (str: String){
-      var i = 0;
-      var j = 0;
-      while (i < str.length){
-        if (str.charAt(i) == ","){
-          j++;
-          i++;
-        }else if (_Memory.memory[j].length === 2){
-          j++;
-        }else{
-          _Memory.memory[j] += str.charAt(i);
-          i++;
+    public memload (str){
+            var currByte = "";
+            var memLoc = 0;
+            for (var i = 0; i < str.length; i++) {
+                currByte = currByte + str[i];
+                if (currByte.length > 1) {
+                    _Memory.memory[memLoc] = currByte;
+                    memLoc++;
+                    currByte = "";
+                }
+            }  
         }
-      }
-      _ProcessControlBlock = new PCB();
-      _StdOut.putText("Program loaded at PID:" + _ProcessControlBlock.pid);
-      this.printMemory(str);
-    }
     public printMemory(arry){
       var inpt = <HTMLInputElement>document.getElementById('taMemLog');
       var str = arry.toString();

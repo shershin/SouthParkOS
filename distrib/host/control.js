@@ -51,15 +51,18 @@ var TSOS;
             if (butn.disabled) {
                 butn.disabled = false;
                 butnThis.value = "Single Step: On";
+                this.singleStep = true;
             }
             else if (!butn.disabled) {
                 butn.disabled = true;
                 butnThis.value = "Single Step: Off";
+                this.singleStep = false;
             }
         };
         Control.stepOne_click = function () {
             _CPU.cycle();
         };
+        Control.singleStep = false;
         return Control;
     })();
     TSOS.Control = Control;

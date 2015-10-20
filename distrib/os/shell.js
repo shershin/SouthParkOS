@@ -317,17 +317,17 @@ var TSOS;
         Shell.prototype.shellLoad = function (args) {
             var input = document.getElementById("taProgramInput");
             var str = input.value;
-            var progm = str.toString();
-            var cleanProgm = progm.replace(/\s/g, "");
             var isValid = false;
+            var clean = "";
             if (str.length > 0) {
-                var re = /([^abcdefABCDEF0123456789\s])/;
+                var re = /([^abcdefABCDEF0123456789\s])/g;
                 var test = str.search(re);
                 if (!test) {
                     _StdOut.putText("ERROR: Please enter a real program.");
                 }
                 else {
                     isValid = true;
+                    clean = TSOS.Utils.whiteBeGone(str);
                 }
             }
             else {
@@ -335,7 +335,7 @@ var TSOS;
             }
             if (isValid) {
                 _MemoryManager = new TSOS.MemoryManager();
-                _MemoryManager.memload(progm);
+                _MemoryManager.memload(clean);
             }
         };
         Shell.prototype.shellBsod = function (args) {

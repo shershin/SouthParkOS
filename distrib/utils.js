@@ -41,6 +41,9 @@ var TSOS;
             var str = String.fromCharCode(args);
             return str;
         };
+        Utils.whiteBeGone = function (str) {
+            return str.replace(/\s/g, "");
+        };
         return Utils;
     })();
     TSOS.Utils = Utils;
