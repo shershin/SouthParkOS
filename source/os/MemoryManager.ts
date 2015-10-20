@@ -10,6 +10,8 @@ module TSOS {
         if (str.charAt(i) == ","){
           j++;
           i++;
+        }else if (_Memory.memory[j].length === 2){
+          j++;
         }else{
           _Memory.memory[j] += str.charAt(i);
           i++;

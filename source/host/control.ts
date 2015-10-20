@@ -27,6 +27,8 @@ module TSOS {
 
     export class Control {
 
+        public singleStep = false;
+
         public static hostInit(): void {
             // This is called from index.html's onLoad event via the onDocumentLoad function pointer.
 
@@ -127,9 +129,11 @@ module TSOS {
           if(butn.disabled){
             butn.disabled = false;
             butnThis.value = "Single Step: On";
+            this.singleStep = true;
           }else if (!butn.disabled){
             butn.disabled = true;
             butnThis.value = "Single Step: Off";
+            this.singleStep = false;
           }
         }
         public static stepOne_click(): void {
