@@ -464,6 +464,7 @@ module TSOS {
           }
           if (isValid){
             _MemoryManager = new MemoryManager();
+            _ProcessControlBlock = new PCB();
             _MemoryManager.memload(clean);
           }
         }

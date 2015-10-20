@@ -335,6 +335,7 @@ var TSOS;
             }
             if (isValid) {
                 _MemoryManager = new TSOS.MemoryManager();
+                _ProcessControlBlock = new TSOS.PCB();
                 _MemoryManager.memload(clean);
             }
         };
