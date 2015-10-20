@@ -6,7 +6,7 @@ all things memory
 module TSOS {
   export class Memory{
     constructor(
-      public memory = []
+      public memory = [] 
     ){
 
     }
