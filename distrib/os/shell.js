@@ -335,7 +335,7 @@ var TSOS;
             }
             if (isValid) {
                 _MemoryManager = new TSOS.MemoryManager();
-                _MemoryManager.memload(cleanProgm);
+                _MemoryManager.memload(progm);
             }
         };
         Shell.prototype.shellBsod = function (args) {

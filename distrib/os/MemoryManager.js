@@ -18,13 +18,13 @@ var TSOS;
             }
             _ProcessControlBlock = new TSOS.PCB();
             _StdOut.putText("Program loaded at PID:" + _ProcessControlBlock.pid);
-            this.printMemory(_Memory.memory);
+            this.printMemory(str);
         };
         MemoryManager.prototype.printMemory = function (arry) {
             var inpt = document.getElementById('taMemLog');
             var str = arry.toString();
             var reString = str.replace(/,/g, " ");
-            inpt.value = reString;
+            inpt.value = str;
         };
         return MemoryManager;
     })();

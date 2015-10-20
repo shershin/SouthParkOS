@@ -464,7 +464,7 @@ module TSOS {
           }
           if (isValid){
             _MemoryManager = new MemoryManager();
-            _MemoryManager.memload(cleanProgm);
+            _MemoryManager.memload(progm);
           }
         }
         public shellBsod(args){
