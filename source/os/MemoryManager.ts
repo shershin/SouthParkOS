@@ -17,6 +17,13 @@ module TSOS {
       }
       _ProcessControlBlock = new PCB();
       _StdOut.putText("Program loaded at PID:" + _ProcessControlBlock.pid);
+      this.printMemory(_Memory.memory);
+    }
+    public printMemory(arry){
+      var inpt = <HTMLInputElement>document.getElementById('taMemLog');
+      var str = arry.toString();
+      var reString = str.replace(/,/g, " ");
+      inpt.value = reString;
     }
   }
 }

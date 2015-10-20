@@ -44,11 +44,21 @@ var TSOS;
         Control.hostBtnReset_click = function (btn) {
             location.reload(true);
         };
-        Control.prototype.singleStep_click = function (btn) {
+        Control.singleStep_click = function (btn) {
             var on = false;
             var butn = document.getElementById('stepOne');
+            var butnThis = document.getElementById('singleStep');
             if (butn.disabled) {
+                butn.disabled = false;
+                butnThis.value = "Single Step: On";
             }
+            else if (!butn.disabled) {
+                butn.disabled = true;
+                butnThis.value = "Single Step: Off";
+            }
+        };
+        Control.stepOne_click = function () {
+            _CPU.cycle();
         };
         return Control;
     })();

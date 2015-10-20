@@ -81,17 +81,21 @@
              value="Reset"
              tabindex="2"
              onclick="TSOS.Control.hostBtnReset_click(this);">
-    <input type="button"
-           id = "singleStep"
-           name = "Single Step"
-           value = "Single Step: off"
-           onclick="TSOS.Control.singleStep_click(this);">
-    <input type="button"
-           id = "stepOne"
-           name = "Step One"
-           value = "->"
-           disabled="disabled"
-           onclick="TSOS.Control.stepOne_click();"
+
+      <input type="button"
+             id = "singleStep"
+             name = "Single Step"
+             value = "Single Step: off"
+             tabindex="3"
+             onclick="TSOS.Control.singleStep_click(this);">
+
+      <input type="button"
+             id = "stepOne"
+             name = "Step One"
+             value = "->"
+             disabled="disabled"
+             tabindex="4"
+             onclick="TSOS.Control.stepOne_click();"
 
    </div>
 
@@ -99,7 +103,7 @@
       <canvas id="display"
               width="500px"
               height="500px"
-              tabindex="3">
+              tabindex="5">
       </canvas>
    </div>
 

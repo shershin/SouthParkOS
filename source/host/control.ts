@@ -120,12 +120,20 @@ module TSOS {
             // be reloaded from the server. If it is false or not specified the browser may reload the
             // page from its cache, which is not what we want.
         }
-        public singleStep_click(btn){
+        public static singleStep_click(btn): void {
           var on = false;
           var butn = <HTMLInputElement>document.getElementById('stepOne');
+          var butnThis = <HTMLInputElement>document.getElementById('singleStep');
           if(butn.disabled){
-            
+            butn.disabled = false;
+            butnThis.value = "Single Step: On";
+          }else if (!butn.disabled){
+            butn.disabled = true;
+            butnThis.value = "Single Step: Off";
           }
+        }
+        public static stepOne_click(): void {
+          _CPU.cycle();
         }
     }
 }
