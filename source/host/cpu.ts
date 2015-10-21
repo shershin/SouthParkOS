@@ -172,6 +172,7 @@ module TSOS {
           this.Yreg = _Memory.memory[dec];
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
+          console.log(swap + " " + dec);
         }
         public nop(){
           //no operation

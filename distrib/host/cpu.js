@@ -147,6 +147,7 @@ var TSOS;
             this.Yreg = _Memory.memory[dec];
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
+            console.log(swap + " " + dec);
         };
         Cpu.prototype.nop = function () {
             TSOS.Control.hostLog("no operation");
