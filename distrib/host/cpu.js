@@ -182,19 +182,19 @@ var TSOS;
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.bne = function () {
-            console.log("bne" + this.Zflag);
+            console.log("bne " + this.Zflag);
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
             var dec = TSOS.Utils.fromHex(spot1);
             TSOS.Control.hostLog("bne" + " " + spot1);
             if (this.Zflag === 0) {
                 console.log("works " + dec + " " + spot1);
-                var i = 0;
-                while (i < dec) {
+                for (var i = 0; i < dec; i++) {
                     _ProcessControlBlock.incerPC();
-                    i++;
                 }
             }
-            _ProcessControlBlock.incerPC();
+            else {
+                _ProcessControlBlock.incerPC();
+            }
         };
         Cpu.prototype.inc = function () {
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];

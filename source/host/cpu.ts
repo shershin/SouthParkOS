@@ -40,7 +40,7 @@ module TSOS {
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
+            // Do the real work here. Be sure to set this.isExecutingappropriately.
             this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
             Control.cpuTable();
         }
@@ -211,19 +211,24 @@ module TSOS {
         }
         public bne(){
           //brance n bytes if z
-          console.log("bne" + this.Zflag);
+          console.log("bne " + this.Zflag);
           var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
           var dec = Utils.fromHex(spot1);
           Control.hostLog("bne" + " " + spot1);
-          if(this.Zflag === 0){
+          if (this.Zflag === 0){
             console.log("works " + dec + " " + spot1);
-            var i = 0;
+            for (var i = 0; i < dec; i++){
+              _ProcessControlBlock.incerPC();
+            }
+
+            /*/var i = 0;
             while (i < dec){
               _ProcessControlBlock.incerPC();
               i++;
-            }
+            }/*/
+          } else {
+            _ProcessControlBlock.incerPC();
           }
-          _ProcessControlBlock.incerPC();
         }
         public inc(){
           //incermebt the value of a byte
