@@ -5,18 +5,25 @@
    <meta name="author"             content="Alan G. Labouseur" />
    <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
    <title>
-      TSOS - a browser-based virtual Operating System in TypeScript
+      SouthParkOS
    </title>
+   <script type="text/javascript" src="distrib/jquery-1.11.3.js"></script>
 
    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
    <script type="text/javascript" src="distrib/globals.js"></script>
 
    <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
+   <script type="text/javascript" src="distrib/host/memory.js"></script>
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
 
+   <!-- My added host Routines -->
+
+
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+   <script type="text/javascript" src="distrib/os/PCB.js"></script>
+   <script type="text/javascript" src="distrib/os/MemoryManager.js"></script>
    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
    <script type="text/javascript" src="distrib/os/canvastext.js"></script>
    <script type="text/javascript" src="distrib/os/console.js"></script>
@@ -28,10 +35,14 @@
    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
    <script type="text/javascript" src="distrib/os/kernel.js"></script>
 
+   <!-- My added OS Routines -->
+
+
+
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment this line below to enable GLaDOS testing -->
- <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
 <p id="status" onload="shellStatus()">
   Respect My Authority!
 </p>
@@ -72,12 +83,27 @@
              tabindex="2"
              onclick="TSOS.Control.hostBtnReset_click(this);">
 
+      <input type="button"
+             id = "singleStep"
+             name = "Single Step"
+             value = "Single Step: off"
+             tabindex="3"
+             onclick="TSOS.Control.singleStep_click(this);">
+
+      <input type="button"
+             id = "stepOne"
+             name = "Step One"
+             value = "->"
+             disabled="disabled"
+             tabindex="4"
+             onclick="TSOS.Control.stepOne_click();"
+
    </div>
    <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
       <canvas id="display"
               width="500px"
               height="500px"
-              tabindex="3">
+              tabindex="5">
       </canvas>
    </div>
 
@@ -87,23 +113,71 @@
          <br>
          <textarea name="taHostLog"
                    id  ="taHostLog"
-                   rows="26"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-
-   <div id="divUserProgramInput" style="margin-left:520px;">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
                    rows="8"
                    cols="48"
          ></textarea>
       </label>
    </div>
+
+   <div id="cpuDiv" style="margin:4px; width:200px; height:100px; float:left">
+         <label>
+            CPU Display
+         </label>
+         <div id="cpuTable" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
+          <table class="table table-bordered" id="cpuTable">
+            <thead>
+              <tr>
+                <th>PC</th>
+                <th>AC</th>
+                <th>IR</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+              </tr>
+            </thead>
+            <tbody id="cpuTableBody"></tbody>
+          </table>
+        </div>
+       </div>
+       <div id="pcbDiv" style="margin:4px; width:250px; height:100px; float:left">
+         <label>
+            PCB Display
+         </label>
+         <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
+          <table class="table table-bordered" id="pcbTable">
+            <thead>
+              <tr>
+                <th>PC</th>
+                <th>AC</th>
+                <th>IR</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+              </tr>
+            </thead>
+            <tbody id="pcbTableBody"></tbody>
+          </table>
+        </div>
+       </div>
+       <div id="memoryDiv" style="margin:4px; width:500px; height:200px; float:left">
+         <label>
+            Memory Display
+         </label>
+         <div id="memoryTableDiv" style="background-color:#FFFFFF; float:left; width:400px; height:160px; overflow:scroll">
+          <table class="table table-bordered" id="memoryTable"></table>
+        </div>
+       </div>
+       <div id="divUserProgramInput" style="margin-left:520px;">
+          <label>
+             User Program Input
+             <br>
+             <textarea name="taProgramInput"
+                       id  ="taProgramInput"
+                       rows="8"
+                       cols="48"
+             ></textarea>
+          </label>
+       </div>
 </div>
 
 <p class="footerText" style="clear:both;">
@@ -113,6 +187,11 @@
    Reproduction is inhibited without the express written consent of
    Ted Codd, Stevie Ray Vaughan, and Ian Fleming.
 </p>
-
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>

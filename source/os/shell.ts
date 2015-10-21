@@ -1,7 +1,9 @@
 ///<reference path="../globals.ts" />
 ///<reference path="../utils.ts" />
+///<reference path="../host/memory.ts"/>
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
+
 
 
 /* ------------
@@ -128,6 +130,16 @@ module TSOS {
             sc = new ShellCommand(this.shellBsod,
                                   "bsod",
                                   "- to death the computer goes.");
+            this.commandList[this.commandList.length] = sc;
+            //run <pid> - choose a program to run
+            sc = new ShellCommand(this.shellRun,
+                                  "run",
+                                  "<pid> - Choose a program to run.");
+            this.commandList[this.commandList.length] = sc;
+            //Memory - list all the programs in memory
+            sc = new ShellCommand(this.shellMemory,
+                                  "memory",
+                                  "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
@@ -328,6 +340,12 @@ module TSOS {
                     case "bsod":
                        _StdOut.putText("Lets kill the computer.");
                        break;
+                    case "run":
+                      _StdOut.putText("Please don't run away, I am sweet, I promise.");
+                      break;
+                    case "memory":
+                      _StdOut.putText("All the programs in memory.");
+                      break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -376,13 +394,6 @@ module TSOS {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
-        /*/public shellPs(args){
-          _StdOut.putText("Processes:");
-          //still trying to figure this out
-        }
-        public shellKill(args){
-
-        }/*/
         public shellDate(args){
           var day = new Date().getDay().toString();
           var month =  new Date().getMonth().toString();
@@ -437,21 +448,48 @@ module TSOS {
         public shellLoad(args){
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
+          var isValid = false;
+          var clean = "";
           if (str.length > 0){
-            var re = /([^abcdefABCDEF0123456789\s])/;
+            var re = /([^abcdefABCDEF0123456789\s])/g;
             var test = str.search(re);
             if (!test){
               _StdOut.putText("ERROR: Please enter a real program.");
             }else{
-              _StdOut.putText("The program is loaded.");
-            }
+              isValid = true;
+              clean = Utils.whiteBeGone(str);
+          }
           }else{
           _StdOut.putText("ERROR: No program detected.");
+          }
+          if (isValid){
+            _MemoryManager = new MemoryManager();
+            _ProcessControlBlock = new PCB();
+            _MemoryManager.memload(clean);
           }
         }
         public shellBsod(args){
           var msg = "ohhh nooo";
           _Kernel.krnTrapError(msg);
+        }
+        public shellRun(args){
+          if (args > _ProcessControlBlock.pid){
+            _StdOut.putText("Please enter an appropriate PID:");
+            _StdOut.advanceLine();
+            _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
+          }else {
+            _CPU.isExecuting = true;
+            _CPU.PC = _ProcessControlBlock.pid;
+            _StdOut.putText("Executing.");
+          }
+        }
+        public shellMemory(args){
+          var i = 0;
+          while (i <= _ProcessControlBlock.pid){
+            _StdOut.putText("PID: " + i);
+            _StdOut.advanceLine();
+            i++;
+          }
         }
     }
 }

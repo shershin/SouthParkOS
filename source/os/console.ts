@@ -13,7 +13,7 @@ module TSOS {
 var past = [];
 var arrayInt = 0;
 var holderInt = 0;
-var memory = [];
+var breakpoint = 0;
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,
@@ -112,17 +112,15 @@ var memory = [];
             // UPDATE: Even though we are now working in TypeScript, char and string remain undistinguished.
             //         Consider fixing that.
             if (text !== "") {
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
-                /*/if (offset >= _Canvas.width){
+                if ((this.currentXPosition + offset) > _Canvas.width){
                   this.advanceLine();
-
-                }/*/
-            }
-         }
+                  }
+                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+                this.currentXPosition = this.currentXPosition + offset;
+              }
+       }
 
         public advanceLine(): void {
             this.currentXPosition = 0;

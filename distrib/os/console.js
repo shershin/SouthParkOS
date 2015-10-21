@@ -3,7 +3,7 @@ var TSOS;
     var past = [];
     var arrayInt = 0;
     var holderInt = 0;
-    var memory = [];
+    var breakpoint = 0;
     var Console = (function () {
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
@@ -82,8 +82,11 @@ var TSOS;
         };
         Console.prototype.putText = function (text) {
             if (text !== "") {
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                if ((this.currentXPosition + offset) > _Canvas.width) {
+                    this.advanceLine();
+                }
+                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
         };
