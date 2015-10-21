@@ -36,7 +36,7 @@ var TSOS;
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
-            else if (_CPU.isExecuting) {
+            else if (_CPU.isExecuting && !TSOS.Control.singleStep) {
                 _CPU.cycle();
             }
             else {
