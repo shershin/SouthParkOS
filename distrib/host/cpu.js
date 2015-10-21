@@ -51,10 +51,10 @@ var TSOS;
                     this.ldxMem();
                     break;
                 case "A0":
-                    this.ldaCon();
+                    this.ldyCon();
                     break;
                 case "AC":
-                    this.ldaMem();
+                    this.ldyMem();
                     break;
                 case "EA":
                     this.nop();
@@ -80,9 +80,10 @@ var TSOS;
             }
         };
         Cpu.prototype.ldaCon = function () {
+            var dec = TSOS.Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
             TSOS.Control.hostLog("lda " + _Memory.memory[_ProcessControlBlock.progCounter]);
+            _ProcessControlBlock.accumulater = dec;
             _ProcessControlBlock.progCounter++;
-            _ProcessControlBlock.accumulater = _Memory.memory[_ProcessControlBlock.progCounter];
         };
         Cpu.prototype.ldaMem = function () {
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
@@ -115,9 +116,10 @@ var TSOS;
             _ProcessControlBlock.progCounter++;
         };
         Cpu.prototype.ldxCon = function () {
+            var dec = TSOS.Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
             TSOS.Control.hostLog("ldx " + _Memory.memory[_ProcessControlBlock.progCounter]);
+            this.Xreg = dec;
             _ProcessControlBlock.progCounter++;
-            _ProcessControlBlock.xreg = _Memory.memory[_ProcessControlBlock.progCounter];
         };
         Cpu.prototype.ldxMem = function () {
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
@@ -125,14 +127,15 @@ var TSOS;
             TSOS.Control.hostLog("ldx" + " " + spot1 + " " + spot2);
             var swap = TSOS.Utils.littleE(spot1, spot2);
             var dec = TSOS.Utils.fromHex(swap);
-            _ProcessControlBlock.xreg = _Memory.memory[dec];
+            this.Xreg = _Memory.memory[dec];
             _ProcessControlBlock.progCounter++;
             _ProcessControlBlock.progCounter++;
         };
         Cpu.prototype.ldyCon = function () {
+            var dec = TSOS.Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
             TSOS.Control.hostLog("ldy " + _Memory.memory[_ProcessControlBlock.progCounter]);
+            this.Yreg = dec;
             _ProcessControlBlock.progCounter++;
-            _ProcessControlBlock.yreg = _Memory.memory[_ProcessControlBlock.progCounter];
         };
         Cpu.prototype.ldyMem = function () {
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
@@ -140,7 +143,7 @@ var TSOS;
             TSOS.Control.hostLog("ldy" + " " + spot1 + " " + spot2);
             var swap = TSOS.Utils.littleE(spot1, spot2);
             var dec = TSOS.Utils.fromHex(swap);
-            _ProcessControlBlock.yreg = _Memory.memory[dec];
+            this.Yreg = _Memory.memory[dec];
             _ProcessControlBlock.progCounter++;
             _ProcessControlBlock.progCounter++;
         };
@@ -148,6 +151,10 @@ var TSOS;
             TSOS.Control.hostLog("no operation");
         };
         Cpu.prototype.brk = function () {
+            _ProcessControlBlock.xreg = this.Xreg;
+            _ProcessControlBlock.yreg = this.Yreg;
+            _ProcessControlBlock.zflag = this.Zflag;
+            _ProcessControlBlock.accumulater = this.Acc;
             TSOS.Control.hostLog("coffee break");
             this.isExecuting = false;
         };
@@ -157,24 +164,26 @@ var TSOS;
             TSOS.Control.hostLog("cpx" + " " + spot1 + " " + spot2);
             var swap = TSOS.Utils.littleE(spot1, spot2);
             var dec = TSOS.Utils.fromHex(swap);
-            if (_ProcessControlBlock.xreg === _Memory.memory[dec]) {
-                _ProcessControlBlock.zflag = 0;
+            var dec2 = TSOS.Utils.fromHex(_Memory.memory[dec]);
+            if (this.Xreg === dec2) {
+                this.Zflag = 0;
             }
             else {
-                _ProcessControlBlock.zflag = 1;
+                this.Zflag = 1;
             }
             _ProcessControlBlock.progCounter++;
             _ProcessControlBlock.progCounter++;
         };
         Cpu.prototype.bne = function () {
+            console.log("bne" + this.Zflag);
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
+            var dec = TSOS.Utils.fromHex(dec);
             TSOS.Control.hostLog("bne" + " " + spot1);
-            if (_ProcessControlBlock.zflag === 0) {
-                _ProcessControlBlock.progCounter = spot1;
+            if (this.Zflag === 0) {
+                console.log("works" + dec);
+                _ProcessControlBlock.progCounter = dec;
             }
-            else {
-                _ProcessControlBlock.progCounter++;
-            }
+            _ProcessControlBlock.progCounter++;
         };
         Cpu.prototype.inc = function () {
             var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
@@ -191,16 +200,20 @@ var TSOS;
             _ProcessControlBlock.progCounter++;
         };
         Cpu.prototype.sys = function () {
-            if (_ProcessControlBlock.xreg === 1) {
-                _StdOut.putText(_ProcessControlBlock.yreg);
-                console.log(_ProcessControlBlock.yreg);
+            console.log("sys: " + this.Xreg + " " + this.Yreg);
+            if (this.Xreg === 1) {
+                _StdOut.putText("" + this.Yreg);
+                console.log(this.Yreg + "this works mother fucker");
             }
-            else if (_ProcessControlBlock.xreg === 2) {
-                var loc = _ProcessControlBlock.yreg;
+            else if (this.Xreg === 2) {
+                var loc = this.Yreg;
                 var hex = _Memory.memory[loc];
                 var str = TSOS.Utils.stringHex(str);
                 _StdOut.putText(str);
-                console.log(str);
+                console.log("" + str);
+            }
+            else {
+                console.log("no means no");
             }
         };
         return Cpu;

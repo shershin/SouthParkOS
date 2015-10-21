@@ -58,7 +58,7 @@ module TSOS {
           var hex = args.toString(16);
           return hex
         }
-        //takes a hex and converts it into my string of amazing
+        //takes a hex and converts it into my string of amazingness
         public static stringHex(args){
           var str = String.fromCharCode(args);
           return str;

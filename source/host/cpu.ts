@@ -67,10 +67,10 @@ module TSOS {
                 this.ldxMem();
               break;
               case "A0":
-                this.ldaCon()
+                this.ldyCon()
               break;
               case "AC":
-                this.ldaMem();
+                this.ldyMem();
               break;
               case "EA":
                 this.nop();
@@ -98,9 +98,10 @@ module TSOS {
 
         public ldaCon(){
           //load the accumulator with a constant
+          var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
           Control.hostLog("lda " + _Memory.memory[_ProcessControlBlock.progCounter]);
+          _ProcessControlBlock.accumulater = dec;
           _ProcessControlBlock.progCounter++;
-          _ProcessControlBlock.accumulater = _Memory.memory[_ProcessControlBlock.progCounter];
         }
         public ldaMem(){
           //load the accumulator from memory
@@ -137,9 +138,10 @@ module TSOS {
         }
         public ldxCon(){
           //load the x reg with a constant
+          var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
           Control.hostLog("ldx " + _Memory.memory[_ProcessControlBlock.progCounter]);
+          this.Xreg = dec;
           _ProcessControlBlock.progCounter++;
-          _ProcessControlBlock.xreg = _Memory.memory[_ProcessControlBlock.progCounter];
         }
         public ldxMem(){
           //load the x reg from memory
@@ -148,15 +150,16 @@ module TSOS {
           Control.hostLog("ldx" + " " + spot1 + " " + spot2);
           var swap = Utils.littleE(spot1, spot2);
           var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.xreg = _Memory.memory[dec];
+          this.Xreg = _Memory.memory[dec];
           _ProcessControlBlock.progCounter++;
           _ProcessControlBlock.progCounter++;
         }
         public ldyCon(){
           //load the y reg with a constant
+          var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
           Control.hostLog("ldy " + _Memory.memory[_ProcessControlBlock.progCounter]);
+          this.Yreg = dec;
           _ProcessControlBlock.progCounter++;
-          _ProcessControlBlock.yreg = _Memory.memory[_ProcessControlBlock.progCounter];
         }
         public ldyMem(){
           //load the y reg from memory
@@ -165,7 +168,7 @@ module TSOS {
           Control.hostLog("ldy" + " " + spot1 + " " + spot2);
           var swap = Utils.littleE(spot1, spot2);
           var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.yreg = _Memory.memory[dec];
+          this.Yreg = _Memory.memory[dec];
           _ProcessControlBlock.progCounter++;
           _ProcessControlBlock.progCounter++;
         }
@@ -175,6 +178,10 @@ module TSOS {
         }
         public brk(){
           //time to take a break
+          _ProcessControlBlock.xreg = this.Xreg;
+          _ProcessControlBlock.yreg = this.Yreg;
+          _ProcessControlBlock.zflag = this.Zflag;
+          _ProcessControlBlock.accumulater = this.Acc;
           Control.hostLog("coffee break");
           this.isExecuting = false;
         }
@@ -185,23 +192,26 @@ module TSOS {
           Control.hostLog("cpx" + " " + spot1 + " " + spot2);
           var swap = Utils.littleE(spot1, spot2);
           var dec = Utils.fromHex(swap);
-          if (_ProcessControlBlock.xreg === _Memory.memory[dec]){
-            _ProcessControlBlock.zflag = 0;
+          var dec2 = Utils.fromHex(_Memory.memory[dec]);
+          if (this.Xreg === dec2){
+            this.Zflag = 0;
           }else{
-            _ProcessControlBlock.zflag = 1;
+            this.Zflag = 1;
           }
           _ProcessControlBlock.progCounter++;
           _ProcessControlBlock.progCounter++;
         }
         public bne(){
           //brance n bytes if z
+          console.log("bne" + this.Zflag);
           var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
+          var dec = Utils.fromHex(dec);
           Control.hostLog("bne" + " " + spot1);
-          if(_ProcessControlBlock.zflag === 0){
-            _ProcessControlBlock.progCounter = spot1;
-          }else{
-            _ProcessControlBlock.progCounter++;
+          if(this.Zflag === 0){
+            console.log("works" + dec);
+            _ProcessControlBlock.progCounter = dec;
           }
+          _ProcessControlBlock.progCounter++;
         }
         public inc(){
           //incermebt the value of a byte
@@ -221,16 +231,19 @@ module TSOS {
 
         public sys(){
           //system call
-          if (_ProcessControlBlock.xreg === 1){
-            _StdOut.putText(_ProcessControlBlock.yreg);
-            console.log(_ProcessControlBlock.yreg);
-          }else if(_ProcessControlBlock.xreg === 2){
+          console.log("sys: " + this.Xreg + " " + this.Yreg);
+          if (this.Xreg === 1){
+            _StdOut.putText("" + this.Yreg);
+            console.log(this.Yreg + "this works mother fucker");
+          }else if(this.Xreg === 2){
             //prints the string from memory starting at location saved in yreg
-            var loc = _ProcessControlBlock.yreg;
+            var loc = this.Yreg;
             var hex = _Memory.memory[loc];
             var str = Utils.stringHex(str);
             _StdOut.putText(str);
-            console.log(str);
+            console.log("" + str);
+          }else{
+            console.log("no means no");
           }
         }
     }

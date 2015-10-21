@@ -479,14 +479,16 @@ module TSOS {
             _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
           }else {
             _CPU.isExecuting = true;
+            _CPU.PC = _ProcessControlBlock.pid;
             _StdOut.putText("Executing.");
           }
         }
         public shellMemory(args){
-          var i = 0
-          while (i < _ProcessControlBlock.pid){
+          var i = 0;
+          while (i <= _ProcessControlBlock.pid){
             _StdOut.putText("PID: " + i);
             _StdOut.advanceLine();
+            i++;
           }
         }
     }

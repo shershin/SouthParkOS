@@ -14,13 +14,13 @@ var TSOS;
             this.zflag = zflag;
             this.progCounter = progCounter;
             this.accumulater = accumulater;
-            this.pidint = 0;
             this.init();
         }
         PCB.prototype.init = function () {
-            this.pid = this.pidint;
-            this.pidint++;
+            this.pid = PCB.pidint;
+            PCB.pidint++;
         };
+        PCB.pidint = 0;
         return PCB;
     })();
     TSOS.PCB = PCB;

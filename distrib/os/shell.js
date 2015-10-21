@@ -351,14 +351,16 @@ var TSOS;
             }
             else {
                 _CPU.isExecuting = true;
+                _CPU.PC = _ProcessControlBlock.pid;
                 _StdOut.putText("Executing.");
             }
         };
         Shell.prototype.shellMemory = function (args) {
             var i = 0;
-            while (i < _ProcessControlBlock.pid) {
+            while (i <= _ProcessControlBlock.pid) {
                 _StdOut.putText("PID: " + i);
                 _StdOut.advanceLine();
+                i++;
             }
         };
         return Shell;
