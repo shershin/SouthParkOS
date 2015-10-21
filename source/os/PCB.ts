@@ -4,7 +4,7 @@ module TSOS {
     public static pidint = 0;
 
     constructor(
-      public pid = 0,
+      public pid : number= 0,
       public xreg : number = 0,
       public yreg : number= 0,
       public zflag: number = 0,
@@ -17,5 +17,14 @@ module TSOS {
       this.pid = PCB.pidint;
       PCB.pidint++;
     }
+    public incerPC(): void{
+          this.progCounter++;
+          _CPU.PC++;
+          //If PC excedes memory size, wrap-around to start of memory
+          if(this.progCounter > mem_size - 1){
+            this.progCounter = 0;
+            _CPU.PC = 0;
+          }
+        }
  }
 }

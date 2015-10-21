@@ -20,6 +20,14 @@ var TSOS;
             this.pid = PCB.pidint;
             PCB.pidint++;
         };
+        PCB.prototype.incerPC = function () {
+            this.progCounter++;
+            _CPU.PC++;
+            if (this.progCounter > mem_size - 1) {
+                this.progCounter = 0;
+                _CPU.PC = 0;
+            }
+        };
         PCB.pidint = 0;
         return PCB;
     })();

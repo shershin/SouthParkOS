@@ -103,6 +103,8 @@ module TSOS {
             // .. and call the OS Kernel Bootstrap routine.
             _Kernel = new Kernel();
             _Kernel.krnBootstrap();  // _GLaDOS.afterStartup() will get called in there, if configured.
+            this.memoryTable();
+            this.cpuTable();
         }
 
         public static hostBtnHaltOS_click(btn): void {
@@ -139,5 +141,54 @@ module TSOS {
         public static stepOne_click(): void {
           _CPU.cycle();
         }
+        public static memoryTable(): void {
+         var table: string = "<tbody>";
+         var rowHeader: string = "0x";
+         var rowNumber: number = 0;
+         var currRow: string = "";
+         var memoryIndex: number = 0;
+
+         for(var i: number = 0; i < 32; i++){
+           table += "<tr>";
+           currRow = rowNumber.toString(16);
+           while(currRow.length < 3){
+             currRow = "0" + currRow;
+           }
+           currRow = currRow.toUpperCase();
+           table += "<td style=\"font-weight:bold\">" + rowHeader + currRow + "</td>";
+           for(var j: number = 0; j < 8; j++){
+             if (_Memory.memory[memoryIndex] === null){
+               table += "<td> 00 </td>";
+             }else{
+              table += "<td>" + _Memory.memory[memoryIndex] + "</td>";
+             }
+             memoryIndex++;
+           }
+           table += "</tr>";
+           rowNumber = rowNumber + 8;
+         }
+         table += "</tbody>";
+         (<HTMLInputElement> document.getElementById("memoryTable")).innerHTML = table;
+       }
+       public static cpuTable(): void {
+         var table: string = "";
+         table += "<td>" + _CPU.PC + "</td>";
+         table += "<td>" + _CPU.Acc + "</td>";
+         table += "<td>" + _Memory.memory[_ProcessControlBlock.progCounter] + "</td>";
+         table += "<td>" + _CPU.Xreg + "</td>";
+         table += "<td>" + _CPU.Yreg + "</td>";
+         table += "<td>" + _CPU.Zflag + "</td>";
+        (<HTMLInputElement> document.getElementById("cpuTableBody")).innerHTML = table;
+       }
+       public static pcbTable(pcb): void {
+         var table: string = "";
+         table += "<td>" + _ProcessControlBlock.progCounter + "</td>";
+         table += "<td>" + _ProcessControlBlock.accumulater + "</td>";
+         table += "<td>" + _Memory.memory[_ProcessControlBlock.progCounter] + "</td>";
+         table += "<td>" + _ProcessControlBlock.xreg + "</td>";
+         table += "<td>" + _ProcessControlBlock.yreg + "</td>";
+         table += "<td>" + _ProcessControlBlock.zflag + "</td>";
+        (<HTMLInputElement> document.getElementById("pcbTableBody")).innerHTML = table;
+       }
     }
 }

@@ -120,41 +120,65 @@
       </label>
    </div>
 
-   <div id="memLog" style="margin-left:520px;">
-     <label>
-       Memory log
-       <br>
-       <textarea name="taMemLog"
-                 id  ="taMemLog"
-                 rows="8"
-                 cols="48"
-       ></textarea>
-     </label>
-   </div>
-
-   <div id="pcb" style="margin-left:520px;">
-     <label>
-       Process Control block
-       <br>
-       <textarea name="pcb"
-                 id  ="pcb"
-                 rows="4"
-                 cols="48"
-       ></textarea>
-     </label>
-   </div>
-
-   <div id="divUserProgramInput" style="margin-left:520px;">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
-                   rows="8"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
+   <div id="cpuDiv" style="margin:4px; width:200px; height:100px; float:left">
+         <label>
+            CPU Display
+         </label>
+         <div id="cpuTable" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
+          <table class="table table-bordered" id="cpuTable">
+            <thead>
+              <tr>
+                <th>PC</th>
+                <th>AC</th>
+                <th>IR</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+              </tr>
+            </thead>
+            <tbody id="cpuTableBody"></tbody>
+          </table>
+        </div>
+       </div>
+       <div id="pcbDiv" style="margin:4px; width:250px; height:100px; float:left">
+         <label>
+            PCB Display
+         </label>
+         <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
+          <table class="table table-bordered" id="pcbTable">
+            <thead>
+              <tr>
+                <th>PC</th>
+                <th>AC</th>
+                <th>IR</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+              </tr>
+            </thead>
+            <tbody id="pcbTableBody"></tbody>
+          </table>
+        </div>
+       </div>
+       <div id="memoryDiv" style="margin:4px; width:500px; height:200px; float:left">
+         <label>
+            Memory Display
+         </label>
+         <div id="memoryTableDiv" style="background-color:#FFFFFF; float:left; width:400px; height:160px; overflow:scroll">
+          <table class="table table-bordered" id="memoryTable"></table>
+        </div>
+       </div>
+       <div id="divUserProgramInput" style="margin-left:520px;">
+          <label>
+             User Program Input
+             <br>
+             <textarea name="taProgramInput"
+                       id  ="taProgramInput"
+                       rows="8"
+                       cols="48"
+             ></textarea>
+          </label>
+       </div>
 </div>
 
 <p class="footerText" style="clear:both;">
