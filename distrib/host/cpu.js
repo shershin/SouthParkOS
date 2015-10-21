@@ -171,10 +171,10 @@ var TSOS;
             }
             var dec2 = TSOS.Utils.fromHex(_Memory.memory[dec]);
             if (this.Xreg === dec2) {
-                this.Zflag = 0;
+                this.Zflag = 1;
             }
             else {
-                this.Zflag = 1;
+                this.Zflag = 0;
             }
             console.log(this.Xreg + " " + dec2 + " " + _ProcessControlBlock.progCounter);
             _ProcessControlBlock.incerPC();

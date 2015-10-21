@@ -200,9 +200,9 @@ module TSOS {
           }
           var dec2 = Utils.fromHex(_Memory.memory[dec]);
           if (this.Xreg === dec2){
-            this.Zflag = 0;
-          }else{
             this.Zflag = 1;
+          }else{
+            this.Zflag = 0;
           }
           console.log(this.Xreg + " " + dec2 + " " + _ProcessControlBlock.progCounter);
           _ProcessControlBlock.incerPC();
@@ -217,7 +217,7 @@ module TSOS {
           if(this.Zflag === 0){
             console.log("works " + dec + " " + spot1);
             var i = 0;
-            while(i < dec){
+            while (i < dec){
               _ProcessControlBlock.incerPC();
               i++;
             }
