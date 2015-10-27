@@ -47,7 +47,7 @@ module TSOS {
         public execute (args){
           console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter])
           _ProcessControlBlock.incerPC();
-          var caps = args;
+          var caps = args.toUpperCase();
           switch (caps){
               case "A9":
                 this.ldaCon();
@@ -122,7 +122,7 @@ module TSOS {
           Control.hostLog("sta" + " " + spot1 + " " + spot2);
           var swap = Utils.littleE(spot1, spot2);
           var dec = Utils.fromHex(swap);
-          _Memory.memory[dec] = _ProcessControlBlock.accumulater;
+          _Memory.memory[dec] = Utils.toHex(_ProcessControlBlock.accumulater);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -140,6 +140,7 @@ module TSOS {
         public ldxCon(){
           //load the x reg with a constant
           var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
+          console.log("dec: " + dec);
           Control.hostLog("ldx " + _Memory.memory[_ProcessControlBlock.progCounter]);
           this.Xreg = dec;
           _ProcessControlBlock.incerPC();
@@ -169,10 +170,10 @@ module TSOS {
           Control.hostLog("ldy" + " " + spot1 + " " + spot2);
           var swap = Utils.littleE(spot1, spot2);
           var dec = Utils.fromHex(swap);
-          this.Yreg = _Memory.memory[dec];
+          this.Yreg = Utils.fromHex(_Memory.memory[dec]);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
-          console.log(swap + " " + dec);
+          console.log(swap + " " + dec + " " + _Memory.memory[dec]);
         }
         public nop(){
           //no operation
@@ -195,10 +196,6 @@ module TSOS {
           Control.hostLog("cpx" + " " + spot1 + " " + spot2);
           var swap = Utils.littleE(spot1, spot2);
           var dec = Utils.fromHex(swap);
-          //if the counter wants to go beyond the array send it back
-          if (dec > (mem_size -1)){
-            dec = dec - mem_size;
-          }
           var dec2 = Utils.fromHex(_Memory.memory[dec]);
           if (this.Xreg === dec2){
             this.Zflag = 1;
@@ -220,12 +217,6 @@ module TSOS {
             for (var i = 0; i < dec; i++){
               _ProcessControlBlock.incerPC();
             }
-
-            /*/var i = 0;
-            while (i < dec){
-              _ProcessControlBlock.incerPC();
-              i++;
-            }/*/
           } else {
             _ProcessControlBlock.incerPC();
           }
@@ -251,7 +242,6 @@ module TSOS {
           console.log("sys: " + this.Xreg + " " + this.Yreg);
           if (this.Xreg === 1){
             _StdOut.putText("" + this.Yreg);
-            console.log(this.Yreg + "this works mother fucker");
           }else if(this.Xreg === 2){
             //prints the string from memory starting at location saved in yreg
             var loc = this.Yreg;
@@ -262,7 +252,6 @@ module TSOS {
              str += Utils.stringHex(Utils.fromHex(_Memory.memory[loc]));
              loc++;
              value = Utils.fromHex(_Memory.memory[loc]);
-             console.log(str + " " + value + " " + _Memory.memory[loc-1]);
            }
             _StdOut.putText(str);
             console.log("" + str);

@@ -79,7 +79,7 @@ var TSOS;
                 currRow = currRow.toUpperCase();
                 table += "<td style=\"font-weight:bold\">" + rowHeader + currRow + "</td>";
                 for (var j = 0; j < 8; j++) {
-                    if (_Memory.memory[memoryIndex] === null) {
+                    if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === "undefined") {
                         table += "<td> 00 </td>";
                     }
                     else {
