@@ -43,6 +43,7 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecutingappropriately.
             this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
             Control.cpuTable();
+            Control.memoryTable();
         }
         public execute (args){
           console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter])
@@ -98,148 +99,157 @@ module TSOS {
         }
 
         public ldaCon(){
-          //load the accumulator with a constant
-          var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
-          Control.hostLog("lda " + _Memory.memory[_ProcessControlBlock.progCounter]);
-          _ProcessControlBlock.accumulater = dec;
+          //op code A9
+          //loads the constant into the accumulator
+          var spot = _ProcessControlBlock.progCounter;
+          var grab = Utils.grabberOne(spot);
+          var dec = Utils.fromHex(grab);
+          this.Acc = dec;
           _ProcessControlBlock.incerPC();
         }
+
         public ldaMem(){
-          //load the accumulator from memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("lda" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.accumulater = _Memory.memory[dec];
+          //op code AD
+          //loads the accumulator from memory
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var grab = Utils.grabberOne(dec);
+          var decGrab = Utils.fromHex(grab);
+          this.Acc = decGrab;
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
-        public staMem(){
-          //store the accumulator in memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("sta" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _Memory.memory[dec] = Utils.toHex(_ProcessControlBlock.accumulater);
+
+        public  staMem(){
+          //op code 8D
+          //Stores the accumulator into the Memory
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var hex = Utils.toHex(this.Acc);
+          _Memory.memory[dec] = hex;
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
+
         public adc(){
-          //add with cary
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("adc" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          _ProcessControlBlock.accumulater += dec;
+          //op code 6D
+          //adds contents of an address to the contents of the accumulator
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var grab = Utils.grabberOne(dec);
+          var decGrab = Utils.fromHex(grab);
+          this.Acc += decGrab;
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
+
         public ldxCon(){
+          //op code A2
           //load the x reg with a constant
-          var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
-          console.log("dec: " + dec);
-          Control.hostLog("ldx " + _Memory.memory[_ProcessControlBlock.progCounter]);
+          var spot = _ProcessControlBlock.progCounter;
+          var grab = Utils.grabberOne(spot);
+          var dec = Utils.fromHex(grab);
           this.Xreg = dec;
           _ProcessControlBlock.incerPC();
         }
+
         public ldxMem(){
-          //load the x reg from memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("ldx" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          this.Xreg = _Memory.memory[dec];
+          //op code AE
+          //loads the x reg from memory
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var grab = Utils.grabberOne(dec);
+          var decGrab = Utils.fromHex(grab);
+          this.Xreg = decGrab;
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
+
         public ldyCon(){
+          //op code A2
           //load the y reg with a constant
-          var dec = Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
-          Control.hostLog("ldy " + _Memory.memory[_ProcessControlBlock.progCounter]);
+          var spot = _ProcessControlBlock.progCounter;
+          var grab = Utils.grabberOne(spot);
+          var dec = Utils.fromHex(grab);
           this.Yreg = dec;
           _ProcessControlBlock.incerPC();
         }
+
         public ldyMem(){
-          //load the y reg from memory
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("ldy" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          this.Yreg = Utils.fromHex(_Memory.memory[dec]);
+          //op code AE
+          //loads the y reg from memory
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var grab = Utils.grabberOne(dec);
+          var decGrab = Utils.fromHex(grab);
+          this.Yreg = decGrab;
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
-          console.log(swap + " " + dec + " " + _Memory.memory[dec]);
         }
+
         public nop(){
+          //op code EA
           //no operation
-          Control.hostLog("no operation");
+          _ProcessControlBlock.incerPC();
         }
+
         public brk(){
-          //time to take a break
-          _ProcessControlBlock.xreg = this.Xreg;
-          _ProcessControlBlock.yreg = this.Yreg;
-          _ProcessControlBlock.zflag = this.Zflag;
-          _ProcessControlBlock.accumulater = this.Acc;
-          Control.pcbTable(_ProcessControlBlock.pid);
-          Control.hostLog("coffee break");
+          //op code 00
+          //taking a break....or breaking a computer either or works
           this.isExecuting = false;
         }
+
         public cpx(){
-          //compare a byte in memory to the x reg
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("cpx" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          var dec2 = Utils.fromHex(_Memory.memory[dec]);
-          if (this.Xreg === dec2){
+          //op code EC
+          //compare a byte in memory to the x reg if true then z = 1 else z = 0
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var grab = Utils.grabberOne(dec);
+          var decGrab = Utils.fromHex(grab);
+          if (decGrab === this.Xreg){
             this.Zflag = 1;
           }else{
             this.Zflag = 0;
           }
-          console.log(this.Xreg + " " + dec2 + " " + _ProcessControlBlock.progCounter);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
+
         public bne(){
-          //brance n bytes if z
-          console.log("bne " + this.Zflag);
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var dec = Utils.fromHex(spot1);
-          Control.hostLog("bne" + " " + spot1);
+          //op code D0
+          //jumps to location indicated unless z = 1
+          var spot = _ProcessControlBlock.progCounter;
+          var grab = Utils.grabberOne(spot);
+          var dec = Utils.fromHex(grab);
+          var i = 0;
           if (this.Zflag === 0){
-            console.log("works " + dec + " " + spot1);
-            for (var i = 0; i < dec; i++){
+            while (i < dec){
               _ProcessControlBlock.incerPC();
+              i++;
             }
-          } else {
-            _ProcessControlBlock.incerPC();
           }
+          _ProcessControlBlock.incerPC();
         }
+
         public inc(){
-          //incermebt the value of a byte
-          var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-          var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-          Control.hostLog("inc" + " " + spot1 + " " + spot2);
-          var swap = Utils.littleE(spot1, spot2);
-          var dec = Utils.fromHex(swap);
-          var out = _Memory.memory[dec];
-          var dec2 = Utils.fromHex(out);
-          dec2 = dec2 + 1;
-          var hex = Utils.toHex(dec2);
+          //op code EE
+          //incerment the value of memory by one
+          var grab2 = Utils.grabberTwo();
+          var dec = Utils.fromHex(grab2);
+          var grab = Utils.grabberOne(dec);
+          var decGrab = Utils.fromHex(grab);
+          var final = decGrab + 1;
+          var hex = Utils.toHex(final);
           _Memory.memory[dec] = hex;
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
 
         public sys(){
+          //op code FF
           //system call
-          console.log("sys: " + this.Xreg + " " + this.Yreg);
+          //if xreg = 1 print the yreg
+          //if xreg = 2 print the string starting at location stores in yreg
           if (this.Xreg === 1){
             _StdOut.putText("" + this.Yreg);
           }else if(this.Xreg === 2){
@@ -254,10 +264,12 @@ module TSOS {
              value = Utils.fromHex(_Memory.memory[loc]);
            }
             _StdOut.putText(str);
-            console.log("" + str);
           }else{
             console.log("no means no");
           }
-        }
+          }
+
+
+
     }
 }

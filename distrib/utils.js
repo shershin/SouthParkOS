@@ -35,6 +35,10 @@ var TSOS;
         };
         Utils.toHex = function (args) {
             var hex = args.toString(16);
+            if (hex.length === 1) {
+                var newVal = "0".concat(hex);
+                return newVal;
+            }
             return hex;
         };
         Utils.stringHex = function (args) {
@@ -43,6 +47,15 @@ var TSOS;
         };
         Utils.whiteBeGone = function (str) {
             return str.replace(/\s/g, "");
+        };
+        Utils.grabberTwo = function () {
+            var loc = _ProcessControlBlock.progCounter;
+            var swap = this.littleE(_Memory.memory[loc], _Memory.memory[loc + 1]);
+            return swap;
+        };
+        Utils.grabberOne = function (val) {
+            var loc = _Memory.memory[val];
+            return loc;
         };
         return Utils;
     })();
