@@ -141,6 +141,21 @@ module TSOS {
                                   "memory",
                                   "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
+            //clearmem - clears out the memory
+            sc = new ShellCommand(this.shellClearmem,
+                                  "clearmem",
+                                  "- clears out the memory.");
+            this.commandList[this.commandList.length] = sc;
+            //runall - runs all the programs in memory
+            sc = new ShellCommand(this.shellRunall,
+                                  "runall",
+                                  "- runs all the programs in memory.");
+            this.commandList[this.commandList.length] = sc;
+            //quantum <int> - sets the amount of clock ticks for round robin
+            sc = new ShellCommand(this.shellQuantum,
+                                  "quantum",
+                                  "<int> - sets the amount of clock ticks for round robin.");
+            this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -346,6 +361,15 @@ module TSOS {
                     case "memory":
                       _StdOut.putText("All the programs in memory.");
                       break;
+                    case "clearmem":
+                      _StdOut.putText("clear that memory.");
+                      break;
+                    case "runall":
+                      _StdOut.putText("running a program? why not run all of the programs?");
+                      break;
+                    case "quantum":
+                      _StdOut.putText("enter an int for how long you want round robin to run for.");
+                      break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -490,6 +514,25 @@ module TSOS {
             _StdOut.advanceLine();
             i++;
           }
+        }
+        public shellClearmem(args){
+          _MemoryManager.clearMem();
+          Control.memoryTable();
+        }
+        public shellRunall(args){
+          var i = 0;
+          while (i <= _ProcessControlBlock.pid){
+            this.shellRun(i);
+            _StdOut.advanceLine();
+            i++;
+          }
+        }
+        public shellQuantum(args){
+          //to do
+          //i am thinking of making this more into a global var
+          //thus this would change the global from defult to args
+          var time = 2;
+          _StdOut.putText("Round Robin time changed from " + time + " to " + args + ".");
         }
     }
 }

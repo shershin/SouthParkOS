@@ -48,6 +48,12 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellMemory, "memory", "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellClearmem, "clearmem", "- clears out the memory.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRunall, "runall", "- runs all the programs in memory.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - sets the amount of clock ticks for round robin.");
+            this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };
         Shell.prototype.putPrompt = function () {
@@ -213,6 +219,15 @@ var TSOS;
                     case "memory":
                         _StdOut.putText("All the programs in memory.");
                         break;
+                    case "clearmem":
+                        _StdOut.putText("clear that memory.");
+                        break;
+                    case "runall":
+                        _StdOut.putText("running a program? why not run all of the programs?");
+                        break;
+                    case "quantum":
+                        _StdOut.putText("enter an int for how long you want round robin to run for.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -362,6 +377,22 @@ var TSOS;
                 _StdOut.advanceLine();
                 i++;
             }
+        };
+        Shell.prototype.shellClearmem = function (args) {
+            _MemoryManager.clearMem();
+            TSOS.Control.memoryTable();
+        };
+        Shell.prototype.shellRunall = function (args) {
+            var i = 0;
+            while (i <= _ProcessControlBlock.pid) {
+                this.shellRun(i);
+                _StdOut.advanceLine();
+                i++;
+            }
+        };
+        Shell.prototype.shellQuantum = function (args) {
+            var time = 2;
+            _StdOut.putText("Round Robin time changed from " + time + " to " + args + ".");
         };
         return Shell;
     })();
