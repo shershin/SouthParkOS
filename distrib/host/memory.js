@@ -9,7 +9,7 @@ var TSOS;
             this.memory = [];
         };
         Memory.outofBounds = function () {
-            if (_Memory.memory.length > 512) {
+            if (_Memory.memory.length > mem_size) {
                 var mess = "Memory out of bounds";
                 _Kernel.krnTrapError(mess);
             }

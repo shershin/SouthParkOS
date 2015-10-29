@@ -41,9 +41,9 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecutingappropriately.
-            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
             Control.cpuTable();
             Control.memoryTable();
+            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
         }
         public execute (args){
           console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter])

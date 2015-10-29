@@ -9,13 +9,17 @@ module TSOS {
       public yreg : number= 0,
       public zflag: number = 0,
       public progCounter = 0,
-      public accumulater = 0
+      public accumulater = 0,
+      public memStart : number = 0
     ){
       this.init();
     }
     public init(){
       this.pid = PCB.pidint;
       PCB.pidint++;
+      if (this.pid > 0){
+        this.memStart = this.memStart + 256;
+      }
     }
     public incerPC(): void{
           this.progCounter++;

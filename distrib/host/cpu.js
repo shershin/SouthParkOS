@@ -25,9 +25,9 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
-            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
             TSOS.Control.cpuTable();
             TSOS.Control.memoryTable();
+            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
         };
         Cpu.prototype.execute = function (args) {
             console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter]);
