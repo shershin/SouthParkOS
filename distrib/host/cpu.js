@@ -86,6 +86,7 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(spot);
             var dec = TSOS.Utils.fromHex(grab);
             this.Acc = dec;
+            TSOS.Control.hostLog("lda " + grab);
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.ldaMem = function () {
@@ -94,6 +95,7 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(dec);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Acc = decGrab;
+            TSOS.Control.hostLog("lda " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };
@@ -102,6 +104,7 @@ var TSOS;
             var dec = TSOS.Utils.fromHex(grab2);
             var hex = TSOS.Utils.toHex(this.Acc);
             _Memory.memory[dec] = hex;
+            TSOS.Control.hostLog("sta " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };
@@ -111,6 +114,7 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(dec);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Acc += decGrab;
+            TSOS.Control.hostLog("adc " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };
@@ -119,6 +123,7 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(spot);
             var dec = TSOS.Utils.fromHex(grab);
             this.Xreg = dec;
+            TSOS.Control.hostLog("ldx " + grab);
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.ldxMem = function () {
@@ -127,6 +132,7 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(dec);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Xreg = decGrab;
+            TSOS.Control.hostLog("ldx " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };
@@ -135,6 +141,7 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(spot);
             var dec = TSOS.Utils.fromHex(grab);
             this.Yreg = dec;
+            TSOS.Control.hostLog("ldy " + grab);
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.ldyMem = function () {
@@ -143,13 +150,16 @@ var TSOS;
             var grab = TSOS.Utils.grabberOne(dec);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Yreg = decGrab;
+            TSOS.Control.hostLog("ldy " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.nop = function () {
+            TSOS.Control.hostLog("nope nope nope");
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.brk = function () {
+            TSOS.Control.hostLog("Coffee Break");
             this.isExecuting = false;
         };
         Cpu.prototype.cpx = function () {
@@ -163,6 +173,7 @@ var TSOS;
             else {
                 this.Zflag = 0;
             }
+            TSOS.Control.hostLog("cpx " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };
@@ -177,6 +188,7 @@ var TSOS;
                     i++;
                 }
             }
+            TSOS.Control.hostLog("bne " + grab);
             _ProcessControlBlock.incerPC();
         };
         Cpu.prototype.inc = function () {
@@ -187,6 +199,7 @@ var TSOS;
             var final = decGrab + 1;
             var hex = TSOS.Utils.toHex(final);
             _Memory.memory[dec] = hex;
+            TSOS.Control.hostLog("inc " + grab2);
             _ProcessControlBlock.incerPC();
             _ProcessControlBlock.incerPC();
         };

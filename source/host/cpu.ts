@@ -105,6 +105,7 @@ module TSOS {
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           this.Acc = dec;
+          Control.hostLog("lda " + grab);
           _ProcessControlBlock.incerPC();
         }
 
@@ -116,6 +117,7 @@ module TSOS {
           var grab = Utils.grabberOne(dec);
           var decGrab = Utils.fromHex(grab);
           this.Acc = decGrab;
+          Control.hostLog("lda " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -127,6 +129,7 @@ module TSOS {
           var dec = Utils.fromHex(grab2);
           var hex = Utils.toHex(this.Acc);
           _Memory.memory[dec] = hex;
+          Control.hostLog("sta " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -139,6 +142,7 @@ module TSOS {
           var grab = Utils.grabberOne(dec);
           var decGrab = Utils.fromHex(grab);
           this.Acc += decGrab;
+          Control.hostLog("adc " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -150,6 +154,7 @@ module TSOS {
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           this.Xreg = dec;
+          Control.hostLog("ldx " + grab);
           _ProcessControlBlock.incerPC();
         }
 
@@ -161,6 +166,7 @@ module TSOS {
           var grab = Utils.grabberOne(dec);
           var decGrab = Utils.fromHex(grab);
           this.Xreg = decGrab;
+          Control.hostLog("ldx " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -172,6 +178,7 @@ module TSOS {
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           this.Yreg = dec;
+          Control.hostLog("ldy " + grab);
           _ProcessControlBlock.incerPC();
         }
 
@@ -183,6 +190,7 @@ module TSOS {
           var grab = Utils.grabberOne(dec);
           var decGrab = Utils.fromHex(grab);
           this.Yreg = decGrab;
+          Control.hostLog("ldy " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -190,12 +198,14 @@ module TSOS {
         public nop(){
           //op code EA
           //no operation
+          Control.hostLog("nope nope nope");
           _ProcessControlBlock.incerPC();
         }
 
         public brk(){
           //op code 00
           //taking a break....or breaking a computer either or works
+          Control.hostLog("Coffee Break");
           this.isExecuting = false;
         }
 
@@ -211,6 +221,7 @@ module TSOS {
           }else{
             this.Zflag = 0;
           }
+          Control.hostLog("cpx " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
@@ -228,6 +239,7 @@ module TSOS {
               i++;
             }
           }
+          Control.hostLog("bne " + grab);
           _ProcessControlBlock.incerPC();
         }
 
@@ -241,6 +253,7 @@ module TSOS {
           var final = decGrab + 1;
           var hex = Utils.toHex(final);
           _Memory.memory[dec] = hex;
+          Control.hostLog("inc " + grab2);
           _ProcessControlBlock.incerPC();
           _ProcessControlBlock.incerPC();
         }
