@@ -391,8 +391,9 @@ var TSOS;
             }
         };
         Shell.prototype.shellQuantum = function (args) {
-            var time = 2;
-            _StdOut.putText("Round Robin time changed from " + time + " to " + args + ".");
+            var time = schedulerTime;
+            schedulerTime = args;
+            _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         };
         return Shell;
     })();

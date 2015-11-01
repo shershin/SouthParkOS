@@ -531,8 +531,9 @@ module TSOS {
           //to do
           //i am thinking of making this more into a global var
           //thus this would change the global from defult to args
-          var time = 2;
-          _StdOut.putText("Round Robin time changed from " + time + " to " + args + ".");
+          var time = schedulerTime;
+          schedulerTime = args;
+          _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         }
     }
 }
