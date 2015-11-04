@@ -24,19 +24,32 @@ module TSOS {
       _Memory.memory = [];
     }
     public static outofBounds(args, base, limit){
+      console.log(args + " " + base + " " + limit + " out of bounds");
       if (_ProcessControlBlock.progCounter < base || _ProcessControlBlock.progCounter > limit){
         var mess = "Memory out of bounds";
         _Kernel.krnTrapError(mess);
       }
     }
     public memPart(){
-      var i : number = 0;
-      while (i < 4){
-        if (this.part[i] != null){
-          i++;
-        } else {
+      for (var i = 0; i < 3; i++){
+        if (this.part[i] === null || this.part[i] === undefined){
           this.part[i] = _ProcessControlBlock.pid;
-        }
+          switch (i){
+            case 0:
+              _ProcessControlBlock.base = 0;
+              _ProcessControlBlock.limit = 255;
+              break;
+            case 1:
+              _ProcessControlBlock.base = 256;
+              _ProcessControlBlock.limit = 511;
+              break;
+            case 2:
+              _ProcessControlBlock.base = 512;
+              _ProcessControlBlock.limit = 767;
+              break;
+          }
+          return;
+        } 
       }
     }
   }

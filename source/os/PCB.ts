@@ -11,18 +11,16 @@ module TSOS {
       public progCounter = 0,
       public accumulater = 0,
       public memStart : number = 0,
-      public base : number = 0,
-      public limit : number = 255,
-      public memslot : number = null
+      public base : number = null,
+      public limit : number = null,
+      public memslot : number = null,
+      public isExec: boolean = false
     ){
       this.init();
     }
     public init(){
       this.pid = PCB.pidint;
       PCB.pidint++;
-      if (this.pid > 0){
-        this.memStart = this.memStart + 256;
-      }
     }
     public incerPC(): void{
           this.progCounter++;
