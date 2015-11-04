@@ -10,7 +10,10 @@ module TSOS {
       public zflag: number = 0,
       public progCounter = 0,
       public accumulater = 0,
-      public memStart : number = 0
+      public memStart : number = 0,
+      public base : number = 0,
+      public limit : number = 255,
+      public memslot : number = null
     ){
       this.init();
     }
@@ -29,6 +32,7 @@ module TSOS {
             this.progCounter = 0;
             _CPU.PC = 0;
           }
+          MemoryManager.outofBounds(this.pid, this.base, this.limit);
         }
  }
 }

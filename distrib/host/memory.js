@@ -8,12 +8,6 @@ var TSOS;
         Memory.prototype.init = function () {
             this.memory = [];
         };
-        Memory.outofBounds = function () {
-            if (_Memory.memory.length > mem_size) {
-                var mess = "Memory out of bounds";
-                _Kernel.krnTrapError(mess);
-            }
-        };
         return Memory;
     })();
     TSOS.Memory = Memory;
