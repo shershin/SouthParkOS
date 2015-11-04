@@ -43,12 +43,13 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecutingappropriately.
             Control.cpuTable();
             Control.memoryTable();
-            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
+            this.execute();
         }
-        public execute (args){
+        public execute (){
+          var holder = _Memory.memory[_ProcessControlBlock.progCounter];
           console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter])
           _ProcessControlBlock.incerPC();
-          var caps = args.toUpperCase();
+          var caps = holder.toUpperCase();
           switch (caps){
               case "A9":
                 this.ldaCon();

@@ -27,12 +27,13 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
             TSOS.Control.cpuTable();
             TSOS.Control.memoryTable();
-            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
+            this.execute();
         };
-        Cpu.prototype.execute = function (args) {
+        Cpu.prototype.execute = function () {
+            var holder = _Memory.memory[_ProcessControlBlock.progCounter];
             console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter]);
             _ProcessControlBlock.incerPC();
-            var caps = args.toUpperCase();
+            var caps = holder.toUpperCase();
             switch (caps) {
                 case "A9":
                     this.ldaCon();

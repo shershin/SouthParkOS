@@ -359,13 +359,14 @@ var TSOS;
             _Kernel.krnTrapError(msg);
         };
         Shell.prototype.shellRun = function (args) {
-            if (args > _ProcessControlBlock.pid) {
+            if (args >= TSOS.PCB.pidint || args < 0) {
                 _StdOut.putText("Please enter an appropriate PID:");
                 _StdOut.advanceLine();
                 _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
             }
             else {
                 _CPU.isExecuting = true;
+                _ProcessControlBlock.pid = args;
                 _CPU.PC = _ProcessControlBlock.pid;
                 _StdOut.putText("Executing.");
             }
