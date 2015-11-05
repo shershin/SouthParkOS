@@ -489,6 +489,7 @@ module TSOS {
           if (isValid){
             _MemoryManager = new MemoryManager();
             _ProcessControlBlock = new PCB();
+            _resList.addtoList(_ProcessControlBlock);
             _MemoryManager.memload(clean);
           }
         }
@@ -503,8 +504,8 @@ module TSOS {
             _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
           }else {
             _CPU.isExecuting = true;
-            _ProcessControlBlock.pid = args;
-            _CPU.PC = _ProcessControlBlock.pid;
+            var getpcb = _resList.getID(args);
+            _CpuSched.init();
             _StdOut.putText("Executing.");
           }
         }

@@ -11,7 +11,7 @@ var TSOS;
         residentList.prototype.init = function () {
         };
         residentList.prototype.addtoList = function (arg) {
-            this.pcblist[this.pcbint] = arg;
+            this.pcblist.push(arg);
             this.pcbint++;
         };
         residentList.prototype.removefromList = function (arg) {

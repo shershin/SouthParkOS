@@ -1,9 +1,14 @@
 var TSOS;
 (function (TSOS) {
     var CPU_Scheduler = (function () {
-        function CPU_Scheduler() {
-            this.cpuCycle = 0;
+        function CPU_Scheduler(cpuCycle) {
+            if (cpuCycle === void 0) { cpuCycle = 0; }
+            this.cpuCycle = cpuCycle;
+            this.init();
         }
+        CPU_Scheduler.prototype.init = function () {
+            this.cpuCycle = 0;
+        };
         CPU_Scheduler.prototype.cycle = function () {
             if (this.cpuCycle >= schedulerTime - 1) {
                 this.switch();

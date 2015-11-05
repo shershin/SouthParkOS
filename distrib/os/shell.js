@@ -351,6 +351,7 @@ var TSOS;
             if (isValid) {
                 _MemoryManager = new TSOS.MemoryManager();
                 _ProcessControlBlock = new TSOS.PCB();
+                _resList.addtoList(_ProcessControlBlock);
                 _MemoryManager.memload(clean);
             }
         };
@@ -366,8 +367,8 @@ var TSOS;
             }
             else {
                 _CPU.isExecuting = true;
-                _ProcessControlBlock.pid = args;
-                _CPU.PC = _ProcessControlBlock.pid;
+                var getpcb = _resList.getID(args);
+                _CpuSched.init();
                 _StdOut.putText("Executing.");
             }
         };

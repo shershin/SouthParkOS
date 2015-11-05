@@ -31,6 +31,7 @@ var _ProcessControlBlock;
 var mem_size = 256;
 var schedulerTime = 6;
 var _resList;
+var _CpuSched;
 var onDocumentLoad = function () {
     TSOS.Control.hostInit();
 };

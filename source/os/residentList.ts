@@ -13,7 +13,7 @@ module TSOS {
     }
 
     public addtoList(arg){
-      this.pcblist[this.pcbint] = arg;
+      this.pcblist.push(arg);
       this.pcbint++;
     }
 
