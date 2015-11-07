@@ -118,14 +118,13 @@ var TSOS;
             return retVal;
         };
         Shell.prototype.shellInvalidCommand = function () {
-            _StdOut.putText("Invalid Command. ");
             if (_SarcasticMode) {
                 _StdOut.putText("Unbelievable. You, [subject name here],");
                 _StdOut.advanceLine();
                 _StdOut.putText("must be the pride of [subject hometown here].");
             }
             else {
-                _StdOut.putText("Type 'help' for, well... help.");
+                _StdOut.putText("Enhance.");
             }
         };
         Shell.prototype.shellCurse = function () {

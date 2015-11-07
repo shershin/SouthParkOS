@@ -257,13 +257,13 @@ module TSOS {
         // called from here, so kept here to avoid violating the law of least astonishment.
         //
         public shellInvalidCommand() {
-            _StdOut.putText("Invalid Command. ");
+            //_StdOut.putText("Invalid Command. ");
             if (_SarcasticMode) {
                 _StdOut.putText("Unbelievable. You, [subject name here],");
                 _StdOut.advanceLine();
                 _StdOut.putText("must be the pride of [subject hometown here].");
             } else {
-                _StdOut.putText("Type 'help' for, well... help.");
+                _StdOut.putText("Enhance.");
             }
         }
 
