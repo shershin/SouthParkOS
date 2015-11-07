@@ -19,7 +19,14 @@ var TSOS;
             this.pcblist.splice(spot, 1);
         };
         residentList.prototype.getID = function (arg) {
-            return this.pcblist.indexOf(arg);
+            for (var i = 0; i < this.pcbint; i++) {
+                console.log("PCB: " + this.pcblist[i].pid);
+                if (this.pcblist[i].pid === arg) {
+                    return this.pcblist[i];
+                }
+            }
+            _StdOut.putText("Hey Buddy, What you talking aboot.");
+            return null;
         };
         return residentList;
     })();

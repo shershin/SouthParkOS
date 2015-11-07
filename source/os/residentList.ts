@@ -22,8 +22,15 @@ module TSOS {
       this.pcblist.splice(spot, 1);
     }
 
-    public getID(arg){
-      return this.pcblist.indexOf(arg);
+    public getID(arg): PCB{
+      for (var i = 0; i<this.pcbint; i++){
+        console.log("PCB: " + this.pcblist[i].pid);
+        if (this.pcblist[i].pid === arg){
+          return this.pcblist[i];
+        }
+      }
+      _StdOut.putText("Hey Buddy, What you talking aboot.");
+      return null;
     }
   }
 }

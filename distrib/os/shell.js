@@ -12,6 +12,8 @@ var TSOS;
             var sc;
             sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellTest, "test", "- For testing.");
+            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
@@ -145,6 +147,12 @@ var TSOS;
         };
         Shell.prototype.shellVer = function (args) {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
+        };
+        Shell.prototype.shellTest = function (args) {
+            for (var i = 0; i < 10; i++) {
+                console.log(_currentPCB.progCounter);
+                _currentPCB.incerPC();
+            }
         };
         Shell.prototype.shellHelp = function (args) {
             _StdOut.putText("Commands:");
@@ -351,7 +359,7 @@ var TSOS;
             if (isValid) {
                 _MemoryManager = new TSOS.MemoryManager();
                 _ProcessControlBlock = new TSOS.PCB();
-                console.log("LOADED PCB: " + _ProcessControlBlock.pid);
+                console.log("PID Biotch: " + _ProcessControlBlock.pid);
                 _resList.addtoList(_ProcessControlBlock);
                 _MemoryManager.memload(clean);
             }
@@ -361,15 +369,17 @@ var TSOS;
             _Kernel.krnTrapError(msg);
         };
         Shell.prototype.shellRun = function (args) {
-            if (args >= TSOS.PCB.pidint || args < 0) {
+            if (args > TSOS.PCB.pidint || args < 0) {
                 _StdOut.putText("Please enter an appropriate PID:");
                 _StdOut.advanceLine();
                 _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
             }
             else {
                 _CPU.isExecuting = true;
-                var getpcb = _resList.getID(args);
+                var intget = parseInt(args[0]);
+                var getpcb = _resList.getID(intget);
                 _currentPCB = getpcb;
+                console.log("CurrPCB: " + _currentPCB.pid);
                 _CpuSched.init();
                 _StdOut.putText("Executing.");
             }

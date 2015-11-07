@@ -39,6 +39,12 @@ module TSOS {
                                   "- Displays the current version data.");
             this.commandList[this.commandList.length] = sc;
 
+            // test
+            sc = new ShellCommand(this.shellTest,
+                                  "test",
+                                  "- For testing.");
+            this.commandList[this.commandList.length] = sc;
+
             // help
             sc = new ShellCommand(this.shellHelp,
                                   "help",
@@ -283,9 +289,16 @@ module TSOS {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         }
 
+        public shellTest(args) {
+          for(var i = 0; i < 10; i++){
+              console.log(_currentPCB.progCounter);
+              _currentPCB.incerPC();
+          }
+        }
+
         public shellHelp(args) {
             _StdOut.putText("Commands:");
-            for (var i in _OsShell.commandList) {
+            for (var i in _OsShell.commandList){
                 _StdOut.advanceLine();
                 _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
             }
@@ -489,7 +502,7 @@ module TSOS {
           if (isValid){
             _MemoryManager = new MemoryManager();
             _ProcessControlBlock = new PCB();
-            console.log("LOADED PCB: " + _ProcessControlBlock.pid);
+            console.log("PID Biotch: " +  _ProcessControlBlock.pid);
             _resList.addtoList(_ProcessControlBlock);
             _MemoryManager.memload(clean);
           }
@@ -499,14 +512,16 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          if (args >= PCB.pidint || args < 0){
+          if (args > PCB.pidint || args < 0){
             _StdOut.putText("Please enter an appropriate PID:");
             _StdOut.advanceLine();
             _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
           }else {
             _CPU.isExecuting = true;
-            var getpcb = _resList.getID(args);
+            var intget = parseInt(args[0]);
+            var getpcb = _resList.getID(intget);
             _currentPCB = getpcb;
+            console.log("CurrPCB: " + _currentPCB.pid);
             _CpuSched.init();
             _StdOut.putText("Executing.");
           }
