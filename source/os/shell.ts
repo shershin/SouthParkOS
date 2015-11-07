@@ -500,7 +500,6 @@ module TSOS {
           _StdOut.putText("ERROR: No program detected.");
           }
           if (isValid){
-            _MemoryManager = new MemoryManager();
             _ProcessControlBlock = new PCB();
             console.log("PID Biotch: " +  _ProcessControlBlock.pid);
             _resList.addtoList(_ProcessControlBlock);

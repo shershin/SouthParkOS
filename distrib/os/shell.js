@@ -357,7 +357,6 @@ var TSOS;
                 _StdOut.putText("ERROR: No program detected.");
             }
             if (isValid) {
-                _MemoryManager = new TSOS.MemoryManager();
                 _ProcessControlBlock = new TSOS.PCB();
                 console.log("PID Biotch: " + _ProcessControlBlock.pid);
                 _resList.addtoList(_ProcessControlBlock);

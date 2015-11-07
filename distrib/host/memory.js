@@ -7,7 +7,6 @@ var TSOS;
         }
         Memory.prototype.init = function () {
             this.memory = [];
-            _MemoryManager.clearMem();
         };
         return Memory;
     })();
