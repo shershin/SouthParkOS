@@ -284,6 +284,15 @@ module TSOS {
           }
 
 
+          public setCPU(pcb:PCB){
+            this.PC = pcb.progCounter;
+            this.Acc = pcb.accumulater;
+            this.Xreg = pcb.xreg;
+            this.Yreg = pcb.yreg;
+            this.Zflag = pcb.zflag;
+          }
+
+
 
     }
 }

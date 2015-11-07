@@ -1,7 +1,7 @@
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
-        function PCB(pid, xreg, yreg, zflag, progCounter, accumulater, base, limit, partition, isExec) {
+        function PCB(pid, xreg, yreg, zflag, progCounter, accumulater, base, limit, partition) {
             if (pid === void 0) { pid = 0; }
             if (xreg === void 0) { xreg = 0; }
             if (yreg === void 0) { yreg = 0; }
@@ -11,7 +11,6 @@ var TSOS;
             if (base === void 0) { base = null; }
             if (limit === void 0) { limit = null; }
             if (partition === void 0) { partition = null; }
-            if (isExec === void 0) { isExec = false; }
             this.pid = pid;
             this.xreg = xreg;
             this.yreg = yreg;
@@ -21,7 +20,6 @@ var TSOS;
             this.base = base;
             this.limit = limit;
             this.partition = partition;
-            this.isExec = isExec;
             this.init();
         }
         PCB.prototype.init = function () {
@@ -35,7 +33,7 @@ var TSOS;
                 this.progCounter = this.base;
                 _CPU.PC = this.base;
             }
-            TSOS.MemoryManager.outofBounds(this.pid, this.base, this.limit);
+            TSOS.MemoryManager.outofBounds(_currentPCB);
         };
         PCB.prototype.updatePCB = function () {
             this.progCounter = _CPU.PC;

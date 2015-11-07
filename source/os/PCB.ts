@@ -12,8 +12,7 @@ module TSOS {
       public accumulater = 0,
       public base : number = null,
       public limit : number = null,
-      public partition : number = null,
-      public isExec: boolean = false
+      public partition : number = null
     ){
       this.init();
     }
@@ -29,7 +28,7 @@ module TSOS {
             this.progCounter = this.base;
             _CPU.PC = this.base;
           }
-          MemoryManager.outofBounds(this.pid, this.base, this.limit);
+          MemoryManager.outofBounds(_currentPCB);
         }
   public updatePCB(){
     this.progCounter = _CPU.PC;

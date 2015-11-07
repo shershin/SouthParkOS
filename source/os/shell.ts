@@ -521,6 +521,7 @@ module TSOS {
             var intget = parseInt(args[0]);
             var getpcb = _resList.getID(intget);
             _currentPCB = getpcb;
+            _CPU.setCPU(_currentPCB);
             console.log("CurrPCB: " + _currentPCB.pid);
             _CpuSched.init();
             _StdOut.putText("Executing.");

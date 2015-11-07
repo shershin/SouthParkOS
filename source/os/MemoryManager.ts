@@ -25,10 +25,13 @@ module TSOS {
       }
     }
     public clearMem(){
-      _Memory.memory = [];
+      var totalmem = mem_size * 3;
+      for (var i = 0; i<totalmem;i++){
+        _Memory.memory[i] = "00";
+      }
     }
-    public static outofBounds(args, base, limit){
-      if (_ProcessControlBlock.progCounter < base || _ProcessControlBlock.progCounter > limit){
+    public static outofBounds(pcb:PCB){
+      if (pcb.progCounter < pcb.base || pcb.progCounter > pcb.limit){
         var mess = "Memory out of bounds";
         _Kernel.krnTrapError(mess);
       }

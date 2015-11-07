@@ -12,6 +12,7 @@ module TSOS {
     }
     public init (){
       this.memory = [];
+      _MemoryManager.clearMem();
     }
   }
 }

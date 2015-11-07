@@ -224,6 +224,13 @@ var TSOS;
                 console.log("no means no");
             }
         };
+        Cpu.prototype.setCPU = function (pcb) {
+            this.PC = pcb.progCounter;
+            this.Acc = pcb.accumulater;
+            this.Xreg = pcb.xreg;
+            this.Yreg = pcb.yreg;
+            this.Zflag = pcb.zflag;
+        };
         return Cpu;
     })();
     TSOS.Cpu = Cpu;
