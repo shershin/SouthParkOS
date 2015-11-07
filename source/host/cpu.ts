@@ -46,9 +46,9 @@ module TSOS {
             this.execute();
         }
         public execute (){
-          var holder = _Memory.memory[_ProcessControlBlock.progCounter];
-          console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter])
-          _ProcessControlBlock.incerPC();
+          var holder = _Memory.memory[_currentPCB.progCounter];
+          console.log(_currentPCB.progCounter + " " + _Memory.memory[_currentPCB.progCounter])
+          _currentPCB.incerPC();
           var caps = holder.toUpperCase();
           switch (caps){
               case "A9":
@@ -102,12 +102,12 @@ module TSOS {
         public ldaCon(){
           //op code A9
           //loads the constant into the accumulator
-          var spot = _ProcessControlBlock.progCounter;
+          var spot = _currentPCB.progCounter;
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           this.Acc = dec;
           Control.hostLog("lda " + grab);
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
         }
 
         public ldaMem(){
@@ -119,8 +119,8 @@ module TSOS {
           var decGrab = Utils.fromHex(grab);
           this.Acc = decGrab;
           Control.hostLog("lda " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public  staMem(){
@@ -131,8 +131,8 @@ module TSOS {
           var hex = Utils.toHex(this.Acc);
           _Memory.memory[dec] = hex;
           Control.hostLog("sta " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public adc(){
@@ -144,19 +144,19 @@ module TSOS {
           var decGrab = Utils.fromHex(grab);
           this.Acc += decGrab;
           Control.hostLog("adc " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public ldxCon(){
           //op code A2
           //load the x reg with a constant
-          var spot = _ProcessControlBlock.progCounter;
+          var spot = _currentPCB.progCounter;
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           this.Xreg = dec;
           Control.hostLog("ldx " + grab);
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
         }
 
         public ldxMem(){
@@ -168,19 +168,19 @@ module TSOS {
           var decGrab = Utils.fromHex(grab);
           this.Xreg = decGrab;
           Control.hostLog("ldx " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public ldyCon(){
           //op code A2
           //load the y reg with a constant
-          var spot = _ProcessControlBlock.progCounter;
+          var spot = _currentPCB.progCounter;
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           this.Yreg = dec;
           Control.hostLog("ldy " + grab);
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
         }
 
         public ldyMem(){
@@ -192,15 +192,15 @@ module TSOS {
           var decGrab = Utils.fromHex(grab);
           this.Yreg = decGrab;
           Control.hostLog("ldy " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public nop(){
           //op code EA
           //no operation
           Control.hostLog("nope nope nope");
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
         }
 
         public brk(){
@@ -223,25 +223,25 @@ module TSOS {
             this.Zflag = 0;
           }
           Control.hostLog("cpx " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public bne(){
           //op code D0
           //jumps to location indicated unless z = 1
-          var spot = _ProcessControlBlock.progCounter;
+          var spot = _currentPCB.progCounter;
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
           var i = 0;
           if (this.Zflag === 0){
             while (i < dec){
-              _ProcessControlBlock.incerPC();
+              _currentPCB.incerPC();
               i++;
             }
           }
           Control.hostLog("bne " + grab);
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
         }
 
         public inc(){
@@ -255,8 +255,8 @@ module TSOS {
           var hex = Utils.toHex(final);
           _Memory.memory[dec] = hex;
           Control.hostLog("inc " + grab2);
-          _ProcessControlBlock.incerPC();
-          _ProcessControlBlock.incerPC();
+          _currentPCB.incerPC();
+          _currentPCB.incerPC();
         }
 
         public sys(){

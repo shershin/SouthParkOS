@@ -489,6 +489,7 @@ module TSOS {
           if (isValid){
             _MemoryManager = new MemoryManager();
             _ProcessControlBlock = new PCB();
+            console.log("LOADED PCB: " + _ProcessControlBlock.pid);
             _resList.addtoList(_ProcessControlBlock);
             _MemoryManager.memload(clean);
           }
@@ -505,6 +506,7 @@ module TSOS {
           }else {
             _CPU.isExecuting = true;
             var getpcb = _resList.getID(args);
+            _currentPCB = getpcb;
             _CpuSched.init();
             _StdOut.putText("Executing.");
           }

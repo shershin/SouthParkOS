@@ -32,6 +32,7 @@ var mem_size = 256;
 var schedulerTime = 6;
 var _resList;
 var _CpuSched;
+var _currentPCB = null;
 var onDocumentLoad = function () {
     TSOS.Control.hostInit();
 };
