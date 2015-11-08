@@ -332,9 +332,7 @@ var TSOS;
             _StdOut.putText("Please check back later.");
         };
         Shell.prototype.shellKill = function (args) {
-            _StdOut.putText("This function is currently not obtional.");
-            _StdOut.advanceLine();
-            _StdOut.putText("Please check back later.");
+            _StdOut.putText("OMG you killed, PID: " + args + " you BASTARD!");
         };
         Shell.prototype.shellLoad = function (args) {
             var input = document.getElementById("taProgramInput");
@@ -373,7 +371,6 @@ var TSOS;
                 _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
             }
             else {
-                _CPU.isExecuting = true;
                 var intget = parseInt(args[0]);
                 var getpcb = _resList.getID(intget);
                 _currentPCB = getpcb;
@@ -381,6 +378,7 @@ var TSOS;
                 _Queue.enqueue(_currentPCB);
                 _CpuSched.init();
                 _StdOut.putText("Executing.");
+                _CPU.isExecuting = true;
             }
         };
         Shell.prototype.shellMemory = function (args) {
@@ -397,11 +395,14 @@ var TSOS;
         };
         Shell.prototype.shellRunall = function (args) {
             var i = 0;
-            while (i <= TSOS.PCB.pidint) {
-                this.shellRun(i);
-                _StdOut.advanceLine();
+            while (i < TSOS.PCB.pidint) {
+                _Queue.enqueue(_resList.getID(i));
                 i++;
             }
+            _currentPCB = _Queue.dequeue();
+            _CPU.setCPU(_currentPCB);
+            _CpuSched.init();
+            _CPU.isExecuting = true;
         };
         Shell.prototype.shellQuantum = function (args) {
             var time = schedulerTime;

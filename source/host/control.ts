@@ -165,7 +165,7 @@ module TSOS {
            currRow = currRow.toUpperCase();
            table += "<td style=\"font-weight:bold\">" + rowHeader + currRow + "</td>";
            for(var j: number = 0; j < 8; j++){
-             if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === "undefined"){
+             if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === undefined){
                table += "<td> 00 </td>";
              }else{
               table += "<td>" + _Memory.memory[memoryIndex] + "</td>";
@@ -188,14 +188,14 @@ module TSOS {
          table += "<td>" + _CPU.Zflag + "</td>";
         (<HTMLInputElement> document.getElementById("cpuTableBody")).innerHTML = table;
        }
-       public static pcbTable(pcb): void {
+       public static pcbTable(pcb: PCB): void {
          var table: string = "";
-         table += "<td>" + _ProcessControlBlock.progCounter + "</td>";
-         table += "<td>" + _ProcessControlBlock.accumulater + "</td>";
-         table += "<td>" + _Memory.memory[_ProcessControlBlock.progCounter] + "</td>";
-         table += "<td>" + _ProcessControlBlock.xreg + "</td>";
-         table += "<td>" + _ProcessControlBlock.yreg + "</td>";
-         table += "<td>" + _ProcessControlBlock.zflag + "</td>";
+         table += "<td>" + pcb.progCounter + "</td>";
+         table += "<td>" + pcb.accumulater + "</td>";
+         table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
+         table += "<td>" + pcb.xreg + "</td>";
+         table += "<td>" + pcb.yreg + "</td>";
+         table += "<td>" + pcb.zflag + "</td>";
         (<HTMLInputElement> document.getElementById("pcbTableBody")).innerHTML = table;
        }
     }

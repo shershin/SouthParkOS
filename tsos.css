@@ -9,10 +9,11 @@ body {
   font-size: 12pt;
   font-weight: normal;
   font-style: normal;
+  color: orange;
 }
 
 h1 {
-  color: black;
+  color: orange;
   font-size: 24pt;
   font-weight: normal;
   font-style: normal;
@@ -20,7 +21,7 @@ h1 {
 }
 
 h2 {
-  color: black;
+  color: orange;
   font-size: 20pt;
   font-weight: normal;
   font-style: normal;
@@ -44,7 +45,7 @@ h3 {
 }
 
 .footerText {
-  color: black;
+  color: orange;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 8pt;
   text-align: center;

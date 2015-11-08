@@ -478,9 +478,8 @@ module TSOS {
           _StdOut.putText("Please check back later.");
         }
         public shellKill(args){
-          _StdOut.putText("This function is currently not obtional.");
-          _StdOut.advanceLine();
-          _StdOut.putText("Please check back later.");
+
+          _StdOut.putText("OMG you killed, PID: " + args + " you BASTARD!");
         }
         public shellLoad(args){
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
@@ -516,7 +515,6 @@ module TSOS {
             _StdOut.advanceLine();
             _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
           }else {
-            _CPU.isExecuting = true;
             var intget = parseInt(args[0]);
             var getpcb = _resList.getID(intget);
             _currentPCB = getpcb;
@@ -524,6 +522,7 @@ module TSOS {
             _Queue.enqueue(_currentPCB);
             _CpuSched.init();
             _StdOut.putText("Executing.");
+            _CPU.isExecuting = true;
           }
         }
         public shellMemory(args){
@@ -540,11 +539,14 @@ module TSOS {
         }
         public shellRunall(args){
           var i = 0;
-          while (i <= PCB.pidint){
-            this.shellRun(i);
-            _StdOut.advanceLine();
+          while (i < PCB.pidint){
+            _Queue.enqueue(_resList.getID(i));
             i++;
           }
+          _currentPCB = _Queue.dequeue();
+          _CPU.setCPU(_currentPCB);
+          _CpuSched.init();
+          _CPU.isExecuting = true;
         }
         public shellQuantum(args){
           //to do

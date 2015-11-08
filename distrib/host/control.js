@@ -84,7 +84,7 @@ var TSOS;
                 currRow = currRow.toUpperCase();
                 table += "<td style=\"font-weight:bold\">" + rowHeader + currRow + "</td>";
                 for (var j = 0; j < 8; j++) {
-                    if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === "undefined") {
+                    if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === undefined) {
                         table += "<td> 00 </td>";
                     }
                     else {
@@ -110,12 +110,12 @@ var TSOS;
         };
         Control.pcbTable = function (pcb) {
             var table = "";
-            table += "<td>" + _ProcessControlBlock.progCounter + "</td>";
-            table += "<td>" + _ProcessControlBlock.accumulater + "</td>";
-            table += "<td>" + _Memory.memory[_ProcessControlBlock.progCounter] + "</td>";
-            table += "<td>" + _ProcessControlBlock.xreg + "</td>";
-            table += "<td>" + _ProcessControlBlock.yreg + "</td>";
-            table += "<td>" + _ProcessControlBlock.zflag + "</td>";
+            table += "<td>" + pcb.progCounter + "</td>";
+            table += "<td>" + pcb.accumulater + "</td>";
+            table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
+            table += "<td>" + pcb.xreg + "</td>";
+            table += "<td>" + pcb.yreg + "</td>";
+            table += "<td>" + pcb.zflag + "</td>";
             document.getElementById("pcbTableBody").innerHTML = table;
         };
         Control.singleStep = false;

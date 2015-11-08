@@ -25,6 +25,7 @@ var TSOS;
                     return this.pcblist[i];
                 }
             }
+            console.log("da fuck is this showwing" + this.pcbint);
             _StdOut.putText("Hey Buddy, What you talking aboot.");
             return null;
         };

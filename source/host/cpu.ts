@@ -46,9 +46,11 @@ module TSOS {
             this.execute();
         }
         public execute (){
+          _CpuSched.cycle();
           var holder = _Memory.memory[_currentPCB.progCounter];
           console.log(_currentPCB.progCounter + " " + _Memory.memory[_currentPCB.progCounter])
           _currentPCB.incerPC();
+          _CpuSched.cpuCycle++;
           var caps = holder.toUpperCase();
           switch (caps){
               case "A9":
@@ -207,7 +209,7 @@ module TSOS {
           //op code 00
           //taking a break....or breaking a computer either or works
           Control.hostLog("Coffee Break");
-          _currentPCB.terminated = true; 
+          _currentPCB.terminated = true;
         }
 
         public cpx(){
