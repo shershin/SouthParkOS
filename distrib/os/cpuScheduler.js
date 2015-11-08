@@ -19,6 +19,7 @@ var TSOS;
             }
         };
         CPU_Scheduler.prototype.switch = function () {
+            console.log(_currentPCB);
             if (!_Queue.isEmpty()) {
                 if (_currentPCB.terminated) {
                     _currentPCB.updatePCB();

@@ -209,6 +209,7 @@ var TSOS;
         Cpu.prototype.sys = function () {
             if (this.Xreg === 1) {
                 _StdOut.putText("" + this.Yreg);
+                console.log("print yreg " + this.Yreg);
             }
             else if (this.Xreg === 2) {
                 var loc = this.Yreg;
@@ -221,6 +222,7 @@ var TSOS;
                     value = TSOS.Utils.fromHex(_Memory.memory[loc]);
                 }
                 _StdOut.putText(str);
+                console.log("print string " + str);
             }
             else {
                 console.log("no means no");

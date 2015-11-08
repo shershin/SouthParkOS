@@ -20,6 +20,7 @@ module TSOS{
       }
     }
     public switch(){
+      console.log(_currentPCB);
       if (!_Queue.isEmpty()){
         if (_currentPCB.terminated){
           _currentPCB.updatePCB();

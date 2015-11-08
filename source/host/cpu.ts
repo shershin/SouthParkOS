@@ -268,6 +268,7 @@ module TSOS {
           //if xreg = 2 print the string starting at location stores in yreg
           if (this.Xreg === 1){
             _StdOut.putText("" + this.Yreg);
+            console.log("print yreg " + this.Yreg);
           }else if(this.Xreg === 2){
             //prints the string from memory starting at location saved in yreg
             var loc = this.Yreg;
@@ -280,6 +281,7 @@ module TSOS {
              value = Utils.fromHex(_Memory.memory[loc]);
            }
             _StdOut.putText(str);
+            console.log("print string " + str);
           }else{
             console.log("no means no");
           }
