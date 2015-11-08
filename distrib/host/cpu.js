@@ -161,7 +161,7 @@ var TSOS;
         };
         Cpu.prototype.brk = function () {
             TSOS.Control.hostLog("Coffee Break");
-            this.isExecuting = false;
+            _currentPCB.terminated = true;
         };
         Cpu.prototype.cpx = function () {
             var grab2 = TSOS.Utils.grabberTwo();

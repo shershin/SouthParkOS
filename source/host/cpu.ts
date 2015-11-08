@@ -207,7 +207,7 @@ module TSOS {
           //op code 00
           //taking a break....or breaking a computer either or works
           Control.hostLog("Coffee Break");
-          this.isExecuting = false;
+          _currentPCB.terminated = true; 
         }
 
         public cpx(){

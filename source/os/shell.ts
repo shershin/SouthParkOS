@@ -521,7 +521,7 @@ module TSOS {
             var getpcb = _resList.getID(intget);
             _currentPCB = getpcb;
             _CPU.setCPU(_currentPCB);
-            console.log("CurrPCB: " + _currentPCB.pid);
+            _Queue.enqueue(_currentPCB);
             _CpuSched.init();
             _StdOut.putText("Executing.");
           }
@@ -540,7 +540,7 @@ module TSOS {
         }
         public shellRunall(args){
           var i = 0;
-          while (i <= _ProcessControlBlock.pid){
+          while (i <= PCB.pidint){
             this.shellRun(i);
             _StdOut.advanceLine();
             i++;

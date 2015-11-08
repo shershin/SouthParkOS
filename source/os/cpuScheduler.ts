@@ -16,6 +16,12 @@ module TSOS{
       }
     }
     public switch(){
+
+    }
+    public finished(){
+      if (_Queue.isEmpty() && _currentPCB.terminated){
+        _CPU.isExecuting = false;
+      }
     }
   }
 }

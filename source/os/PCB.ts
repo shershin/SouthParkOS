@@ -12,7 +12,9 @@ module TSOS {
       public accumulater = 0,
       public base : number = null,
       public limit : number = null,
-      public partition : number = null
+      public partition : number = null,
+      public iswaiting : boolean = false,
+      public terminated : boolean = false
     ){
       this.init();
     }

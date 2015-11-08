@@ -75,6 +75,7 @@ var schedulerTime: number = 6;
 var _resList: TSOS.residentList;
 var _CpuSched : TSOS.CPU_Scheduler;
 var _currentPCB: TSOS.PCB = null;
+var _Queue : TSOS.Queue;
 
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();
