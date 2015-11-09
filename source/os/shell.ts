@@ -510,19 +510,25 @@ module TSOS {
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          if (args > PCB.pidint || args < 0){
-            _StdOut.putText("Please enter an appropriate PID:");
-            _StdOut.advanceLine();
-            _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
-          }else {
-            var intget = parseInt(args[0]);
-            var getpcb = _resList.getID(intget);
-            _currentPCB = getpcb;
-            _CPU.setCPU(_currentPCB);
-            _Queue.enqueue(_currentPCB);
-            _CpuSched.init();
-            _StdOut.putText("Executing.");
-            _CPU.isExecuting = true;
+          console.log(args);
+          if (args.toString() === "all"){
+            console.log("all");
+            _OsShell.shellRunall(args);
+          } else {
+            if (args > PCB.pidint || args < 0){
+              _StdOut.putText("Please enter an appropriate PID:");
+              _StdOut.advanceLine();
+              _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
+            }else {
+              var intget = parseInt(args[0]);
+              var getpcb = _resList.getID(intget);
+              _currentPCB = getpcb;
+              _CPU.setCPU();
+              _Queue.enqueue(_currentPCB);
+              _CpuSched.init();
+              _StdOut.putText("Executing.");
+              _CPU.isExecuting = true;
+            }
           }
         }
         public shellMemory(args){
@@ -544,7 +550,7 @@ module TSOS {
             i++;
           }
           _currentPCB = _Queue.dequeue();
-          _CPU.setCPU(_currentPCB);
+          _CPU.setCPU();
           _CpuSched.init();
           _CPU.isExecuting = true;
         }

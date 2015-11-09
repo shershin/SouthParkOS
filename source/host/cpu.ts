@@ -41,12 +41,12 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecutingappropriately.
+            _CpuSched.cycle();
             Control.cpuTable();
             Control.memoryTable();
             this.execute();
         }
         public execute (){
-          _CpuSched.cycle();
           var holder = _Memory.memory[_currentPCB.progCounter];
           console.log(_currentPCB.progCounter + " " + _Memory.memory[_currentPCB.progCounter])
           _currentPCB.incerPC();
@@ -288,12 +288,12 @@ module TSOS {
           }
 
 
-          public setCPU(pcb:PCB){
-            this.PC = pcb.progCounter;
-            this.Acc = pcb.accumulater;
-            this.Xreg = pcb.xreg;
-            this.Yreg = pcb.yreg;
-            this.Zflag = pcb.zflag;
+          public setCPU(){
+            this.PC = _currentPCB.progCounter;
+            this.Acc = _currentPCB.accumulater;
+            this.Xreg = _currentPCB.xreg;
+            this.Yreg = _currentPCB.yreg;
+            this.Zflag = _currentPCB.zflag;
           }
 
 

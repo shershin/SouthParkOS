@@ -25,12 +25,12 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
+            _CpuSched.cycle();
             TSOS.Control.cpuTable();
             TSOS.Control.memoryTable();
             this.execute();
         };
         Cpu.prototype.execute = function () {
-            _CpuSched.cycle();
             var holder = _Memory.memory[_currentPCB.progCounter];
             console.log(_currentPCB.progCounter + " " + _Memory.memory[_currentPCB.progCounter]);
             _currentPCB.incerPC();
@@ -228,12 +228,12 @@ var TSOS;
                 console.log("no means no");
             }
         };
-        Cpu.prototype.setCPU = function (pcb) {
-            this.PC = pcb.progCounter;
-            this.Acc = pcb.accumulater;
-            this.Xreg = pcb.xreg;
-            this.Yreg = pcb.yreg;
-            this.Zflag = pcb.zflag;
+        Cpu.prototype.setCPU = function () {
+            this.PC = _currentPCB.progCounter;
+            this.Acc = _currentPCB.accumulater;
+            this.Xreg = _currentPCB.xreg;
+            this.Yreg = _currentPCB.yreg;
+            this.Zflag = _currentPCB.zflag;
         };
         return Cpu;
     })();

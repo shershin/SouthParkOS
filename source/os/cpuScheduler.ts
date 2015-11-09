@@ -20,19 +20,22 @@ module TSOS{
       }
     }
     public switch(){
-      console.log(_currentPCB);
+      _currentPCB.updatePCB();
       if (!_Queue.isEmpty()){
         if (_currentPCB.terminated){
-          _currentPCB.updatePCB();
+          console.log("terminated");
+          console.log("old pid: " + _currentPCB.pid);
           _currentPCB = _Queue.dequeue();
-          _CPU.setCPU(_currentPCB);
+          console.log("new pid: " + _currentPCB.pid);
         } else {
-          _currentPCB.updatePCB();
+          console.log("not terminated");
+          console.log("old pid: " + _currentPCB.pid);
           _Queue.enqueue(_currentPCB);
           _currentPCB = _Queue.dequeue();
-          _CPU.setCPU(_currentPCB);
+          console.log("new pid: " + _currentPCB.pid);
         }
       }
+      _CPU.setCPU();
       this.cpuCycle = 0;
       this.finished();
     }
