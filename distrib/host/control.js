@@ -108,14 +108,25 @@ var TSOS;
             table += "<td>" + _CPU.Zflag + "</td>";
             document.getElementById("cpuTableBody").innerHTML = table;
         };
-        Control.pcbTable = function (pcb) {
+        Control.pcbTable = function () {
             var table = "";
-            table += "<td>" + pcb.progCounter + "</td>";
-            table += "<td>" + pcb.accumulater + "</td>";
-            table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
-            table += "<td>" + pcb.xreg + "</td>";
-            table += "<td>" + pcb.yreg + "</td>";
-            table += "<td>" + pcb.zflag + "</td>";
+            var i = 0;
+            while (i < TSOS.PCB.pidint) {
+                var pcb = _resList.getID(i);
+                table += "<tr>";
+                table += "<td>" + pcb.pid + "</td>";
+                table += "<td>" + pcb.progCounter + "</td>";
+                table += "<td>" + pcb.accumulater + "</td>";
+                table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
+                table += "<td>" + pcb.xreg + "</td>";
+                table += "<td>" + pcb.yreg + "</td>";
+                table += "<td>" + pcb.zflag + "</td>";
+                table += "<td>" + pcb.base + "</td>";
+                table += "<td>" + pcb.limit + "</td>";
+                table += "<td>" + pcb.terminated + "</td>";
+                table += "</tr>";
+                i++;
+            }
             document.getElementById("pcbTableBody").innerHTML = table;
         };
         Control.singleStep = false;

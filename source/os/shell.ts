@@ -473,37 +473,51 @@ module TSOS {
           }
         }
         public shellPs(args){
-          _StdOut.putText("This function is currently not obtional.");
-          _StdOut.advanceLine();
-          _StdOut.putText("Please check back later.");
+          var i = 0;
+          while (i < PCB.pidint){
+            var pcb = _resList.getID(i);
+            if (!pcb.terminated){
+              _StdOut.putText("PID:" + pcb.pid);
+              _StdOut.advanceLine();
+            }
+            i++;
+          }
         }
         public shellKill(args){
-
-          _StdOut.putText("OMG you killed, PID: " + args + " you BASTARD!");
+          var pars = parseInt(args);
+          var pcb = _resList.getID(pars);
+          pcb.terminated = true;
+          _StdOut.putText("OMG you killed, PID: " + pcb.pid + " you BASTARD!");
         }
         public shellLoad(args){
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var isValid = false;
           var clean = "";
-          if (str.length > 0){
-            var re = /([^abcdefABCDEF0123456789\s])/g;
-            var test = str.search(re);
-            if (!test){
-              _StdOut.putText("ERROR: Please enter a real program.");
+          if (PCB.pidint < partsAllowed){
+            if (str.length > 0){
+              var re = /([^abcdefABCDEF0123456789\s])/g;
+              var test = str.search(re);
+              if (!test){
+                _StdOut.putText("ERROR: Please enter a real program.");
+              }else{
+                isValid = true;
+                clean = Utils.whiteBeGone(str);
+            }
             }else{
-              isValid = true;
-              clean = Utils.whiteBeGone(str);
-          }
+            _StdOut.putText("ERROR: No program detected.");
+            }
+            if (isValid){
+              _ProcessControlBlock = new PCB();
+              console.log("PID Biotch: " +  _ProcessControlBlock.pid);
+              _resList.addtoList(_ProcessControlBlock);
+              Control.pcbTable();
+              _MemoryManager.memload(clean);
+            }
           }else{
-          _StdOut.putText("ERROR: No program detected.");
+            _StdOut.putText("Sorry can't load any more programs, friend.");
           }
-          if (isValid){
-            _ProcessControlBlock = new PCB();
-            console.log("PID Biotch: " +  _ProcessControlBlock.pid);
-            _resList.addtoList(_ProcessControlBlock);
-            _MemoryManager.memload(clean);
-          }
+
         }
         public shellBsod(args){
           var msg = "ohhh nooo";

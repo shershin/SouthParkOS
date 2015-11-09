@@ -76,6 +76,7 @@ var _resList: TSOS.residentList;
 var _CpuSched : TSOS.CPU_Scheduler;
 var _currentPCB: TSOS.PCB = null;
 var _Queue : TSOS.Queue;
+var partsAllowed : number = 3;
 
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();

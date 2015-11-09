@@ -43,6 +43,7 @@ var TSOS;
             if (_Queue.isEmpty() && _currentPCB.terminated) {
                 _CPU.isExecuting = false;
                 _currentPCB = null;
+                console.log("finished running");
             }
         };
         return CPU_Scheduler;

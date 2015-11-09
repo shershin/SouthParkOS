@@ -27,6 +27,7 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
             _CpuSched.cycle();
             TSOS.Control.cpuTable();
+            TSOS.Control.pcbTable();
             TSOS.Control.memoryTable();
             this.execute();
         };

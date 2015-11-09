@@ -43,6 +43,7 @@ module TSOS {
             // Do the real work here. Be sure to set this.isExecutingappropriately.
             _CpuSched.cycle();
             Control.cpuTable();
+            Control.pcbTable();
             Control.memoryTable();
             this.execute();
         }

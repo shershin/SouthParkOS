@@ -188,14 +188,25 @@ module TSOS {
          table += "<td>" + _CPU.Zflag + "</td>";
         (<HTMLInputElement> document.getElementById("cpuTableBody")).innerHTML = table;
        }
-       public static pcbTable(pcb: PCB): void {
+       public static pcbTable(): void {
          var table: string = "";
-         table += "<td>" + pcb.progCounter + "</td>";
-         table += "<td>" + pcb.accumulater + "</td>";
-         table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
-         table += "<td>" + pcb.xreg + "</td>";
-         table += "<td>" + pcb.yreg + "</td>";
-         table += "<td>" + pcb.zflag + "</td>";
+         var i = 0;
+         while (i < PCB.pidint){
+           var pcb = _resList.getID(i);
+           table += "<tr>";
+           table += "<td>" + pcb.pid + "</td>";
+           table += "<td>" + pcb.progCounter + "</td>";
+           table += "<td>" + pcb.accumulater + "</td>";
+           table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
+           table += "<td>" + pcb.xreg + "</td>";
+           table += "<td>" + pcb.yreg + "</td>";
+           table += "<td>" + pcb.zflag + "</td>";
+           table += "<td>" + pcb.base + "</td>";
+           table += "<td>" + pcb.limit + "</td>";
+           table += "<td>" + pcb.terminated + "</td>";
+           table += "</tr>";
+           i++;
+         }
         (<HTMLInputElement> document.getElementById("pcbTableBody")).innerHTML = table;
        }
     }
