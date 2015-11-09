@@ -203,7 +203,7 @@ module TSOS {
            table += "<td>" + pcb.zflag + "</td>";
            table += "<td>" + pcb.base + "</td>";
            table += "<td>" + pcb.limit + "</td>";
-           table += "<td>" + pcb.terminated + "</td>";
+           table += "<td>" + pcb.proccessState + "</td>";
            table += "</tr>";
            i++;
          }

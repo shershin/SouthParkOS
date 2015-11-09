@@ -13,7 +13,7 @@ module TSOS {
       public base : number = null,
       public limit : number = null,
       public partition : number = null,
-      public terminated : boolean = false
+      public proccessState : string = 'new'
     ){
       this.init();
     }

@@ -330,7 +330,7 @@ var TSOS;
             var i = 0;
             while (i < TSOS.PCB.pidint) {
                 var pcb = _resList.getID(i);
-                if (!pcb.terminated) {
+                if (pcb.proccessState !== 'terminated') {
                     _StdOut.putText("PID:" + pcb.pid);
                     _StdOut.advanceLine();
                 }
@@ -340,7 +340,8 @@ var TSOS;
         Shell.prototype.shellKill = function (args) {
             var pars = parseInt(args);
             var pcb = _resList.getID(pars);
-            pcb.terminated = true;
+            _resList.removefromList(pcb.pid);
+            pcb.proccessState = 'terminated';
             _StdOut.putText("OMG you killed, PID: " + pcb.pid + " you BASTARD!");
         };
         Shell.prototype.shellLoad = function (args) {
@@ -348,7 +349,7 @@ var TSOS;
             var str = input.value;
             var isValid = false;
             var clean = "";
-            if (TSOS.PCB.pidint < partsAllowed) {
+            if (_resList.pcbint < partsAllowed) {
                 if (str.length > 0) {
                     var re = /([^abcdefABCDEF0123456789\s])/g;
                     var test = str.search(re);
@@ -395,7 +396,8 @@ var TSOS;
                     var intget = parseInt(args[0]);
                     var getpcb = _resList.getID(intget);
                     _currentPCB = getpcb;
-                    _CPU.setCPU();
+                    _currentPCB.proccessState = 'running';
+                    _CPU.setCPU(_currentPCB);
                     _Queue.enqueue(_currentPCB);
                     _CpuSched.init();
                     _StdOut.putText("Executing.");
@@ -418,11 +420,14 @@ var TSOS;
         Shell.prototype.shellRunall = function (args) {
             var i = 0;
             while (i < TSOS.PCB.pidint) {
-                _Queue.enqueue(_resList.getID(i));
+                var pcb = _resList.getID(i);
+                pcb.proccessState = 'ready';
+                _Queue.enqueue(pcb);
                 i++;
             }
             _currentPCB = _Queue.dequeue();
-            _CPU.setCPU();
+            _currentPCB.proccessState = 'running';
+            _CPU.setCPU(_currentPCB);
             _CpuSched.init();
             _CPU.isExecuting = true;
         };

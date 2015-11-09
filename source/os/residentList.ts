@@ -20,6 +20,7 @@ module TSOS {
     public removefromList(arg){
       var spot = this.pcblist.indexOf(arg);
       this.pcblist.splice(spot, 1);
+      this.pcbint--;
     }
 
     public getID(arg): PCB{

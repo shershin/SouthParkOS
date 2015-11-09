@@ -210,7 +210,7 @@ module TSOS {
           //op code 00
           //taking a break....or breaking a computer either or works
           Control.hostLog("Coffee Break");
-          _currentPCB.terminated = true;
+          _currentPCB.proccessState = 'terminated';
         }
 
         public cpx(){
@@ -289,12 +289,12 @@ module TSOS {
           }
 
 
-          public setCPU(){
-            this.PC = _currentPCB.progCounter;
-            this.Acc = _currentPCB.accumulater;
-            this.Xreg = _currentPCB.xreg;
-            this.Yreg = _currentPCB.yreg;
-            this.Zflag = _currentPCB.zflag;
+          public setCPU(pcb : PCB){
+            this.PC = pcb.progCounter;
+            this.Acc = pcb.accumulater;
+            this.Xreg = pcb.xreg;
+            this.Yreg = pcb.yreg;
+            this.Zflag = pcb.zflag;
           }
 
 

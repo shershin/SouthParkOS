@@ -17,6 +17,7 @@ var TSOS;
         residentList.prototype.removefromList = function (arg) {
             var spot = this.pcblist.indexOf(arg);
             this.pcblist.splice(spot, 1);
+            this.pcbint--;
         };
         residentList.prototype.getID = function (arg) {
             for (var i = 0; i < this.pcbint; i++) {

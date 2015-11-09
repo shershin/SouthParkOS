@@ -476,7 +476,7 @@ module TSOS {
           var i = 0;
           while (i < PCB.pidint){
             var pcb = _resList.getID(i);
-            if (!pcb.terminated){
+            if (pcb.proccessState !== 'terminated'){
               _StdOut.putText("PID:" + pcb.pid);
               _StdOut.advanceLine();
             }
@@ -486,7 +486,8 @@ module TSOS {
         public shellKill(args){
           var pars = parseInt(args);
           var pcb = _resList.getID(pars);
-          pcb.terminated = true;
+          _resList.removefromList(pcb.pid);
+          pcb.proccessState = 'terminated';
           _StdOut.putText("OMG you killed, PID: " + pcb.pid + " you BASTARD!");
         }
         public shellLoad(args){
@@ -494,7 +495,7 @@ module TSOS {
           var str = input.value;
           var isValid = false;
           var clean = "";
-          if (PCB.pidint < partsAllowed){
+          if (_resList.pcbint < partsAllowed){
             if (str.length > 0){
               var re = /([^abcdefABCDEF0123456789\s])/g;
               var test = str.search(re);
@@ -537,7 +538,8 @@ module TSOS {
               var intget = parseInt(args[0]);
               var getpcb = _resList.getID(intget);
               _currentPCB = getpcb;
-              _CPU.setCPU();
+              _currentPCB.proccessState = 'running';
+              _CPU.setCPU(_currentPCB);
               _Queue.enqueue(_currentPCB);
               _CpuSched.init();
               _StdOut.putText("Executing.");
@@ -560,11 +562,14 @@ module TSOS {
         public shellRunall(args){
           var i = 0;
           while (i < PCB.pidint){
-            _Queue.enqueue(_resList.getID(i));
+            var pcb = _resList.getID(i);
+            pcb.proccessState = 'ready';
+            _Queue.enqueue(pcb);
             i++;
           }
           _currentPCB = _Queue.dequeue();
-          _CPU.setCPU();
+          _currentPCB.proccessState = 'running';
+          _CPU.setCPU(_currentPCB);
           _CpuSched.init();
           _CPU.isExecuting = true;
         }

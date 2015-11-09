@@ -164,7 +164,7 @@ var TSOS;
         };
         Cpu.prototype.brk = function () {
             TSOS.Control.hostLog("Coffee Break");
-            _currentPCB.terminated = true;
+            _currentPCB.proccessState = 'terminated';
         };
         Cpu.prototype.cpx = function () {
             var grab2 = TSOS.Utils.grabberTwo();
@@ -229,12 +229,12 @@ var TSOS;
                 console.log("no means no");
             }
         };
-        Cpu.prototype.setCPU = function () {
-            this.PC = _currentPCB.progCounter;
-            this.Acc = _currentPCB.accumulater;
-            this.Xreg = _currentPCB.xreg;
-            this.Yreg = _currentPCB.yreg;
-            this.Zflag = _currentPCB.zflag;
+        Cpu.prototype.setCPU = function (pcb) {
+            this.PC = pcb.progCounter;
+            this.Acc = pcb.accumulater;
+            this.Xreg = pcb.xreg;
+            this.Yreg = pcb.yreg;
+            this.Zflag = pcb.zflag;
         };
         return Cpu;
     })();
