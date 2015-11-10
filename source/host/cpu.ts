@@ -120,7 +120,8 @@ module TSOS {
           var dec = Utils.fromHex(grab2);
           var grab = Utils.grabberOne(dec);
           var decGrab = Utils.fromHex(grab);
-          this.Acc = decGrab;
+          var address = Utils.addBase(decGrab);
+          this.Acc = address;
           Control.hostLog("lda " + grab2);
           _currentPCB.incerPC();
           _currentPCB.incerPC();
@@ -131,8 +132,9 @@ module TSOS {
           //Stores the accumulator into the Memory
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
+          var address = Utils.addBase(dec);
           var hex = Utils.toHex(this.Acc);
-          _Memory.memory[dec] = hex;
+          _Memory.memory[address] = hex;
           Control.hostLog("sta " + grab2);
           _currentPCB.incerPC();
           _currentPCB.incerPC();
@@ -143,7 +145,8 @@ module TSOS {
           //adds contents of an address to the contents of the accumulator
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
-          var grab = Utils.grabberOne(dec);
+          var address = Utils.addBase(dec);
+          var grab = Utils.grabberOne(address);
           var decGrab = Utils.fromHex(grab);
           this.Acc += decGrab;
           Control.hostLog("adc " + grab2);
@@ -167,7 +170,8 @@ module TSOS {
           //loads the x reg from memory
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
-          var grab = Utils.grabberOne(dec);
+          var address = Utils.addBase(dec);
+          var grab = Utils.grabberOne(address);
           var decGrab = Utils.fromHex(grab);
           this.Xreg = decGrab;
           Control.hostLog("ldx " + grab2);
@@ -191,7 +195,8 @@ module TSOS {
           //loads the y reg from memory
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
-          var grab = Utils.grabberOne(dec);
+          var address = Utils.addBase(dec);
+          var grab = Utils.grabberOne(address);
           var decGrab = Utils.fromHex(grab);
           this.Yreg = decGrab;
           Control.hostLog("ldy " + grab2);
@@ -218,7 +223,8 @@ module TSOS {
           //compare a byte in memory to the x reg if true then z = 1 else z = 0
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
-          var grab = Utils.grabberOne(dec);
+          var address = Utils.addBase(dec);
+          var grab = Utils.grabberOne(address);
           var decGrab = Utils.fromHex(grab);
           if (decGrab === this.Xreg){
             this.Zflag = 1;
@@ -253,7 +259,8 @@ module TSOS {
           //incerment the value of memory by one
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
-          var grab = Utils.grabberOne(dec);
+          var address = Utils.addBase(dec);
+          var grab = Utils.grabberOne(address);
           var decGrab = Utils.fromHex(grab);
           var final = decGrab + 1;
           var hex = Utils.toHex(final);
@@ -273,7 +280,7 @@ module TSOS {
             console.log("print yreg " + this.Yreg);
           }else if(this.Xreg === 2){
             //prints the string from memory starting at location saved in yreg
-            var loc = this.Yreg;
+            var loc = Utils.addBase(this.Yreg);
             var hex = _Memory.memory[loc];
             var str = "";
             var value = loc;

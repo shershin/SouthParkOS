@@ -83,5 +83,9 @@ module TSOS {
           var loc = _Memory.memory[val];
           return loc;
         }
+        public static addBase(arg){
+          var combined = arg + _currentPCB.base;
+          return combined;
+        }
     }
 }

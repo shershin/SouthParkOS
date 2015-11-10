@@ -8,6 +8,7 @@ var TSOS;
             if (this.validPart(partnum)) {
                 var currByte = "";
                 var memLoc = (mem_size * partnum);
+                console.log("memory location " + memLoc);
                 for (var i = 0; i < str.length; i++) {
                     currByte = currByte + str[i];
                     if (currByte.length > 1) {

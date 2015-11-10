@@ -57,6 +57,10 @@ var TSOS;
             var loc = _Memory.memory[val];
             return loc;
         };
+        Utils.addBase = function (arg) {
+            var combined = arg + _currentPCB.base;
+            return combined;
+        };
         return Utils;
     })();
     TSOS.Utils = Utils;

@@ -98,7 +98,8 @@ var TSOS;
             var dec = TSOS.Utils.fromHex(grab2);
             var grab = TSOS.Utils.grabberOne(dec);
             var decGrab = TSOS.Utils.fromHex(grab);
-            this.Acc = decGrab;
+            var address = TSOS.Utils.addBase(decGrab);
+            this.Acc = address;
             TSOS.Control.hostLog("lda " + grab2);
             _currentPCB.incerPC();
             _currentPCB.incerPC();
@@ -106,8 +107,9 @@ var TSOS;
         Cpu.prototype.staMem = function () {
             var grab2 = TSOS.Utils.grabberTwo();
             var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
             var hex = TSOS.Utils.toHex(this.Acc);
-            _Memory.memory[dec] = hex;
+            _Memory.memory[address] = hex;
             TSOS.Control.hostLog("sta " + grab2);
             _currentPCB.incerPC();
             _currentPCB.incerPC();
@@ -115,7 +117,8 @@ var TSOS;
         Cpu.prototype.adc = function () {
             var grab2 = TSOS.Utils.grabberTwo();
             var dec = TSOS.Utils.fromHex(grab2);
-            var grab = TSOS.Utils.grabberOne(dec);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Acc += decGrab;
             TSOS.Control.hostLog("adc " + grab2);
@@ -133,7 +136,8 @@ var TSOS;
         Cpu.prototype.ldxMem = function () {
             var grab2 = TSOS.Utils.grabberTwo();
             var dec = TSOS.Utils.fromHex(grab2);
-            var grab = TSOS.Utils.grabberOne(dec);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Xreg = decGrab;
             TSOS.Control.hostLog("ldx " + grab2);
@@ -151,7 +155,8 @@ var TSOS;
         Cpu.prototype.ldyMem = function () {
             var grab2 = TSOS.Utils.grabberTwo();
             var dec = TSOS.Utils.fromHex(grab2);
-            var grab = TSOS.Utils.grabberOne(dec);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
             var decGrab = TSOS.Utils.fromHex(grab);
             this.Yreg = decGrab;
             TSOS.Control.hostLog("ldy " + grab2);
@@ -169,7 +174,8 @@ var TSOS;
         Cpu.prototype.cpx = function () {
             var grab2 = TSOS.Utils.grabberTwo();
             var dec = TSOS.Utils.fromHex(grab2);
-            var grab = TSOS.Utils.grabberOne(dec);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
             var decGrab = TSOS.Utils.fromHex(grab);
             if (decGrab === this.Xreg) {
                 this.Zflag = 1;
@@ -199,7 +205,8 @@ var TSOS;
         Cpu.prototype.inc = function () {
             var grab2 = TSOS.Utils.grabberTwo();
             var dec = TSOS.Utils.fromHex(grab2);
-            var grab = TSOS.Utils.grabberOne(dec);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
             var decGrab = TSOS.Utils.fromHex(grab);
             var final = decGrab + 1;
             var hex = TSOS.Utils.toHex(final);
@@ -214,7 +221,7 @@ var TSOS;
                 console.log("print yreg " + this.Yreg);
             }
             else if (this.Xreg === 2) {
-                var loc = this.Yreg;
+                var loc = TSOS.Utils.addBase(this.Yreg);
                 var hex = _Memory.memory[loc];
                 var str = "";
                 var value = loc;
