@@ -51,7 +51,6 @@ module TSOS {
         //swap them and swap them fast
         public static littleE(args1, args2){
           var swap = args2 + args1;
-          console.log("concat: args2:" + args2 + " args1: " + args1 + " combined: " + swap);
           return swap;
         }
         //reverse of fromHex....why am i doing all this work argh

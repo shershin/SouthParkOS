@@ -473,22 +473,40 @@ module TSOS {
           }
         }
         public shellPs(args){
-          var i = 0;
-          while (i < PCB.pidint){
-            var pcb = _resList.getID(i);
-            if (pcb.proccessState !== 'terminated'){
-              _StdOut.putText("PID:" + pcb.pid);
-              _StdOut.advanceLine();
+          if (_currentPCB !== null){
+            _StdOut.putText("PID: " + _currentPCB.pid);
+            _StdOut.advanceLine();
+            if (!_Queue.isEmpty()){
+              var i = 0;
+              while (i < _Queue.getSize()){
+                _StdOut.putText("PID: " + _Queue.q[i].pid);
+                console.log("queue is not empty " + _Queue.q[i].pid)
+                _StdOut.advanceLine();
+                i++;
+              }
+            } else {
+              _StdOut.putText("PID: " + _currentPCB.pid);
+              console.log("queue is empty");
             }
-            i++;
+          } else {
+            _StdOut.putText("No programs running buddy.");
           }
         }
         public shellKill(args){
-          var pars = parseInt(args);
-          var pcb = _resList.getID(pars);
-          _resList.removefromList(pcb.pid);
-          pcb.proccessState = 'terminated';
-          _StdOut.putText("OMG you killed, PID: " + pcb.pid + " you BASTARD!");
+          var i = 0;
+          if (_currentPCB.pid === parseInt(args)){
+            _currentPCB.proccessState = 'terminated';
+            _StdOut.putText("OMG you killed, PID: " + _currentPCB.pid + " you BASTARD!");
+          } else {
+            while (i < _Queue.getSize()){
+              var pcb = _Queue.peek(i);
+              if (pcb.pid === parseInt(args)){
+                pcb.proccessState = 'terminated';
+                _StdOut.putText("OMG you killed, PID: " + pcb.pid + " you BASTARD!");
+              }
+              i++;
+            }
+          }
         }
         public shellLoad(args){
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
@@ -558,6 +576,7 @@ module TSOS {
         public shellClearmem(args){
           _MemoryManager.clearMem();
           Control.memoryTable();
+          _resList.clearParts();
         }
         public shellRunall(args){
           var i = 0;

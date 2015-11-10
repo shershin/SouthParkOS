@@ -31,7 +31,6 @@ var TSOS;
         };
         Utils.littleE = function (args1, args2) {
             var swap = args2 + args1;
-            console.log("concat: args2:" + args2 + " args1: " + args1 + " combined: " + swap);
             return swap;
         };
         Utils.toHex = function (args) {

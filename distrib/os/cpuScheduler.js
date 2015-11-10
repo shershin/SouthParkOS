@@ -22,20 +22,17 @@ var TSOS;
             _currentPCB.updatePCB();
             if (!_Queue.isEmpty()) {
                 if (_currentPCB.proccessState === 'terminated') {
-                    console.log("terminated");
-                    console.log("old pid: " + _currentPCB.pid);
                     _currentPCB = _Queue.dequeue();
                     _currentPCB.proccessState = 'running';
-                    console.log("new pid: " + _currentPCB.pid);
                 }
                 else {
-                    console.log("not terminated");
-                    console.log("old pid: " + _currentPCB.pid);
                     _currentPCB.proccessState = 'waiting';
                     _Queue.enqueue(_currentPCB);
                     _currentPCB = _Queue.dequeue();
+                    if (_currentPCB.proccessState === 'terminated') {
+                        this.switch();
+                    }
                     _currentPCB.proccessState = 'running';
-                    console.log("new pid: " + _currentPCB.pid);
                 }
             }
             _CPU.setCPU(_currentPCB);

@@ -28,6 +28,10 @@ var TSOS;
             }
             return retVal;
         };
+        Queue.prototype.peek = function (arg) {
+            var pcb = this.q[arg];
+            return pcb;
+        };
         return Queue;
     })();
     TSOS.Queue = Queue;

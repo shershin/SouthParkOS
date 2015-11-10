@@ -225,6 +225,7 @@ module TSOS {
           }else{
             this.Zflag = 0;
           }
+          console.log(decGrab + " =xreg= " + this.Xreg + " pid  " + _currentPCB.pid + " base " +  _currentPCB.base);
           Control.hostLog("cpx " + grab2);
           _currentPCB.incerPC();
           _currentPCB.incerPC();
