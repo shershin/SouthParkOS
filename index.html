@@ -50,93 +50,6 @@
 </head>
 
 <body onload="onDocumentLoad()">
-<<<<<<< HEAD
-
-<div id="divMain" style="width:100%;">
-
-   <div id="divButtonBar" style="margin:4px;">
-      <input type="button"
-             id = "btnStartOS"
-             name="brnStartOS"
-             class="normal_button"
-             value="Start"
-             tabindex="0"
-             onclick="TSOS.Control.hostBtnStartOS_click(this);">
-
-      <input type="button"
-             id = "btnHaltOS"
-             name="brnHaltOS"
-             class="normal_button"
-             disabled="disabled"
-             value="Halt"
-             tabindex="1"
-             onclick="TSOS.Control.hostBtnHaltOS_click(this);">
-
-      <input type="button"
-             id = "btnReset"
-             name="brnReset"
-             class="normal_button"
-             disabled="disabled"
-             value="Reset"
-             tabindex="2"
-             onclick="TSOS.Control.hostBtnReset_click(this);">
-
-      <input type="button"
-             id = "singleStep"
-             name = "Single Step"
-             value = "Single Step: off"
-             tabindex="3"
-             onclick="TSOS.Control.singleStep_click(this);">
-
-      <input type="button"
-             id = "stepOne"
-             name = "Step One"
-             value = "->"
-             disabled="disabled"
-             tabindex="4"
-             onclick="TSOS.Control.stepOne_click();"
-
-   </div>
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
-      <canvas id="display"
-              width="500px"
-              height="500px"
-              tabindex="5">
-      </canvas>
-   </div>
-
-   <div id="divLog" style="margin-left:520px;">
-      <label>
-         Host Log
-         <br>
-         <textarea name="taHostLog"
-                   id  ="taHostLog"
-                   rows="8"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-
-   <div id="cpuDiv" style="margin:4px; width:200px; height:100px; float:left">
-         <label>
-            CPU Display
-         </label>
-         <div id="cpuTable" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
-          <table class="table table-bordered" id="cpuTable">
-            <thead>
-              <tr>
-                <th>PC</th>
-                <th>AC</th>
-                <th>IR</th>
-                <th>X</th>
-                <th>Y</th>
-                <th>Z</th>
-              </tr>
-            </thead>
-            <tbody id="cpuTableBody"></tbody>
-          </table>
-        </div>
-=======
   <div id="divMain" style="width:100%;" class="container-fluid">
     <div class="row">
       <div class="col-md-3">
@@ -254,7 +167,6 @@
            </thead>
            <tbody id="pcbTableBody"></tbody>
          </table>
->>>>>>> master
        </div>
       </div>
     </div>
