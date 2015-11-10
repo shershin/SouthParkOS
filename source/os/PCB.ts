@@ -9,7 +9,11 @@ module TSOS {
       public yreg : number= 0,
       public zflag: number = 0,
       public progCounter = 0,
-      public accumulater = 0
+      public accumulater = 0,
+      public base : number = null,
+      public limit : number = null,
+      public partition : number = null,
+      public proccessState : string = 'new'
     ){
       this.init();
     }
@@ -21,10 +25,25 @@ module TSOS {
           this.progCounter++;
           _CPU.PC++;
           //If PC excedes memory size, wrap-around to start of memory
-          if(this.progCounter > mem_size - 1){
-            this.progCounter = 0;
-            _CPU.PC = 0;
+          if(this.progCounter > this.limit){
+            this.progCounter = this.base;
+            _CPU.PC = this.base;
           }
+          MemoryManager.outofBounds(_currentPCB);
         }
+  public updatePCB(){
+    this.progCounter = _CPU.PC;
+    this.accumulater = _CPU.Acc;
+    this.xreg = _CPU.Xreg;
+    this.yreg = _CPU.Yreg;
+    this.zflag = _CPU.Zflag;
+  }
+
+  public setPart(args: number){
+      this.partition = args;
+      this.base = args * mem_size;
+      this.limit = (args + 1) * mem_size - 1;
+      this.progCounter = this.base;
+  }
  }
 }

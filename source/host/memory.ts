@@ -13,12 +13,5 @@ module TSOS {
     public init (){
       this.memory = [];
     }
-    public static outofBounds(){
-      if (_Memory.memory.length > 512){
-        var mess = "Memory out of bounds";
-        _Kernel.krnTrapError(mess);
-      }
-    }
-
   }
 }

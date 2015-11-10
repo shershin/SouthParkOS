@@ -31,6 +31,11 @@ var TSOS;
             _Memory.init();
             _CPU = new TSOS.Cpu();
             _CPU.init();
+            _CpuSched = new TSOS.CPU_Scheduler();
+            _resList = new TSOS.residentList();
+            _MemoryManager = new TSOS.MemoryManager();
+            _MemoryManager.clearMem();
+            _Queue = new TSOS.Queue();
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             _Kernel = new TSOS.Kernel();
             _Kernel.krnBootstrap();
@@ -79,7 +84,7 @@ var TSOS;
                 currRow = currRow.toUpperCase();
                 table += "<td style=\"font-weight:bold\">" + rowHeader + currRow + "</td>";
                 for (var j = 0; j < 8; j++) {
-                    if (_Memory.memory[memoryIndex] === null) {
+                    if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === undefined) {
                         table += "<td> 00 </td>";
                     }
                     else {
@@ -103,14 +108,25 @@ var TSOS;
             table += "<td>" + _CPU.Zflag + "</td>";
             document.getElementById("cpuTableBody").innerHTML = table;
         };
-        Control.pcbTable = function (pcb) {
+        Control.pcbTable = function () {
             var table = "";
-            table += "<td>" + _ProcessControlBlock.progCounter + "</td>";
-            table += "<td>" + _ProcessControlBlock.accumulater + "</td>";
-            table += "<td>" + _Memory.memory[_ProcessControlBlock.progCounter] + "</td>";
-            table += "<td>" + _ProcessControlBlock.xreg + "</td>";
-            table += "<td>" + _ProcessControlBlock.yreg + "</td>";
-            table += "<td>" + _ProcessControlBlock.zflag + "</td>";
+            var i = 0;
+            while (i < TSOS.PCB.pidint) {
+                var pcb = _resList.getID(i);
+                table += "<tr>";
+                table += "<td>" + pcb.pid + "</td>";
+                table += "<td>" + pcb.progCounter + "</td>";
+                table += "<td>" + pcb.accumulater + "</td>";
+                table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
+                table += "<td>" + pcb.xreg + "</td>";
+                table += "<td>" + pcb.yreg + "</td>";
+                table += "<td>" + pcb.zflag + "</td>";
+                table += "<td>" + pcb.base + "</td>";
+                table += "<td>" + pcb.limit + "</td>";
+                table += "<td>" + pcb.proccessState + "</td>";
+                table += "</tr>";
+                i++;
+            }
             document.getElementById("pcbTableBody").innerHTML = table;
         };
         Control.singleStep = false;

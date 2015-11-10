@@ -25,13 +25,18 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
-            this.execute(_Memory.memory[_ProcessControlBlock.progCounter]);
+            _CpuSched.cycle();
             TSOS.Control.cpuTable();
+            TSOS.Control.pcbTable();
+            TSOS.Control.memoryTable();
+            this.execute();
         };
-        Cpu.prototype.execute = function (args) {
-            console.log(_ProcessControlBlock.progCounter + " " + _Memory.memory[_ProcessControlBlock.progCounter]);
-            _ProcessControlBlock.incerPC();
-            var caps = args;
+        Cpu.prototype.execute = function () {
+            var holder = _Memory.memory[_currentPCB.progCounter];
+            console.log(_currentPCB.progCounter + " memory " + _Memory.memory[_currentPCB.progCounter] + " pid " + _currentPCB.pid);
+            _currentPCB.incerPC();
+            _CpuSched.cpuCycle++;
+            var caps = holder.toUpperCase();
             switch (caps) {
                 case "A9":
                     this.ldaCon();
@@ -81,143 +86,142 @@ var TSOS;
             }
         };
         Cpu.prototype.ldaCon = function () {
-            var dec = TSOS.Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
-            TSOS.Control.hostLog("lda " + _Memory.memory[_ProcessControlBlock.progCounter]);
-            _ProcessControlBlock.accumulater = dec;
-            _ProcessControlBlock.incerPC();
+            var spot = _currentPCB.progCounter;
+            var grab = TSOS.Utils.grabberOne(spot);
+            var dec = TSOS.Utils.fromHex(grab);
+            this.Acc = dec;
+            TSOS.Control.hostLog("lda " + grab);
+            _currentPCB.incerPC();
         };
         Cpu.prototype.ldaMem = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("lda" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            _ProcessControlBlock.accumulater = _Memory.memory[dec];
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var grab = TSOS.Utils.grabberOne(dec);
+            var decGrab = TSOS.Utils.fromHex(grab);
+            var address = TSOS.Utils.addBase(decGrab);
+            this.Acc = address;
+            TSOS.Control.hostLog("lda " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.staMem = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("sta" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            _Memory.memory[dec] = _ProcessControlBlock.accumulater;
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
+            var hex = TSOS.Utils.toHex(this.Acc);
+            _Memory.memory[address] = hex;
+            TSOS.Control.hostLog("sta " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.adc = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("adc" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            _ProcessControlBlock.accumulater += dec;
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
+            var decGrab = TSOS.Utils.fromHex(grab);
+            this.Acc += decGrab;
+            TSOS.Control.hostLog("adc " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.ldxCon = function () {
-            var dec = TSOS.Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
-            TSOS.Control.hostLog("ldx " + _Memory.memory[_ProcessControlBlock.progCounter]);
+            var spot = _currentPCB.progCounter;
+            var grab = TSOS.Utils.grabberOne(spot);
+            var dec = TSOS.Utils.fromHex(grab);
             this.Xreg = dec;
-            _ProcessControlBlock.incerPC();
+            TSOS.Control.hostLog("ldx " + grab);
+            _currentPCB.incerPC();
         };
         Cpu.prototype.ldxMem = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("ldx" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            this.Xreg = _Memory.memory[dec];
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
+            var decGrab = TSOS.Utils.fromHex(grab);
+            this.Xreg = decGrab;
+            TSOS.Control.hostLog("ldx " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.ldyCon = function () {
-            var dec = TSOS.Utils.fromHex(_Memory.memory[_ProcessControlBlock.progCounter]);
-            TSOS.Control.hostLog("ldy " + _Memory.memory[_ProcessControlBlock.progCounter]);
+            var spot = _currentPCB.progCounter;
+            var grab = TSOS.Utils.grabberOne(spot);
+            var dec = TSOS.Utils.fromHex(grab);
             this.Yreg = dec;
-            _ProcessControlBlock.incerPC();
+            TSOS.Control.hostLog("ldy " + grab);
+            _currentPCB.incerPC();
         };
         Cpu.prototype.ldyMem = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("ldy" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            this.Yreg = _Memory.memory[dec];
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
-            console.log(swap + " " + dec);
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
+            var decGrab = TSOS.Utils.fromHex(grab);
+            this.Yreg = decGrab;
+            TSOS.Control.hostLog("ldy " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.nop = function () {
-            TSOS.Control.hostLog("no operation");
+            TSOS.Control.hostLog("nope nope nope");
+            _currentPCB.incerPC();
         };
         Cpu.prototype.brk = function () {
-            _ProcessControlBlock.xreg = this.Xreg;
-            _ProcessControlBlock.yreg = this.Yreg;
-            _ProcessControlBlock.zflag = this.Zflag;
-            _ProcessControlBlock.accumulater = this.Acc;
-            TSOS.Control.pcbTable(_ProcessControlBlock.pid);
-            TSOS.Control.hostLog("coffee break");
-            this.isExecuting = false;
+            TSOS.Control.hostLog("Coffee Break");
+            _currentPCB.proccessState = 'terminated';
         };
         Cpu.prototype.cpx = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("cpx" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            if (dec > (mem_size - 1)) {
-                dec = dec - mem_size;
-            }
-            var dec2 = TSOS.Utils.fromHex(_Memory.memory[dec]);
-            if (this.Xreg === dec2) {
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
+            var decGrab = TSOS.Utils.fromHex(grab);
+            if (decGrab === this.Xreg) {
                 this.Zflag = 1;
             }
             else {
                 this.Zflag = 0;
             }
-            console.log(this.Xreg + " " + dec2 + " " + _ProcessControlBlock.progCounter);
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
+            console.log(decGrab + " =xreg= " + this.Xreg + " pid  " + _currentPCB.pid + " base " + _currentPCB.base);
+            TSOS.Control.hostLog("cpx " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.bne = function () {
-            console.log("bne " + this.Zflag);
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var dec = TSOS.Utils.fromHex(spot1);
-            TSOS.Control.hostLog("bne" + " " + spot1);
+            var spot = _currentPCB.progCounter;
+            var grab = TSOS.Utils.grabberOne(spot);
+            var dec = TSOS.Utils.fromHex(grab);
+            var i = 0;
             if (this.Zflag === 0) {
-                console.log("works " + dec + " " + spot1);
-                for (var i = 0; i < dec; i++) {
-                    _ProcessControlBlock.incerPC();
+                while (i < dec) {
+                    _currentPCB.incerPC();
+                    i++;
                 }
             }
-            else {
-                _ProcessControlBlock.incerPC();
-            }
+            TSOS.Control.hostLog("bne " + grab);
+            _currentPCB.incerPC();
         };
         Cpu.prototype.inc = function () {
-            var spot1 = _Memory.memory[_ProcessControlBlock.progCounter];
-            var spot2 = _Memory.memory[_ProcessControlBlock.progCounter + 1];
-            TSOS.Control.hostLog("inc" + " " + spot1 + " " + spot2);
-            var swap = TSOS.Utils.littleE(spot1, spot2);
-            var dec = TSOS.Utils.fromHex(swap);
-            var out = _Memory.memory[dec];
-            var dec2 = TSOS.Utils.fromHex(out);
-            dec2 = dec2 + 1;
-            var hex = TSOS.Utils.toHex(dec2);
+            var grab2 = TSOS.Utils.grabberTwo();
+            var dec = TSOS.Utils.fromHex(grab2);
+            var address = TSOS.Utils.addBase(dec);
+            var grab = TSOS.Utils.grabberOne(address);
+            var decGrab = TSOS.Utils.fromHex(grab);
+            var final = decGrab + 1;
+            var hex = TSOS.Utils.toHex(final);
             _Memory.memory[dec] = hex;
-            _ProcessControlBlock.incerPC();
-            _ProcessControlBlock.incerPC();
+            TSOS.Control.hostLog("inc " + grab2);
+            _currentPCB.incerPC();
+            _currentPCB.incerPC();
         };
         Cpu.prototype.sys = function () {
-            console.log("sys: " + this.Xreg + " " + this.Yreg);
             if (this.Xreg === 1) {
                 _StdOut.putText("" + this.Yreg);
-                console.log(this.Yreg + "this works mother fucker");
+                console.log("print yreg " + this.Yreg);
             }
             else if (this.Xreg === 2) {
-                var loc = this.Yreg;
+                var loc = TSOS.Utils.addBase(this.Yreg);
                 var hex = _Memory.memory[loc];
                 var str = "";
                 var value = loc;
@@ -225,14 +229,20 @@ var TSOS;
                     str += TSOS.Utils.stringHex(TSOS.Utils.fromHex(_Memory.memory[loc]));
                     loc++;
                     value = TSOS.Utils.fromHex(_Memory.memory[loc]);
-                    console.log(str + " " + value + " " + _Memory.memory[loc - 1]);
                 }
                 _StdOut.putText(str);
-                console.log("" + str);
+                console.log("print string " + str);
             }
             else {
                 console.log("no means no");
             }
+        };
+        Cpu.prototype.setCPU = function (pcb) {
+            this.PC = pcb.progCounter;
+            this.Acc = pcb.accumulater;
+            this.Xreg = pcb.xreg;
+            this.Yreg = pcb.yreg;
+            this.Zflag = pcb.zflag;
         };
         return Cpu;
     })();

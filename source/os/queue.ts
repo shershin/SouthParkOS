@@ -40,5 +40,10 @@ module TSOS {
             }
             return retVal;
         }
+
+        public peek(arg) : PCB{
+          var pcb = this.q[arg];
+          return pcb;
+        }
     }
 }

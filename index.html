@@ -4,6 +4,7 @@
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
    <meta name="author"             content="Alan G. Labouseur" />
    <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
+   <link rel="shortcut icon" type="image/ico" href="distrib/images/sign.ico" />
    <title>
       SouthParkOS
    </title>
@@ -24,6 +25,8 @@
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
    <script type="text/javascript" src="distrib/os/PCB.js"></script>
    <script type="text/javascript" src="distrib/os/MemoryManager.js"></script>
+   <script type="text/javascript" src="distrib/os/cpuScheduler.js"></script>
+   <script type="text/javascript" src="distrib/os/residentList.js"></script>
    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
    <script type="text/javascript" src="distrib/os/canvastext.js"></script>
    <script type="text/javascript" src="distrib/os/console.js"></script>
@@ -42,17 +45,12 @@
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment this line below to enable GLaDOS testing -->
-<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
-<p id="status" onload="shellStatus()">
-  Respect My Authority!
-</p>
-<p>
-  <script> document.write(Date());</script>
-</p>
+<!--<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>-->
 
 </head>
 
 <body onload="onDocumentLoad()">
+<<<<<<< HEAD
 
 <div id="divMain" style="width:100%;">
 
@@ -138,46 +136,187 @@
             <tbody id="cpuTableBody"></tbody>
           </table>
         </div>
+=======
+  <div id="divMain" style="width:100%;" class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6">
+        <h1 id="status" onload="shellStatus()">
+          Respect My Authority!
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6">
+        <h2>
+          <script> document.write(Date());</script>
+        </h2>
+      </div>
+    </div>
+
+    <div class="row">
+
+     <div id="divButtonBar" style="margin:4px;" class="col-md-12">
+        <input type="button"
+               id = "btnStartOS"
+               name="brnStartOS"
+               class="btn btn-success"
+               value="Start"
+               tabindex="0"
+               onclick="TSOS.Control.hostBtnStartOS_click(this);">
+
+        <input type="button"
+               id = "btnHaltOS"
+               name="brnHaltOS"
+               class="btn btn-danger"
+               disabled="disabled"
+               value="Halt"
+               tabindex="1"
+               onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+
+        <input type="button"
+               id = "btnReset"
+               name="brnReset"
+               class="btn btn-warning"
+               disabled="disabled"
+               value="Reset"
+               tabindex="2"
+               onclick="TSOS.Control.hostBtnReset_click(this);">
+
+        <input type="button"
+               id = "singleStep"
+               name = "Single Step"
+               class="btn btn-primary"
+               value = "Single Step: off"
+               tabindex="3"
+               onclick="TSOS.Control.singleStep_click(this);">
+
+        <input type="button"
+               id = "stepOne"
+               name = "Step One"
+               class="btn btn-info"
+               value = "->"
+               disabled="disabled"
+               tabindex="4"
+               onclick="TSOS.Control.stepOne_click();"
+
+     </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-4">
+      <div id="cpuDiv" style="margin:4px; width:200px; height:100px;">
+            <label><font color="orange">
+               CPU Display
+            </font></label>
+            <div id="cpuTable" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
+             <table class="table table-bordered" id="cpuTable">
+               <thead>
+                 <tr>
+                   <th>PC</th>
+                   <th>AC</th>
+                   <th>IR</th>
+                   <th>X</th>
+                   <th>Y</th>
+                   <th>Z</th>
+                 </tr>
+               </thead>
+               <tbody id="cpuTableBody"></tbody>
+             </table>
+           </div>
+          </div>
+    </div>
+    <div class="col-md-6">
+      <div id="pcbDiv" style="margin:4px; width:250px; height:100px; float:left">
+        <label><font color="orange">
+           Ready Queue
+        </font></label>
+        <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:500px; height:150px;">
+         <table class="table table-bordered" id="pcbTable">
+           <thead>
+             <tr>
+               <th>PID</th>
+               <th>PC</th>
+               <th>AC</th>
+               <th>IR</th>
+               <th>X</th>
+               <th>Y</th>
+               <th>Z</th>
+               <th>Base</th>
+               <th>Limit</th>
+               <th>Proccess State</th>
+             </tr>
+           </thead>
+           <tbody id="pcbTableBody"></tbody>
+         </table>
+>>>>>>> master
        </div>
-       <div id="pcbDiv" style="margin:4px; width:250px; height:100px; float:left">
-         <label>
-            PCB Display
-         </label>
-         <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
-          <table class="table table-bordered" id="pcbTable">
-            <thead>
-              <tr>
-                <th>PC</th>
-                <th>AC</th>
-                <th>IR</th>
-                <th>X</th>
-                <th>Y</th>
-                <th>Z</th>
-              </tr>
-            </thead>
-            <tbody id="pcbTableBody"></tbody>
-          </table>
+      </div>
+    </div>
+  </div>
+
+ <br>
+ <br>
+ <br>
+ <br>
+
+
+  <div class="row">
+  <div class="col-md-1">
+  </div>
+    <div class="col-md-4">
+      <div id="divConsole" style="margin:4px; width:500px; height:500px;">
+         <canvas id="display"
+                 width="500px"
+                 height="500px"
+                 tabindex="5">
+         </canvas>
+      </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4">
+      <div id="divLog">
+         <label><font color="orange">
+            Host Log
+            <br>
+            <textarea name="taHostLog"
+                      id  ="taHostLog"
+                      rows="8"
+                      cols="48"
+            ></textarea>
+         </font></label>
+       </div>
+        <div id="memoryDiv" style="width:500px; height:200px;">
+          <label><font color="orange">
+             Memory Display
+          </font></label>
+          <div id="memoryTableDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
+           <table class="table table-bordered" id="memoryTable"></table>
+         </div>
         </div>
-       </div>
-       <div id="memoryDiv" style="margin:4px; width:500px; height:200px; float:left">
-         <label>
-            Memory Display
-         </label>
-         <div id="memoryTableDiv" style="background-color:#FFFFFF; float:left; width:400px; height:160px; overflow:scroll">
-          <table class="table table-bordered" id="memoryTable"></table>
-        </div>
-       </div>
-       <div id="divUserProgramInput" style="margin-left:520px;">
-          <label>
-             User Program Input
-             <br>
-             <textarea name="taProgramInput"
-                       id  ="taProgramInput"
-                       rows="8"
-                       cols="48"
-             ></textarea>
-          </label>
-       </div>
+      <div id="divUserProgramInput">
+         <label><font color="orange">
+            User Program Input
+            <br>
+            <textarea name="taProgramInput"
+                      id  ="taProgramInput"
+                      rows="8"
+                      cols="48"
+            >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
+         </font></label>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+
+  </div>
 </div>
 
 <p class="footerText" style="clear:both;">

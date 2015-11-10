@@ -50,12 +50,16 @@ module TSOS {
         }
         //swap them and swap them fast
         public static littleE(args1, args2){
-          var swap = args2.concat(args1);
+          var swap = args2 + args1;
           return swap;
         }
         //reverse of fromHex....why am i doing all this work argh
         public static toHex(args){
           var hex = args.toString(16);
+          if (hex.length === 1){
+            var newVal = "0".concat(hex);
+            return newVal;
+          }
           return hex
         }
         //takes a hex and converts it into my string of amazingness
@@ -66,6 +70,22 @@ module TSOS {
         //clean out all whitespace
         public static whiteBeGone(str){
           return str.replace(/\s/g, "");
+        }
+        //graps the current location in the memory array
+        //and auto sends it to the littleE function to swap them
+        public static grabberTwo(){
+          var loc = _currentPCB.progCounter;
+          var swap = this.littleE(_Memory.memory[loc], _Memory.memory[loc + 1]);
+          return swap;
+        }
+        //grabs the current memory spot
+        public static grabberOne(val){
+          var loc = _Memory.memory[val];
+          return loc;
+        }
+        public static addBase(arg){
+          var combined = arg + _currentPCB.base;
+          return combined;
         }
     }
 }

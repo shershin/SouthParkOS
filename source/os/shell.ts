@@ -39,6 +39,12 @@ module TSOS {
                                   "- Displays the current version data.");
             this.commandList[this.commandList.length] = sc;
 
+            // test
+            sc = new ShellCommand(this.shellTest,
+                                  "test",
+                                  "- For testing.");
+            this.commandList[this.commandList.length] = sc;
+
             // help
             sc = new ShellCommand(this.shellHelp,
                                   "help",
@@ -141,6 +147,21 @@ module TSOS {
                                   "memory",
                                   "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
+            //clearmem - clears out the memory
+            sc = new ShellCommand(this.shellClearmem,
+                                  "clearmem",
+                                  "- clears out the memory.");
+            this.commandList[this.commandList.length] = sc;
+            //runall - runs all the programs in memory
+            sc = new ShellCommand(this.shellRunall,
+                                  "runall",
+                                  "- runs all the programs in memory.");
+            this.commandList[this.commandList.length] = sc;
+            //quantum <int> - sets the amount of clock ticks for round robin
+            sc = new ShellCommand(this.shellQuantum,
+                                  "quantum",
+                                  "<int> - sets the amount of clock ticks for round robin.");
+            this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -236,13 +257,13 @@ module TSOS {
         // called from here, so kept here to avoid violating the law of least astonishment.
         //
         public shellInvalidCommand() {
-            _StdOut.putText("Invalid Command. ");
+            //_StdOut.putText("Invalid Command. ");
             if (_SarcasticMode) {
                 _StdOut.putText("Unbelievable. You, [subject name here],");
                 _StdOut.advanceLine();
                 _StdOut.putText("must be the pride of [subject hometown here].");
             } else {
-                _StdOut.putText("Type 'help' for, well... help.");
+                _StdOut.putText("Enhance.");
             }
         }
 
@@ -268,9 +289,16 @@ module TSOS {
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         }
 
+        public shellTest(args) {
+          for(var i = 0; i < 10; i++){
+              console.log(_currentPCB.progCounter);
+              _currentPCB.incerPC();
+          }
+        }
+
         public shellHelp(args) {
             _StdOut.putText("Commands:");
-            for (var i in _OsShell.commandList) {
+            for (var i in _OsShell.commandList){
                 _StdOut.advanceLine();
                 _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
             }
@@ -345,6 +373,15 @@ module TSOS {
                       break;
                     case "memory":
                       _StdOut.putText("All the programs in memory.");
+                      break;
+                    case "clearmem":
+                      _StdOut.putText("clear that memory.");
+                      break;
+                    case "runall":
+                      _StdOut.putText("running a program? why not run all of the programs?");
+                      break;
+                    case "quantum":
+                      _StdOut.putText("enter an int for how long you want round robin to run for.");
                       break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -436,51 +473,96 @@ module TSOS {
           }
         }
         public shellPs(args){
-          _StdOut.putText("This function is currently not obtional.");
-          _StdOut.advanceLine();
-          _StdOut.putText("Please check back later.");
+          if (_currentPCB !== null){
+            _StdOut.putText("PID: " + _currentPCB.pid);
+            _StdOut.advanceLine();
+            if (!_Queue.isEmpty()){
+              var i = 0;
+              while (i < _Queue.getSize()){
+                _StdOut.putText("PID: " + _Queue.q[i].pid);
+                console.log("queue is not empty " + _Queue.q[i].pid)
+                _StdOut.advanceLine();
+                i++;
+              }
+            } else {
+              _StdOut.putText("PID: " + _currentPCB.pid);
+              console.log("queue is empty");
+            }
+          } else {
+            _StdOut.putText("No programs running buddy.");
+          }
         }
         public shellKill(args){
-          _StdOut.putText("This function is currently not obtional.");
-          _StdOut.advanceLine();
-          _StdOut.putText("Please check back later.");
+          var i = 0;
+          if (_currentPCB.pid === parseInt(args)){
+            _currentPCB.proccessState = 'terminated';
+            _StdOut.putText("OMG you killed, PID: " + _currentPCB.pid + " you BASTARD!");
+          } else {
+            while (i < _Queue.getSize()){
+              var pcb = _Queue.peek(i);
+              if (pcb.pid === parseInt(args)){
+                pcb.proccessState = 'terminated';
+                _StdOut.putText("OMG you killed, PID: " + pcb.pid + " you BASTARD!");
+              }
+              i++;
+            }
+          }
         }
         public shellLoad(args){
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var isValid = false;
           var clean = "";
-          if (str.length > 0){
-            var re = /([^abcdefABCDEF0123456789\s])/g;
-            var test = str.search(re);
-            if (!test){
-              _StdOut.putText("ERROR: Please enter a real program.");
+          if (_resList.pcbint < partsAllowed){
+            if (str.length > 0){
+              var re = /([^abcdefABCDEF0123456789\s])/g;
+              var test = str.search(re);
+              if (!test){
+                _StdOut.putText("ERROR: Please enter a real program.");
+              }else{
+                isValid = true;
+                clean = Utils.whiteBeGone(str);
+            }
             }else{
-              isValid = true;
-              clean = Utils.whiteBeGone(str);
-          }
+            _StdOut.putText("ERROR: No program detected.");
+            }
+            if (isValid){
+              _ProcessControlBlock = new PCB();
+              console.log("PID Biotch: " +  _ProcessControlBlock.pid);
+              _resList.addtoList(_ProcessControlBlock);
+              Control.pcbTable();
+              _MemoryManager.memload(clean);
+            }
           }else{
-          _StdOut.putText("ERROR: No program detected.");
+            _StdOut.putText("Sorry can't load any more programs, friend.");
           }
-          if (isValid){
-            _MemoryManager = new MemoryManager();
-            _ProcessControlBlock = new PCB();
-            _MemoryManager.memload(clean);
-          }
+
         }
         public shellBsod(args){
           var msg = "ohhh nooo";
           _Kernel.krnTrapError(msg);
         }
         public shellRun(args){
-          if (args > _ProcessControlBlock.pid){
-            _StdOut.putText("Please enter an appropriate PID:");
-            _StdOut.advanceLine();
-            _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
-          }else {
-            _CPU.isExecuting = true;
-            _CPU.PC = _ProcessControlBlock.pid;
-            _StdOut.putText("Executing.");
+          console.log(args);
+          if (args.toString() === "all"){
+            console.log("all");
+            _OsShell.shellRunall(args);
+          } else {
+            if (args > PCB.pidint || args < 0){
+              _StdOut.putText("Please enter an appropriate PID:");
+              _StdOut.advanceLine();
+              _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
+            }else {
+              var intget = parseInt(args[0]);
+              var getpcb = _resList.getID(intget);
+              _currentPCB = getpcb;
+              _currentPCB.proccessState = 'running';
+              _CPU.setCPU(_currentPCB);
+              _Queue.enqueue(_currentPCB);
+              _CpuSched.init();
+              _StdOut.putText("Executing.");
+              _CPU.isExecuting = true;
+            }
           }
         }
         public shellMemory(args){
@@ -490,6 +572,33 @@ module TSOS {
             _StdOut.advanceLine();
             i++;
           }
+        }
+        public shellClearmem(args){
+          _MemoryManager.clearMem();
+          Control.memoryTable();
+          _resList.clearParts();
+        }
+        public shellRunall(args){
+          var i = 0;
+          while (i < PCB.pidint){
+            var pcb = _resList.getID(i);
+            pcb.proccessState = 'ready';
+            _Queue.enqueue(pcb);
+            i++;
+          }
+          _currentPCB = _Queue.dequeue();
+          _currentPCB.proccessState = 'running';
+          _CPU.setCPU(_currentPCB);
+          _CpuSched.init();
+          _CPU.isExecuting = true;
+        }
+        public shellQuantum(args){
+          //to do
+          //i am thinking of making this more into a global var
+          //thus this would change the global from defult to args
+          var time = schedulerTime;
+          schedulerTime = args;
+          _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         }
     }
 }

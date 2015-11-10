@@ -71,6 +71,12 @@ var _Memory: TSOS.Memory;
 var _MemoryManager: TSOS.MemoryManager;
 var _ProcessControlBlock: TSOS.PCB;
 var mem_size: number = 256;
+var schedulerTime: number = 6;
+var _resList: TSOS.residentList;
+var _CpuSched : TSOS.CPU_Scheduler;
+var _currentPCB: TSOS.PCB = null;
+var _Queue : TSOS.Queue;
+var partsAllowed : number = 3;
 
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();

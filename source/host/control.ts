@@ -98,6 +98,14 @@ module TSOS {
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
+            _CpuSched = new CPU_Scheduler();
+            _resList = new residentList();
+
+            _MemoryManager = new MemoryManager();
+            _MemoryManager.clearMem();
+
+            _Queue = new Queue();
+
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -148,7 +156,7 @@ module TSOS {
          var currRow: string = "";
          var memoryIndex: number = 0;
 
-         for(var i: number = 0; i < 32; i++){
+         for (var i: number = 0; i < 32; i++){
            table += "<tr>";
            currRow = rowNumber.toString(16);
            while(currRow.length < 3){
@@ -157,7 +165,7 @@ module TSOS {
            currRow = currRow.toUpperCase();
            table += "<td style=\"font-weight:bold\">" + rowHeader + currRow + "</td>";
            for(var j: number = 0; j < 8; j++){
-             if (_Memory.memory[memoryIndex] === null){
+             if (_Memory.memory[memoryIndex] === null || _Memory.memory[memoryIndex] === undefined){
                table += "<td> 00 </td>";
              }else{
               table += "<td>" + _Memory.memory[memoryIndex] + "</td>";
@@ -180,14 +188,25 @@ module TSOS {
          table += "<td>" + _CPU.Zflag + "</td>";
         (<HTMLInputElement> document.getElementById("cpuTableBody")).innerHTML = table;
        }
-       public static pcbTable(pcb): void {
+       public static pcbTable(): void {
          var table: string = "";
-         table += "<td>" + _ProcessControlBlock.progCounter + "</td>";
-         table += "<td>" + _ProcessControlBlock.accumulater + "</td>";
-         table += "<td>" + _Memory.memory[_ProcessControlBlock.progCounter] + "</td>";
-         table += "<td>" + _ProcessControlBlock.xreg + "</td>";
-         table += "<td>" + _ProcessControlBlock.yreg + "</td>";
-         table += "<td>" + _ProcessControlBlock.zflag + "</td>";
+         var i = 0;
+         while (i < PCB.pidint){
+           var pcb = _resList.getID(i);
+           table += "<tr>";
+           table += "<td>" + pcb.pid + "</td>";
+           table += "<td>" + pcb.progCounter + "</td>";
+           table += "<td>" + pcb.accumulater + "</td>";
+           table += "<td>" + _Memory.memory[pcb.progCounter] + "</td>";
+           table += "<td>" + pcb.xreg + "</td>";
+           table += "<td>" + pcb.yreg + "</td>";
+           table += "<td>" + pcb.zflag + "</td>";
+           table += "<td>" + pcb.base + "</td>";
+           table += "<td>" + pcb.limit + "</td>";
+           table += "<td>" + pcb.proccessState + "</td>";
+           table += "</tr>";
+           i++;
+         }
         (<HTMLInputElement> document.getElementById("pcbTableBody")).innerHTML = table;
        }
     }

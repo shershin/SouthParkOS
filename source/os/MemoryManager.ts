@@ -3,24 +3,59 @@ manage that memory
 /*/
 module TSOS {
   export class MemoryManager{
+    public static part = [];
     public memload (str : String){
-      this.clearMem();
-            var currByte : String = "";
-            var memLoc = 0;
-            for (var i = 0; i < str.length; i++) {
-                currByte = currByte + str[i];
-                if (currByte.length > 1) {
-                    _Memory.memory[memLoc] = currByte;
-                    memLoc++;
-                    currByte = "";
-                }
+      var partnum = this.getNextPart();
+      if (this.validPart(partnum)){
+        var currByte : String = "";
+        var memLoc = (mem_size * partnum);
+        console.log("memory location " + memLoc);
+        for (var i = 0; i < str.length; i++) {
+            currByte = currByte + str[i];
+            if (currByte.length > 1) {
+                _Memory.memory[memLoc] = currByte;
+                memLoc++;
+                currByte = "";
             }
-            Control.memoryTable();
-            _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
         }
-    public clearMem(){
-      _Memory.memory = [];
+        Control.memoryTable();
+        _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
+        this.setPart(partnum);
+      } else {
+        _StdOut.putText("Please clear out a partition");
+      }
     }
-
+    public clearMem(){
+      var totalmem = mem_size * 3;
+      for (var i = 0; i<totalmem;i++){
+        _Memory.memory[i] = "00";
+      }
+    }
+    public static outofBounds(pcb:PCB){
+      if (pcb.progCounter < pcb.base || pcb.progCounter > pcb.limit){
+        var mess = "Memory out of bounds";
+        _Kernel.krnTrapError(mess);
+      }
+    }
+    public setPart(arg){
+      if (this.validPart(arg)){
+        MemoryManager.part[arg] = false;
+        _ProcessControlBlock.setPart(arg);
+      }
+    }
+    public validPart(part){
+      if(part < 0 || part > 3){
+        return false;
+      } else {
+        return true;
+      }
+    }
+    public getNextPart(){
+      for(var i = 0; i < 3; i++){
+        if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined){
+          return i;
+        }
+      }
+    }
+    }
   }
-}

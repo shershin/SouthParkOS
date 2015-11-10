@@ -30,11 +30,15 @@ var TSOS;
             return dec;
         };
         Utils.littleE = function (args1, args2) {
-            var swap = args2.concat(args1);
+            var swap = args2 + args1;
             return swap;
         };
         Utils.toHex = function (args) {
             var hex = args.toString(16);
+            if (hex.length === 1) {
+                var newVal = "0".concat(hex);
+                return newVal;
+            }
             return hex;
         };
         Utils.stringHex = function (args) {
@@ -43,6 +47,19 @@ var TSOS;
         };
         Utils.whiteBeGone = function (str) {
             return str.replace(/\s/g, "");
+        };
+        Utils.grabberTwo = function () {
+            var loc = _currentPCB.progCounter;
+            var swap = this.littleE(_Memory.memory[loc], _Memory.memory[loc + 1]);
+            return swap;
+        };
+        Utils.grabberOne = function (val) {
+            var loc = _Memory.memory[val];
+            return loc;
+        };
+        Utils.addBase = function (arg) {
+            var combined = arg + _currentPCB.base;
+            return combined;
         };
         return Utils;
     })();
