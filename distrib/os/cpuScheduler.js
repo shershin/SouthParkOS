@@ -14,7 +14,7 @@ var TSOS;
             if (this.cpuCycle >= schedulerTime) {
                 this.switch();
             }
-            if (_currentPCB.proccessState === 'terminated') {
+            else if (_currentPCB.proccessState === 'terminated') {
                 this.switch();
             }
         };

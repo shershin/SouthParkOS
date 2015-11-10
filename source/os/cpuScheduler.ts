@@ -14,8 +14,7 @@ module TSOS{
       console.log("Cycle: " + this.cpuCycle + " time: " + schedulerTime);
       if (this.cpuCycle >= schedulerTime){
         this.switch();
-      }
-      if (_currentPCB.proccessState === 'terminated'){
+      } else if (_currentPCB.proccessState === 'terminated'){
         this.switch();
       }
     }

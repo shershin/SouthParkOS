@@ -25,7 +25,6 @@ module TSOS {
 
     public getID(arg): PCB{
       for (var i = 0; i<this.pcbint; i++){
-        console.log("PCB: " + this.pcblist[i].pid);
         if (this.pcblist[i].pid === arg){
           return this.pcblist[i];
         }
