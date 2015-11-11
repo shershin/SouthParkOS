@@ -11,12 +11,12 @@ module TSOS {
     public init(){
 
     }
-
+    //adds the arg to the resident list
     public addtoList(arg){
       this.pcblist.push(arg);
       this.pcbint++;
     }
-
+    //removes the arg from the resident list
     public removefromList(arg){
       console.log(arg);
       var spot = this.pcblist.indexOf(arg.pid);
@@ -24,7 +24,7 @@ module TSOS {
       this.pcbint--;
       console.log(this.pcbint);
     }
-
+    //quickly we must find the id search the list search it fast
     public getID(arg): PCB{
       for (var i = 0; i<this.pcbint; i++){
         console.log("pcb " + this.pcbint + " i " + i);
@@ -36,14 +36,8 @@ module TSOS {
       _StdOut.putText("Hey Buddy, What you talking aboot.");
       return null;
     }
-    public getAllID(arg): PCB{
-      for (var i = 0; i<this.pcbint; i++){
-        console.log("allpcb " + this.pcbint + " i " + i);
-        if (this.pcblist[i].pid === arg){
-          return this.pcblist[i];
-        }
-      }
-    }
+
+    //clear out the parts in hope to be able to load again
     public clearParts(){
       var i = 0;
       while (i < this.pcbint){

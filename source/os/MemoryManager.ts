@@ -9,7 +9,6 @@ module TSOS {
       if (this.validPart(partnum)){
         var currByte : String = "";
         var memLoc = (mem_size * partnum);
-        console.log("memory location " + memLoc);
         for (var i = 0; i < str.length; i++) {
             currByte = currByte + str[i];
             if (currByte.length > 1) {
@@ -25,24 +24,29 @@ module TSOS {
         _StdOut.putText("Please clear out a partition");
       }
     }
+    //clean that memory clean it out good
     public clearMem(){
       var totalmem = mem_size * 3;
       for (var i = 0; i<totalmem;i++){
         _Memory.memory[i] = "00";
       }
     }
+    //how could this program go out of bounds
     public static outofBounds(pcb:PCB){
       if (pcb.progCounter < pcb.base || pcb.progCounter > pcb.limit){
         var mess = "Memory out of bounds";
         _Kernel.krnTrapError(mess);
       }
     }
+    //we must set the partition like the homework demands
     public setPart(arg){
       if (this.validPart(arg)){
         MemoryManager.part[arg] = false;
         _ProcessControlBlock.setPart(arg);
       }
     }
+    //i wonder if this is a vaild partition
+    //--->insert meme here with fry thinking
     public validPart(part){
       if(part < 0 || part > 3){
         return false;
@@ -50,6 +54,8 @@ module TSOS {
         return true;
       }
     }
+    //must find empty space
+    //says all the marist student when commuting
     public getNextPart(){
       for(var i = 0; i < 3; i++){
         if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined){
