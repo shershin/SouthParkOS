@@ -51,10 +51,18 @@ var TSOS;
             }
         };
         MemoryManager.prototype.getNextPart = function () {
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < partsAllowed; i++) {
                 if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined) {
                     return i;
                 }
+            }
+        };
+        MemoryManager.prototype.clearPart = function (args) {
+            if (this.validPart(args)) {
+                MemoryManager.part[args] = true;
+            }
+            else {
+                console.log("nooooooo");
             }
         };
         MemoryManager.part = [];

@@ -3,7 +3,11 @@ manage that memory
 /*/
 module TSOS {
   export class MemoryManager{
+
+
     public static part = [];
+
+
     public memload (str : String){
       var partnum = this.getNextPart();
       if (this.validPart(partnum)){
@@ -57,11 +61,19 @@ module TSOS {
     //must find empty space
     //says all the marist student when commuting
     public getNextPart(){
-      for(var i = 0; i < 3; i++){
+      for(var i = 0; i < partsAllowed; i++){
         if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined){
           return i;
         }
       }
+    }
+    //delete the selected part
+    public clearPart(args){
+        if (this.validPart(args)){
+          MemoryManager.part[args] = true;
+        } else {
+          console.log("nooooooo");
+        }
     }
     }
   }

@@ -201,6 +201,7 @@ module TSOS {
            table += "<td>" + pcb.xreg + "</td>";
            table += "<td>" + pcb.yreg + "</td>";
            table += "<td>" + pcb.zflag + "</td>";
+           table += "<td>" + pcb.partition + "</td>";
            table += "<td>" + pcb.base + "</td>";
            table += "<td>" + pcb.limit + "</td>";
            table += "<td>" + pcb.proccessState + "</td>";
