@@ -8,7 +8,6 @@ var TSOS;
             if (this.validPart(partnum)) {
                 var currByte = "";
                 var memLoc = (mem_size * partnum);
-                console.log("memory location " + memLoc);
                 for (var i = 0; i < str.length; i++) {
                     currByte = currByte + str[i];
                     if (currByte.length > 1) {
@@ -52,10 +51,18 @@ var TSOS;
             }
         };
         MemoryManager.prototype.getNextPart = function () {
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < partsAllowed; i++) {
                 if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined) {
                     return i;
                 }
+            }
+        };
+        MemoryManager.prototype.clearPart = function (args) {
+            if (this.validPart(args)) {
+                MemoryManager.part[args] = true;
+            }
+            else {
+                console.log("nooooooo");
             }
         };
         MemoryManager.part = [];

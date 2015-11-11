@@ -577,6 +577,9 @@ module TSOS {
           _MemoryManager.clearMem();
           Control.memoryTable();
           _resList.clearParts();
+          for (var i = 0; i < partsAllowed; i++){
+            _MemoryManager.clearPart(i);
+          }
         }
         public shellRunall(args){
           var i = 0;

@@ -108,7 +108,7 @@ module TSOS {
           var spot = _currentPCB.progCounter;
           var grab = Utils.grabberOne(spot);
           var dec = Utils.fromHex(grab);
-          this.Acc = dec;
+          this.Acc = dec
           Control.hostLog("lda " + grab);
           _currentPCB.incerPC();
         }
@@ -118,10 +118,10 @@ module TSOS {
           //loads the accumulator from memory
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
-          var grab = Utils.grabberOne(dec);
+          var address = Utils.addBase(dec)
+          var grab = Utils.grabberOne(address);
           var decGrab = Utils.fromHex(grab);
-          var address = Utils.addBase(decGrab);
-          this.Acc = address;
+          this.Acc = decGrab;
           Control.hostLog("lda " + grab2);
           _currentPCB.incerPC();
           _currentPCB.incerPC();
@@ -191,7 +191,7 @@ module TSOS {
         }
 
         public ldyMem(){
-          //op code AE
+          //op code AC
           //loads the y reg from memory
           var grab2 = Utils.grabberTwo();
           var dec = Utils.fromHex(grab2);
@@ -264,7 +264,7 @@ module TSOS {
           var decGrab = Utils.fromHex(grab);
           var final = decGrab + 1;
           var hex = Utils.toHex(final);
-          _Memory.memory[dec] = hex;
+          _Memory.memory[address] = hex;
           Control.hostLog("inc " + grab2);
           _currentPCB.incerPC();
           _currentPCB.incerPC();

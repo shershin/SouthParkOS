@@ -438,6 +438,9 @@ var TSOS;
             _MemoryManager.clearMem();
             TSOS.Control.memoryTable();
             _resList.clearParts();
+            for (var i = 0; i < partsAllowed; i++) {
+                _MemoryManager.clearPart(i);
+            }
         };
         Shell.prototype.shellRunall = function (args) {
             var i = 0;

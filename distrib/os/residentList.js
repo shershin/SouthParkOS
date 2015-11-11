@@ -32,14 +32,6 @@ var TSOS;
             _StdOut.putText("Hey Buddy, What you talking aboot.");
             return null;
         };
-        residentList.prototype.getAllID = function (arg) {
-            for (var i = 0; i < this.pcbint; i++) {
-                console.log("allpcb " + this.pcbint + " i " + i);
-                if (this.pcblist[i].pid === arg) {
-                    return this.pcblist[i];
-                }
-            }
-        };
         residentList.prototype.clearParts = function () {
             var i = 0;
             while (i < this.pcbint) {
