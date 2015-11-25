@@ -59,7 +59,7 @@ module TSOS {
       }
     }
     //must find empty space
-    //says all the marist student when commuting
+    //says all the marist students when commuting and trying to find a parking spot
     public getNextPart(){
       for(var i = 0; i < partsAllowed; i++){
         if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined){
@@ -71,6 +71,7 @@ module TSOS {
     public clearPart(args){
         if (this.validPart(args)){
           MemoryManager.part[args] = true;
+          console.log("clearning");
         } else {
           console.log("nooooooo");
         }

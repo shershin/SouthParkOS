@@ -56,6 +56,22 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - sets the amount of clock ticks for round robin.");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellCreatefile, "create", "<filename> - create the file.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellReadfile, "read", "<filename> - tead the bloody file already...this isn't a library.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellWritefile, "write", "<filename> - what to put here, ugh the fear of a blank page.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellDeletefile, "delete", "<filename> - cybermen the file.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellFormat, "format", "- initialize all blocks in all sectors.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- list the files.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellSetschedule, "setschedule", "<schedule> - choose which schedule to use rr, fcfs, priority.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellGetschedule, "getschedule", "- returns the current schedule.");
+            this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };
         Shell.prototype.putPrompt = function () {
@@ -460,6 +476,43 @@ var TSOS;
             var time = schedulerTime;
             schedulerTime = args;
             _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
+        };
+        Shell.prototype.shellCreatefile = function (args) {
+        };
+        Shell.prototype.shellReadfile = function (args) {
+        };
+        Shell.prototype.shellWritefile = function (args) {
+        };
+        Shell.prototype.shellDeletefile = function (args) {
+        };
+        Shell.prototype.shellFormat = function (args) {
+        };
+        Shell.prototype.shellLs = function (args) {
+        };
+        Shell.prototype.shellSetschedule = function (args) {
+            var sche = args.toString();
+            console.log(sche + " scheduler " + schedule);
+            if (sche === schedule) {
+                _StdOut.putText("Hey buddy, that is the current scheduler type.");
+            }
+            else if (sche === "fcfs" || args === "first come first serve") {
+                _StdOut.putText("Congrats you changed the scheduler to fcfs.");
+                schedule = "fcfs";
+            }
+            else if (sche === "rr" || args === "round robin") {
+                _StdOut.putText("Congrats you changed the scheduler to rr.");
+                schedule = "rr";
+            }
+            else if (sche === "priority" || args === "prio") {
+                _StdOut.putText("Congrats you changed the scheduler to priority.");
+                schedule = "priority";
+            }
+            else {
+                _StdOut.putText(args);
+            }
+        };
+        Shell.prototype.shellGetschedule = function (args) {
+            _StdOut.putText("The schedular is " + schedule + "!");
         };
         return Shell;
     })();

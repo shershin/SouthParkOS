@@ -162,6 +162,46 @@ module TSOS {
                                   "quantum",
                                   "<int> - sets the amount of clock ticks for round robin.");
             this.commandList[this.commandList.length] = sc;
+            //create <filename> - create the file
+            sc = new ShellCommand(this.shellCreatefile,
+                                  "create",
+                                  "<filename> - create the file.");
+            this.commandList[this.commandList.length] = sc;
+            //read <filename> - read the bloody file already...this isn't a library
+            sc = new ShellCommand(this.shellReadfile,
+                                  "read",
+                                  "<filename> - tead the bloody file already...this isn't a library.");
+            this.commandList[this.commandList.length] = sc;
+            //write <filename> - what to put here, ugh the fear of a blank page
+            sc = new ShellCommand(this.shellWritefile,
+                                  "write",
+                                  "<filename> - what to put here, ugh the fear of a blank page.");
+            this.commandList[this.commandList.length] = sc;
+            //delete <filename> - cybermen the file
+            sc = new ShellCommand(this.shellDeletefile,
+                                  "delete",
+                                  "<filename> - cybermen the file.");
+            this.commandList[this.commandList.length] = sc;
+            //format - initialize all blocks in all sectors
+            sc = new ShellCommand(this.shellFormat,
+                                  "format",
+                                  "- initialize all blocks in all sectors.");
+            this.commandList[this.commandList.length] = sc;
+            //ls - list the files
+            sc = new ShellCommand(this.shellLs,
+                                  "ls",
+                                  "- list the files.");
+            this.commandList[this.commandList.length] = sc;
+            //setschedule <schedule> - choose which schedule to use rr, fcfs, priority
+            sc = new ShellCommand(this.shellSetschedule,
+                                  "setschedule",
+                                  "<schedule> - choose which schedule to use rr, fcfs, priority.");
+            this.commandList[this.commandList.length] = sc;
+            //getschedule - returns the current schedule
+            sc = new ShellCommand(this.shellGetschedule,
+                                  "getschedule",
+                                  "- returns the current schedule.");
+            this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -602,6 +642,50 @@ module TSOS {
           var time = schedulerTime;
           schedulerTime = args;
           _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
+        }
+        public shellCreatefile(args){
+
+        }
+        public shellReadfile(args){
+
+        }
+        public shellWritefile(args){
+
+        }
+        public shellDeletefile(args){
+
+        }
+        public shellFormat(args){
+
+        }
+        public shellLs(args){
+
+        }
+        public shellSetschedule(args){
+          var sche = args.toString();
+          console.log(sche + " scheduler " + schedule);
+          if (sche === schedule){
+            _StdOut.putText("Hey buddy, that is the current scheduler type.");
+          } else if (sche === "fcfs" || args === "first come first serve"){
+            _StdOut.putText("Congrats you changed the scheduler to fcfs.");
+            schedule = "fcfs";
+          } else if (sche === "rr" || args === "round robin"){
+            _StdOut.putText("Congrats you changed the scheduler to rr.");
+            schedule = "rr";
+          } else if (sche === "priority" || args === "prio"){
+            _StdOut.putText("Congrats you changed the scheduler to priority.");
+            schedule = "priority";
+          } else {
+            /*_StdOut.putText("Great now the scheduler is going into dire mode.");
+            _StdOut.advanceLine();
+            _StdOut.putText("It is like a normal schedular but canadian and evil.");
+            _StdOut.advanceLine();
+            _StdOut.putText("Just kidding buddy, relax. There are no dires here.");*/
+            _StdOut.putText(args);
+          }
+        }
+        public shellGetschedule(args){
+          _StdOut.putText("The schedular is " + schedule + "!");
         }
     }
 }

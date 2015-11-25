@@ -60,6 +60,7 @@ var TSOS;
         MemoryManager.prototype.clearPart = function (args) {
             if (this.validPart(args)) {
                 MemoryManager.part[args] = true;
+                console.log("clearning");
             }
             else {
                 console.log("nooooooo");
