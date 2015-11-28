@@ -498,6 +498,7 @@ var TSOS;
             else if (sche === "fcfs" || args === "first come first serve") {
                 _StdOut.putText("Congrats you changed the scheduler to fcfs.");
                 schedule = "fcfs";
+                schedulerTime = mem_size;
             }
             else if (sche === "rr" || args === "round robin") {
                 _StdOut.putText("Congrats you changed the scheduler to rr.");
