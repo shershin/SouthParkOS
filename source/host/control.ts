@@ -100,6 +100,7 @@ module TSOS {
 
             _CpuSched = new CPU_Scheduler();
             _resList = new residentList();
+            //_hardDrive = new HardDrive();
 
             _MemoryManager = new MemoryManager();
             _MemoryManager.clearMem();

@@ -644,16 +644,20 @@ module TSOS {
           _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         }
         public shellCreatefile(args){
-
+          var str = args.toString();
+          sessionStorage.setItem(str, "");
         }
         public shellReadfile(args){
-
+          var str = args.toString();
+          var ssItem = sessionStorage.getItem(str);
+          _StdOut.putText(ssItem);
         }
         public shellWritefile(args){
-
+          //sessionStorage.args[0].toString(); = args[1];
         }
         public shellDeletefile(args){
-
+          var str = args.toString();
+          sessionStorage.removeItem(str);
         }
         public shellFormat(args){
 

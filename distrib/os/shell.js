@@ -478,12 +478,19 @@ var TSOS;
             _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         };
         Shell.prototype.shellCreatefile = function (args) {
+            var str = args.toString();
+            sessionStorage.setItem(str, "");
         };
         Shell.prototype.shellReadfile = function (args) {
+            var str = args.toString();
+            var ssItem = sessionStorage.getItem(str);
+            _StdOut.putText(ssItem);
         };
         Shell.prototype.shellWritefile = function (args) {
         };
         Shell.prototype.shellDeletefile = function (args) {
+            var str = args.toString();
+            sessionStorage.removeItem(str);
         };
         Shell.prototype.shellFormat = function (args) {
         };

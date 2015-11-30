@@ -36,6 +36,7 @@ var _currentPCB = null;
 var _Queue;
 var partsAllowed = 3;
 var schedule = "rr";
+var _hardDrive;
 var onDocumentLoad = function () {
     TSOS.Control.hostInit();
 };

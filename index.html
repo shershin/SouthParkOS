@@ -23,6 +23,7 @@
 
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+   <script type="text/javascript" src="distrib/os/hardDrive.js"></script>
    <script type="text/javascript" src="distrib/os/PCB.js"></script>
    <script type="text/javascript" src="distrib/os/MemoryManager.js"></script>
    <script type="text/javascript" src="distrib/os/cpuScheduler.js"></script>
@@ -71,7 +72,6 @@
     </div>
 
     <div class="row">
-
      <div id="divButtonBar" style="margin:4px;" class="col-md-12">
         <input type="button"
                id = "btnStartOS"
@@ -206,12 +206,25 @@
          </font></label>
        </div>
         <div id="memoryDiv" style="width:500px; height:200px;">
-          <label><font color="orange">
-             Memory Display
-          </font></label>
-          <div id="memoryTableDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
-           <table class="table table-bordered" id="memoryTable"></table>
-         </div>
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#mem">Memory Display</a></li>
+            <li><a data-toggle="tab" href="#harddrive">Hard Drive</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="mem">
+              <!--<label><font color="orange">
+                 Memory Display
+              </font></label>-->
+              <div id="memoryTableDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
+               <table class="table table-bordered" id="memoryTable"></table>
+             </div>
+            </div>
+            <div class="tab-pane" id="harddrive">
+              <div id="hardDriveDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
+               <table class="table table-bordered" id="hardDrive"></table>
+             </div>
+            </div>
+          </div>
         </div>
       <div id="divUserProgramInput">
          <label><font color="orange">
