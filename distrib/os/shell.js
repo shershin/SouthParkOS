@@ -60,7 +60,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellReadfile, "read", "<filename> - tead the bloody file already...this isn't a library.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellWritefile, "write", "<filename> - what to put here, ugh the fear of a blank page.");
+            sc = new TSOS.ShellCommand(this.shellWritefile, "write", "<filename> \"data\"- what to put here, ugh the fear of a blank page.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellDeletefile, "delete", "<filename> - cybermen the file.");
             this.commandList[this.commandList.length] = sc;
@@ -164,9 +164,10 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellTest = function (args) {
-            for (var i = 0; i < 10; i++) {
-                console.log(_currentPCB.progCounter);
-                _currentPCB.incerPC();
+            var i;
+            console.log("session storage");
+            for (i = 0; i < sessionStorage.length; i++) {
+                console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
             }
         };
         Shell.prototype.shellHelp = function (args) {
@@ -480,13 +481,22 @@ var TSOS;
         Shell.prototype.shellCreatefile = function (args) {
             var str = args.toString();
             sessionStorage.setItem(str, "");
+            console.log("created " + str);
         };
         Shell.prototype.shellReadfile = function (args) {
             var str = args.toString();
             var ssItem = sessionStorage.getItem(str);
             _StdOut.putText(ssItem);
+            console.log("reading " + str + " which contains " + ssItem);
         };
         Shell.prototype.shellWritefile = function (args) {
+            var name = args[0].toString();
+            var re = /\"(.*?)\"/g;
+            var matching = args.toString();
+            var str = matching.match(re);
+            var reString2 = str.replace(/\"/g, "");
+            sessionStorage.setItem(name, reString2);
+            console.log("write " + str + " with " + reString2);
         };
         Shell.prototype.shellDeletefile = function (args) {
             var str = args.toString();

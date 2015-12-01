@@ -175,7 +175,7 @@ module TSOS {
             //write <filename> - what to put here, ugh the fear of a blank page
             sc = new ShellCommand(this.shellWritefile,
                                   "write",
-                                  "<filename> - what to put here, ugh the fear of a blank page.");
+                                  "<filename> \"data\"- what to put here, ugh the fear of a blank page.");
             this.commandList[this.commandList.length] = sc;
             //delete <filename> - cybermen the file
             sc = new ShellCommand(this.shellDeletefile,
@@ -330,9 +330,10 @@ module TSOS {
         }
 
         public shellTest(args) {
-          for(var i = 0; i < 10; i++){
-              console.log(_currentPCB.progCounter);
-              _currentPCB.incerPC();
+          var i;
+          console.log("session storage");
+          for (i = 0; i < sessionStorage.length; i++) {
+            console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
           }
         }
 
@@ -646,14 +647,23 @@ module TSOS {
         public shellCreatefile(args){
           var str = args.toString();
           sessionStorage.setItem(str, "");
+          console.log("created " + str);
         }
         public shellReadfile(args){
           var str = args.toString();
           var ssItem = sessionStorage.getItem(str);
           _StdOut.putText(ssItem);
+          console.log("reading " + str + " which contains " + ssItem);
         }
         public shellWritefile(args){
-          //sessionStorage.args[0].toString(); = args[1];
+          var name = args[0].toString();
+          var re = /\"(.*?)\"/g;
+          var matching = args.toString();
+          var str:string = matching.match(re);
+          //var reString = content.replace(/,/g, " ");
+          var reString2 = str.replace(/\"/g, "");
+          sessionStorage.setItem(name, reString2);
+          console.log("write " + str + " with " + reString2);
         }
         public shellDeletefile(args){
           var str = args.toString();
