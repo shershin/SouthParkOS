@@ -8,14 +8,22 @@
 
    The Kernel Keyboard Device Driver.
    ---------------------------------- */
+
 module TSOS {
-  export class HardDrive extends DeviceDriver {
-    constructor() {
-                  super(this.init);
-    }
-    public init(){
-      //this.hardMemory;
-      //this.hardDriveInt;
-    }
-  }
+
+    // Extends DeviceDriver
+    export class HardDrive extends DeviceDriver {
+
+        constructor() {
+            // Override the base method pointers.
+            super(this.hDDriverEntry);
+        }
+
+        public hDDriverEntry() {
+            // Initialization routine for this, the kernel-mode Keyboard Device Driver.
+            this.status = "loaded";
+            // More?
+        }
+
+      }
 }

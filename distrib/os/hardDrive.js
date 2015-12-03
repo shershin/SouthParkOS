@@ -8,9 +8,10 @@ var TSOS;
     var HardDrive = (function (_super) {
         __extends(HardDrive, _super);
         function HardDrive() {
-            _super.call(this, this.init);
+            _super.call(this, this.hDDriverEntry);
         }
-        HardDrive.prototype.init = function () {
+        HardDrive.prototype.hDDriverEntry = function () {
+            this.status = "loaded";
         };
         return HardDrive;
     })(TSOS.DeviceDriver);
