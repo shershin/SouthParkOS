@@ -5,15 +5,19 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var TSOS;
 (function (TSOS) {
-    var HardDriveDriver = (function (_super) {
-        __extends(HardDriveDriver, _super);
-        function HardDriveDriver() {
+    var hardDriveDriver = (function (_super) {
+        __extends(hardDriveDriver, _super);
+        function hardDriveDriver() {
             _super.call(this, this.hDDriverEntry);
         }
-        HardDriveDriver.prototype.hDDriverEntry = function () {
+        hardDriveDriver.prototype.hDDriverEntry = function () {
             this.status = "loaded";
         };
-        return HardDriveDriver;
+        hardDriveDriver.prototype.isEmpty = function () {
+        };
+        hardDriveDriver.prototype.nameCheck = function () {
+        };
+        return hardDriveDriver;
     })(TSOS.DeviceDriver);
-    TSOS.HardDriveDriver = HardDriveDriver;
+    TSOS.hardDriveDriver = hardDriveDriver;
 })(TSOS || (TSOS = {}));

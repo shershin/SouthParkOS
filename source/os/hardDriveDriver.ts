@@ -12,7 +12,7 @@
 module TSOS {
 
     // Extends DeviceDriver
-    export class HardDrive extends DeviceDriver {
+    export class hardDriveDriver extends DeviceDriver {
 
         constructor() {
             // Override the base method pointers.
@@ -23,6 +23,14 @@ module TSOS {
             // Initialization routine for this, the kernel-mode Keyboard Device Driver.
             this.status = "loaded";
             // More?
+        }
+
+        public isEmpty(){
+
+        }
+
+        public nameCheck(){
+          
         }
 
       }
