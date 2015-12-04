@@ -28,7 +28,7 @@ var TSOS;
         hardDriveDriver.prototype.nameCheck = function (arg) {
             var i = 0;
             while (i < mem_size) {
-                var tester = TSOS.Utils.fromHex(_hardDrive.hardDriveMem[i]);
+                var tester = TSOS.Utils.stringHex(_hardDrive.hardDriveMem[i]);
                 if (tester === arg) {
                     return true;
                 }
@@ -42,6 +42,48 @@ var TSOS;
                 _hardDrive.hardDriveMem[i] = "";
                 i++;
             }
+        };
+        hardDriveDriver.prototype.fileLoc = function (arg) {
+            var i = 0;
+            var loc = null;
+            while (i < mem_size) {
+                var tester = TSOS.Utils.stringHex(_hardDrive.hardDriveMem[i]);
+                if (tester === arg) {
+                    return loc = i;
+                }
+            }
+        };
+        hardDriveDriver.prototype.openSpot = function () {
+            var openSpot = null;
+            var i = 0;
+            while (i < mem_size) {
+                if (_hardDrive.hDMeta[i] === "0000") {
+                    return openSpot = i;
+                }
+                i++;
+            }
+        };
+        hardDriveDriver.prototype.createFile = function (arg) {
+            var loc = this.openSpot();
+            var hex = TSOS.Utils.toHex(arg);
+            var hexStr = this.addZero(hex);
+            _hardDrive.hardDriveMem[loc] = hexStr;
+            _hardDrive.hDMeta[loc] = "1000";
+        };
+        hardDriveDriver.prototype.deleteFile = function (arg) {
+            var loc = this.fileLoc(arg);
+            var str = this.addZero("");
+            _hardDrive.hardDriveMem[loc] = str;
+            _hardDrive.hDMeta[loc] = "0000";
+        };
+        hardDriveDriver.prototype.addZero = function (arg) {
+            var i = arg.length;
+            var str = arg;
+            while (i < 63) {
+                str += "0";
+                i++;
+            }
+            return str;
         };
         return hardDriveDriver;
     })(TSOS.DeviceDriver);

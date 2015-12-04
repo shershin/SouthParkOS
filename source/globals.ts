@@ -79,6 +79,9 @@ var _Queue : TSOS.Queue;
 var partsAllowed : number = 3;
 var schedule : string = "rr";
 var _hardDrive : TSOS.hardDrive;
+var _hdDriver: TSOS.hardDriveDriver;
+var hdSpot: number = 1;
+var hdFormat: boolean = false;
 
 
 var onDocumentLoad = function() {

@@ -37,6 +37,9 @@ var _Queue;
 var partsAllowed = 3;
 var schedule = "rr";
 var _hardDrive;
+var _hdDriver;
+var hdSpot = 1;
+var hdFormat = false;
 var onDocumentLoad = function () {
     TSOS.Control.hostInit();
 };

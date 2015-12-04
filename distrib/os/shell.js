@@ -46,7 +46,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- to death the computer goes.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Choose a program to run.");
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> || all- Choose a program to run.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellMemory, "memory", "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
@@ -62,7 +62,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellWritefile, "write", "<filename> \"data\"- what to put here, ugh the fear of a blank page.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellDeletefile, "delete", "<filename> - cybermen the file.");
+            sc = new TSOS.ShellCommand(this.shellDeletefile, "delete", "<filename> || all- cybermen the file.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellFormat, "format", "- initialize all blocks in all sectors.");
             this.commandList[this.commandList.length] = sc;
@@ -479,32 +479,109 @@ var TSOS;
             _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         };
         Shell.prototype.shellCreatefile = function (args) {
-            var str = args.toString();
-            sessionStorage.setItem(str, "");
-            console.log("created " + str);
+            if (hdFormat) {
+                var str = args.toString();
+                if (_hdDriver.nameCheck(str)) {
+                    _StdOut.putText("The file name is already taken please choose a different filename.");
+                }
+                else {
+                    sessionStorage.setItem(str, "");
+                    console.log("created " + str);
+                    _StdOut.putText("File created.");
+                    _hdDriver.createFile(str);
+                }
+            }
+            else {
+                _StdOut.putText("Please format the disk first.");
+            }
+            TSOS.Control.hdTable();
         };
         Shell.prototype.shellReadfile = function (args) {
-            var str = args.toString();
-            var ssItem = sessionStorage.getItem(str);
-            _StdOut.putText(ssItem);
-            console.log("reading " + str + " which contains " + ssItem);
+            if (hdFormat) {
+                var str = args.toString();
+                if (_hdDriver.nameCheck(str)) {
+                    var ssItem = sessionStorage.getItem(str);
+                    _StdOut.putText(ssItem);
+                    console.log("reading " + str + " which contains " + ssItem);
+                }
+                else {
+                    _StdOut.putText("There is no file by that name please create the file first.");
+                }
+            }
+            else {
+                _StdOut.putText("Please format the disk first.");
+            }
+            TSOS.Control.hdTable();
         };
         Shell.prototype.shellWritefile = function (args) {
-            var name = args[0].toString();
-            var re = /\"(.*?)\"/g;
-            var matching = args.toString();
-            var str = matching.match(re);
-            var reString2 = str.replace(/\"/g, "");
-            sessionStorage.setItem(name, reString2);
-            console.log("write " + str + " with " + reString2);
+            if (hdFormat) {
+                var name = args[0].toString();
+                if (_hdDriver.nameCheck(name)) {
+                    var re = /\"(.*?)\"/g;
+                    var matching = args.toString();
+                    var str = matching.match(re);
+                    var reString = str.replace(/,/g, " ");
+                    var reString2 = reString2.replace(/\"/g, "");
+                    var loc = _hdDriver.fileLoc(name);
+                    _hardDrive.hDMeta[loc] = "1100";
+                    _StdOut.putText("File Succesfully writed to.");
+                    sessionStorage.setItem(name, reString2);
+                    console.log("write " + str + " with " + reString2);
+                }
+                else {
+                    _StdOut.putText("The file doesn't exist please create it first.");
+                }
+            }
+            else {
+                _StdOut.putText("Please format the disk first.");
+            }
+            TSOS.Control.hdTable();
         };
         Shell.prototype.shellDeletefile = function (args) {
-            var str = args.toString();
-            sessionStorage.removeItem(str);
+            if (hdFormat) {
+                var str = args.toString();
+                if (str === "all") {
+                    _hdDriver.hdMemClear();
+                    _StdOut.putText("All Files have been deleted.");
+                }
+                else {
+                    if (_hdDriver.nameCheck(str)) {
+                        sessionStorage.removeItem(str);
+                        _StdOut.putText("Deleted File.");
+                        _hdDriver.deleteFile(str);
+                        console.log("deleting " + str);
+                    }
+                    else {
+                        _StdOut.putText("There is no file by that name please create the file first.");
+                    }
+                }
+            }
+            else {
+                _StdOut.putText("Please Format the disk first.");
+            }
+            TSOS.Control.hdTable();
         };
         Shell.prototype.shellFormat = function (args) {
+            if (_hdDriver.isEmpty()) {
+                _StdOut.putText("Formating complete.");
+                hdFormat = true;
+            }
+            else {
+                _StdOut.putText("Please delete all files before formatting.");
+            }
         };
         Shell.prototype.shellLs = function (args) {
+            var i = 0;
+            while (i < mem_size) {
+                if (_hardDrive.hDMeta[i] === "1000" ||
+                    _hardDrive.hDMeta[i] === "1100") {
+                    var varHolder = _hardDrive.hardDriveMem[i];
+                    var str = TSOS.Utils.stringHex(varHolder);
+                    _StdOut.putText(str);
+                    _StdOut.advanceLine();
+                }
+                i++;
+            }
         };
         Shell.prototype.shellSetschedule = function (args) {
             var sche = args.toString();
@@ -526,7 +603,11 @@ var TSOS;
                 schedule = "priority";
             }
             else {
-                _StdOut.putText(args);
+                _StdOut.putText("Great now the scheduler is going into dire mode.");
+                _StdOut.advanceLine();
+                _StdOut.putText("It is like a normal schedular but canadian and evil.");
+                _StdOut.advanceLine();
+                _StdOut.putText("Just kidding buddy, relax. There are no dires here.");
             }
         };
         Shell.prototype.shellGetschedule = function (args) {

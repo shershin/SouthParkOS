@@ -140,7 +140,7 @@ module TSOS {
             //run <pid> - choose a program to run
             sc = new ShellCommand(this.shellRun,
                                   "run",
-                                  "<pid> - Choose a program to run.");
+                                  "<pid> || all- Choose a program to run.");
             this.commandList[this.commandList.length] = sc;
             //Memory - list all the programs in memory
             sc = new ShellCommand(this.shellMemory,
@@ -180,7 +180,7 @@ module TSOS {
             //delete <filename> - cybermen the file
             sc = new ShellCommand(this.shellDeletefile,
                                   "delete",
-                                  "<filename> - cybermen the file.");
+                                  "<filename> || all- cybermen the file.");
             this.commandList[this.commandList.length] = sc;
             //format - initialize all blocks in all sectors
             sc = new ShellCommand(this.shellFormat,
@@ -645,35 +645,99 @@ module TSOS {
           _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
         }
         public shellCreatefile(args){
-          var str = args.toString();
-          sessionStorage.setItem(str, "");
-          console.log("created " + str);
+          if (hdFormat){
+            var str = args.toString();
+            if (_hdDriver.nameCheck(str)){
+              _StdOut.putText("The file name is already taken please choose a different filename.");
+            } else {
+              sessionStorage.setItem(str, "");
+              console.log("created " + str);
+              _StdOut.putText("File created.");
+              _hdDriver.createFile(str);
+            }
+          } else {
+            _StdOut.putText("Please format the disk first.");
+          }
+          Control.hdTable();
         }
         public shellReadfile(args){
-          var str = args.toString();
-          var ssItem = sessionStorage.getItem(str);
-          _StdOut.putText(ssItem);
-          console.log("reading " + str + " which contains " + ssItem);
+          if (hdFormat){
+            var str = args.toString();
+            if (_hdDriver.nameCheck(str)){
+              var ssItem = sessionStorage.getItem(str);
+              _StdOut.putText(ssItem);
+              console.log("reading " + str + " which contains " + ssItem);
+            } else {
+              _StdOut.putText("There is no file by that name please create the file first.");
+            }
+          } else {
+            _StdOut.putText("Please format the disk first.");
+          }
+          Control.hdTable();
         }
         public shellWritefile(args){
-          var name = args[0].toString();
-          var re = /\"(.*?)\"/g;
-          var matching = args.toString();
-          var str:string = matching.match(re);
-          //var reString = content.replace(/,/g, " ");
-          var reString2 = str.replace(/\"/g, "");
-          sessionStorage.setItem(name, reString2);
-          console.log("write " + str + " with " + reString2);
+          if (hdFormat){
+            var name = args[0].toString();
+            if (_hdDriver.nameCheck(name)){
+              var re = /\"(.*?)\"/g;
+              var matching = args.toString();
+              var str = matching.match(re);
+              var reString = str.replace(/,/g, " ");
+              var reString2 = reString2.replace(/\"/g, "");
+              var loc = _hdDriver.fileLoc(name);
+              _hardDrive.hDMeta[loc] = "1100";
+              _StdOut.putText("File Succesfully writed to.");
+              sessionStorage.setItem(name, reString2);
+              console.log("write " + str + " with " + reString2);
+            } else {
+              _StdOut.putText("The file doesn't exist please create it first.");
+            }
+          } else {
+            _StdOut.putText("Please format the disk first.");
+          }
+          Control.hdTable();
         }
         public shellDeletefile(args){
-          var str = args.toString();
-          sessionStorage.removeItem(str);
+          if (hdFormat){
+            var str = args.toString();
+            if (str === "all"){
+              _hdDriver.hdMemClear();
+              _StdOut.putText("All Files have been deleted.");
+            }else{
+              if (_hdDriver.nameCheck(str)){
+                sessionStorage.removeItem(str);
+                _StdOut.putText("Deleted File.")
+                _hdDriver.deleteFile(str);
+                console.log("deleting " + str);
+             } else {
+               _StdOut.putText("There is no file by that name please create the file first.");
+             }
+            }
+          } else {
+            _StdOut.putText("Please Format the disk first.");
+          }
+          Control.hdTable();
         }
         public shellFormat(args){
-
+          if (_hdDriver.isEmpty()){
+            _StdOut.putText("Formating complete.");
+            hdFormat = true;
+          } else {
+            _StdOut.putText("Please delete all files before formatting.");
+          }
         }
         public shellLs(args){
-
+          var i = 0;
+          while (i < mem_size){
+            if (_hardDrive.hDMeta[i] === "1000" ||
+                _hardDrive.hDMeta[i] === "1100"){
+                  var varHolder = _hardDrive.hardDriveMem[i];
+                  var str = Utils.stringHex(varHolder);
+                  _StdOut.putText(str);
+                  _StdOut.advanceLine();
+                }
+                i++;
+          }
         }
         public shellSetschedule(args){
           var sche = args.toString();
@@ -691,12 +755,11 @@ module TSOS {
             _StdOut.putText("Congrats you changed the scheduler to priority.");
             schedule = "priority";
           } else {
-            /*_StdOut.putText("Great now the scheduler is going into dire mode.");
+            _StdOut.putText("Great now the scheduler is going into dire mode.");
             _StdOut.advanceLine();
             _StdOut.putText("It is like a normal schedular but canadian and evil.");
             _StdOut.advanceLine();
-            _StdOut.putText("Just kidding buddy, relax. There are no dires here.");*/
-            _StdOut.putText(args);
+            _StdOut.putText("Just kidding buddy, relax. There are no dires here.");
           }
         }
         public shellGetschedule(args){
