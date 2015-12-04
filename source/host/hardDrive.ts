@@ -6,12 +6,14 @@ all things memory
 module TSOS {
   export class hardDrive{
     constructor(
-      public memory = []
+      public hardDriveMem = [] ,
+      public hDMeta = []
     ){
 
     }
     public init (){
-      this.memory = [];
+      this.hardDriveMem = [];
+      this.hDMeta = [];
     }
   }
 }

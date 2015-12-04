@@ -14,8 +14,34 @@ var TSOS;
             this.status = "loaded";
         };
         hardDriveDriver.prototype.isEmpty = function () {
+            var i = 0;
+            while (i < mem_size) {
+                if (_hardDrive.hDMeta[i] === null ||
+                    _hardDrive.hDMeta[i] === undefined ||
+                    _hardDrive.hDMeta[i] === "0000") {
+                    return true;
+                }
+                i++;
+            }
+            return false;
         };
-        hardDriveDriver.prototype.nameCheck = function () {
+        hardDriveDriver.prototype.nameCheck = function (arg) {
+            var i = 0;
+            while (i < mem_size) {
+                var tester = TSOS.Utils.fromHex(_hardDrive.hardDriveMem[i]);
+                if (tester === arg) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        hardDriveDriver.prototype.hdMemClear = function () {
+            var i = 0;
+            while (i < mem_size) {
+                _hardDrive.hDMeta[i] = "0000";
+                _hardDrive.hardDriveMem[i] = "";
+                i++;
+            }
         };
         return hardDriveDriver;
     })(TSOS.DeviceDriver);

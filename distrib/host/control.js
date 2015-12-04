@@ -29,6 +29,8 @@ var TSOS;
             document.getElementById("display").focus();
             _Memory = new TSOS.Memory();
             _Memory.init();
+            _hardDrive = new TSOS.hardDrive();
+            _hardDrive.init();
             _CPU = new TSOS.Cpu();
             _CPU.init();
             _CpuSched = new TSOS.CPU_Scheduler();
@@ -129,6 +131,8 @@ var TSOS;
                 i++;
             }
             document.getElementById("pcbTableBody").innerHTML = table;
+        };
+        Control.hdTable = function () {
         };
         Control.singleStep = false;
         return Control;

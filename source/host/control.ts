@@ -94,6 +94,8 @@ module TSOS {
 
             _Memory = new Memory();
             _Memory.init();
+            _hardDrive = new hardDrive();
+            _hardDrive.init();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
@@ -104,6 +106,7 @@ module TSOS {
 
             _MemoryManager = new MemoryManager();
             _MemoryManager.clearMem();
+
 
             _Queue = new Queue();
 
@@ -210,6 +213,15 @@ module TSOS {
            i++;
          }
         (<HTMLInputElement> document.getElementById("pcbTableBody")).innerHTML = table;
+       }
+
+       public static hdTable(): void {
+         /*var str: string = "";
+         var i = 0;
+         while (i < mem_size){
+           str += "<tr>";
+           str += "";
+         }*/
        }
     }
 }

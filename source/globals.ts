@@ -78,7 +78,7 @@ var _currentPCB: TSOS.PCB = null;
 var _Queue : TSOS.Queue;
 var partsAllowed : number = 3;
 var schedule : string = "rr";
-var _hardDrive : TSOS.HardDrive;
+var _hardDrive : TSOS.hardDrive;
 
 
 var onDocumentLoad = function() {
