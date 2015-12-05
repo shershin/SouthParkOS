@@ -24,7 +24,7 @@ module TSOS {
             // More?
         }
 
-        public isEmpty(): boolean{
+       public isEmpty(): boolean{
           var i = 0;
           while (i < mem_size){
             if (_hardDrive.hDMeta[i] === null ||
