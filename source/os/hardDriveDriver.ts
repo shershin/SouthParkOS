@@ -11,18 +11,18 @@
 
 module TSOS {
     // Extends DeviceDriver
-    export class hardDriveDriver extends DeviceDriver {
+    export class hardDriveDriver {//extends DeviceDriver {
 
         constructor() {
             // Override the base method pointers.
-            super(this.hDDriverEntry);
+            //super(this.hDDriverEntry);
         }
 
-        public hDDriverEntry() {
+      /*  public hDDriverEntry() {
             // Initialization routine for this, the kernel-mode Keyboard Device Driver.
             this.status = "loaded";
             // More?
-        }
+        }*/
 
        public isEmpty(): boolean{
           var i = 0;
@@ -39,13 +39,16 @@ module TSOS {
 
         public nameCheck(arg):boolean{
           var i = 0;
+          var tester = Utils.strToHex(arg);
+          console.log("hex test " + tester + " = " + arg);
           while (i < mem_size){
-            var tester = Utils.stringHex(_hardDrive.hardDriveMem[i]);
-            if (tester === arg){
+            if (_hardDrive.hardDriveMem[i] === tester){
+              console.log(_hardDrive.hardDriveMem[i]);
               return true;
             }
+            i++;
           }
-          return false;
+          console.log(_hardDrive.hardDriveMem[0]);
         }
 
         public hdMemClear(){
@@ -60,44 +63,46 @@ module TSOS {
         public fileLoc(arg): number{
           var i = 0;
           var loc = null;
+          var tester = Utils.strToHex(arg);
+          console.log("hex test " + tester + " = " + arg);
           while (i < mem_size){
-            var tester = Utils.stringHex(_hardDrive.hardDriveMem[i]);
-            if (tester === arg){
+            if (_hardDrive.hardDriveMem[i] === tester){
+              console.log(_hardDrive.hardDriveMem[i]);
               return loc = i;
             }
+            i++;
           }
         }
         public openSpot(): number {
           var openSpot = null;
           var i = 0;
           while (i < mem_size){
-            if (_hardDrive.hDMeta[i] === "0000"){
+            if (_hardDrive.hDMeta[i] === "0000" ||
+                _hardDrive.hDMeta[i] === null ||
+                _hardDrive.hDMeta[i] === undefined){
               return openSpot = i;
             }
             i++;
           }
         }
         public createFile(arg){
+          console.log("creating file");
           var loc = this.openSpot();
-          var hex = Utils.toHex(arg);
-          var hexStr = this.addZero(hex);
-          _hardDrive.hardDriveMem[loc] = hexStr;
-          _hardDrive.hDMeta[loc] = "1000";
+          if (loc === null || loc === undefined){
+            _StdOut.putText("Ran into an error please throw computer against wall to fix");
+          } else {
+            var hex = Utils.strToHex(arg);
+            console.log("creating " + arg + " " + hex + " in loc " + loc);
+            _hardDrive.hardDriveMem[loc] = hex;
+            _hardDrive.hDMeta[loc] = "1000";
+          }
         }
         public deleteFile(arg){
           var loc = this.fileLoc(arg);
-          var str = this.addZero("");
-          _hardDrive.hardDriveMem[loc] = str;
+          console.log(loc);
+          _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
         }
-        public addZero(arg): string{
-          var i = arg.length;
-          var str = arg;
-          while (i < 63){
-            str += "0";
-            i++;
-          }
-          return str;
-        }
+
       }
 }

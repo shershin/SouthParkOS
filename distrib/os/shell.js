@@ -520,8 +520,9 @@ var TSOS;
                     var re = /\"(.*?)\"/g;
                     var matching = args.toString();
                     var str = matching.match(re);
-                    var reString = str.replace(/,/g, " ");
-                    var reString2 = reString2.replace(/\"/g, "");
+                    console.log(str);
+                    var reString = (str + "").replace(/,/g, " ");
+                    var reString2 = (reString + "").replace(/\"/g, "");
                     var loc = _hdDriver.fileLoc(name);
                     _hardDrive.hDMeta[loc] = "1100";
                     _StdOut.putText("File Succesfully writed to.");
@@ -576,8 +577,9 @@ var TSOS;
                 if (_hardDrive.hDMeta[i] === "1000" ||
                     _hardDrive.hDMeta[i] === "1100") {
                     var varHolder = _hardDrive.hardDriveMem[i];
-                    var str = TSOS.Utils.stringHex(varHolder);
-                    _StdOut.putText(str);
+                    var str = TSOS.Utils.hexToStr(varHolder);
+                    _StdOut.putText("" + str);
+                    console.log("ls: " + varHolder + " string " + str);
                     _StdOut.advanceLine();
                 }
                 i++;

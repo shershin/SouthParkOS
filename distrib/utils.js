@@ -61,6 +61,20 @@ var TSOS;
             var combined = arg + _currentPCB.base;
             return combined;
         };
+        Utils.strToHex = function (arg) {
+            var hex = '';
+            for (var i = 0; i < arg.length; i++) {
+                hex += '' + arg.charCodeAt(i).toString(16);
+            }
+            return hex.toUpperCase();
+        };
+        Utils.hexToStr = function (arg) {
+            var str = '';
+            for (var i = 0; i < arg.length; i += 2) {
+                str += String.fromCharCode(parseInt(arg.substr(i, 2), 16));
+            }
+            return str;
+        };
         return Utils;
     })();
     TSOS.Utils = Utils;

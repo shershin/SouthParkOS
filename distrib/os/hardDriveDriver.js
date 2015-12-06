@@ -1,18 +1,8 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var TSOS;
 (function (TSOS) {
-    var hardDriveDriver = (function (_super) {
-        __extends(hardDriveDriver, _super);
+    var hardDriveDriver = (function () {
         function hardDriveDriver() {
-            _super.call(this, this.hDDriverEntry);
         }
-        hardDriveDriver.prototype.hDDriverEntry = function () {
-            this.status = "loaded";
-        };
         hardDriveDriver.prototype.isEmpty = function () {
             var i = 0;
             while (i < mem_size) {
@@ -27,13 +17,16 @@ var TSOS;
         };
         hardDriveDriver.prototype.nameCheck = function (arg) {
             var i = 0;
+            var tester = TSOS.Utils.strToHex(arg);
+            console.log("hex test " + tester + " = " + arg);
             while (i < mem_size) {
-                var tester = TSOS.Utils.stringHex(_hardDrive.hardDriveMem[i]);
-                if (tester === arg) {
+                if (_hardDrive.hardDriveMem[i] === tester) {
+                    console.log(_hardDrive.hardDriveMem[i]);
                     return true;
                 }
+                i++;
             }
-            return false;
+            console.log(_hardDrive.hardDriveMem[0]);
         };
         hardDriveDriver.prototype.hdMemClear = function () {
             var i = 0;
@@ -46,46 +39,48 @@ var TSOS;
         hardDriveDriver.prototype.fileLoc = function (arg) {
             var i = 0;
             var loc = null;
+            var tester = TSOS.Utils.strToHex(arg);
+            console.log("hex test " + tester + " = " + arg);
             while (i < mem_size) {
-                var tester = TSOS.Utils.stringHex(_hardDrive.hardDriveMem[i]);
-                if (tester === arg) {
+                if (_hardDrive.hardDriveMem[i] === tester) {
+                    console.log(_hardDrive.hardDriveMem[i]);
                     return loc = i;
                 }
+                i++;
             }
         };
         hardDriveDriver.prototype.openSpot = function () {
             var openSpot = null;
             var i = 0;
             while (i < mem_size) {
-                if (_hardDrive.hDMeta[i] === "0000") {
+                if (_hardDrive.hDMeta[i] === "0000" ||
+                    _hardDrive.hDMeta[i] === null ||
+                    _hardDrive.hDMeta[i] === undefined) {
                     return openSpot = i;
                 }
                 i++;
             }
         };
         hardDriveDriver.prototype.createFile = function (arg) {
+            console.log("creating file");
             var loc = this.openSpot();
-            var hex = TSOS.Utils.toHex(arg);
-            var hexStr = this.addZero(hex);
-            _hardDrive.hardDriveMem[loc] = hexStr;
-            _hardDrive.hDMeta[loc] = "1000";
+            if (loc === null || loc === undefined) {
+                _StdOut.putText("Ran into an error please throw computer against wall to fix");
+            }
+            else {
+                var hex = TSOS.Utils.strToHex(arg);
+                console.log("creating " + arg + " " + hex + " in loc " + loc);
+                _hardDrive.hardDriveMem[loc] = hex;
+                _hardDrive.hDMeta[loc] = "1000";
+            }
         };
         hardDriveDriver.prototype.deleteFile = function (arg) {
             var loc = this.fileLoc(arg);
-            var str = this.addZero("");
-            _hardDrive.hardDriveMem[loc] = str;
+            console.log(loc);
+            _hardDrive.hardDriveMem[loc] = "";
             _hardDrive.hDMeta[loc] = "0000";
         };
-        hardDriveDriver.prototype.addZero = function (arg) {
-            var i = arg.length;
-            var str = arg;
-            while (i < 63) {
-                str += "0";
-                i++;
-            }
-            return str;
-        };
         return hardDriveDriver;
-    })(TSOS.DeviceDriver);
+    })();
     TSOS.hardDriveDriver = hardDriveDriver;
 })(TSOS || (TSOS = {}));
