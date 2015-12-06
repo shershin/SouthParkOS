@@ -1,7 +1,7 @@
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
-        function PCB(pid, xreg, yreg, zflag, progCounter, accumulater, base, limit, partition, proccessState) {
+        function PCB(pid, xreg, yreg, zflag, progCounter, accumulater, base, limit, partition, proccessState, priority, location) {
             if (pid === void 0) { pid = 0; }
             if (xreg === void 0) { xreg = 0; }
             if (yreg === void 0) { yreg = 0; }
@@ -12,6 +12,8 @@ var TSOS;
             if (limit === void 0) { limit = null; }
             if (partition === void 0) { partition = null; }
             if (proccessState === void 0) { proccessState = 'new'; }
+            if (priority === void 0) { priority = null; }
+            if (location === void 0) { location = null; }
             this.pid = pid;
             this.xreg = xreg;
             this.yreg = yreg;
@@ -22,6 +24,8 @@ var TSOS;
             this.limit = limit;
             this.partition = partition;
             this.proccessState = proccessState;
+            this.priority = priority;
+            this.location = location;
             this.init();
         }
         PCB.prototype.init = function () {

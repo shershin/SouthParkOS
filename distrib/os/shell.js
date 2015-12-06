@@ -383,6 +383,7 @@ var TSOS;
             }
         };
         Shell.prototype.shellLoad = function (args) {
+            console.log("load args " + args);
             var input = document.getElementById("taProgramInput");
             var str = input.value;
             var isValid = false;
@@ -395,8 +396,15 @@ var TSOS;
                         _StdOut.putText("ERROR: Please enter a real program.");
                     }
                     else {
-                        isValid = true;
-                        clean = TSOS.Utils.whiteBeGone(str);
+                        var re2 = /('^[0-9]+$')/g;
+                        var test2 = args.search(re2);
+                        if (test2 || args === "") {
+                            isValid = true;
+                            clean = TSOS.Utils.whiteBeGone(str);
+                        }
+                        else {
+                            _StdOut.putText("Oh no letters are not numbers.");
+                        }
                     }
                 }
                 else {
@@ -406,8 +414,13 @@ var TSOS;
                     _ProcessControlBlock = new TSOS.PCB();
                     console.log("PID Biotch: " + _ProcessControlBlock.pid);
                     _resList.addtoList(_ProcessControlBlock);
-                    TSOS.Control.pcbTable();
                     _MemoryManager.memload(clean);
+                    if (args === "") {
+                        _ProcessControlBlock.priority = 4;
+                    }
+                    else {
+                        _ProcessControlBlock.priority = args;
+                    }
                 }
             }
             else {

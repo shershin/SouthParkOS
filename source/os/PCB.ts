@@ -13,7 +13,9 @@ module TSOS {
       public base : number = null,
       public limit : number = null,
       public partition : number = null,
-      public proccessState : string = 'new'
+      public proccessState : string = 'new',
+      public priority : number = null,
+      public location : string = null
     ){
       this.init();
     }

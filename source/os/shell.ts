@@ -550,6 +550,7 @@ module TSOS {
           }
         }
         public shellLoad(args){
+          console.log("load args " + args);
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var isValid = false;
@@ -561,8 +562,14 @@ module TSOS {
               if (!test){
                 _StdOut.putText("ERROR: Please enter a real program.");
               }else{
-                isValid = true;
-                clean = Utils.whiteBeGone(str);
+                var re2 = /('^[0-9]+$')/g;
+                var test2 = args.search(re2);
+                if (test2 || args === ""){
+                  isValid = true;
+                  clean = Utils.whiteBeGone(str);
+                } else {
+                  _StdOut.putText("Oh no letters are not numbers.");
+                }
             }
             }else{
             _StdOut.putText("ERROR: No program detected.");
@@ -571,8 +578,13 @@ module TSOS {
               _ProcessControlBlock = new PCB();
               console.log("PID Biotch: " +  _ProcessControlBlock.pid);
               _resList.addtoList(_ProcessControlBlock);
-              Control.pcbTable();
+              //Control.pcbTable();
               _MemoryManager.memload(clean);
+              if (args === ""){
+                _ProcessControlBlock.priority = 4;
+              } else {
+                _ProcessControlBlock.priority = args;
+              }
             }
           }else{
             _StdOut.putText("Sorry can't load any more programs, friend.");
