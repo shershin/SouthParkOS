@@ -414,11 +414,13 @@ var TSOS;
                 console.log("PID Biotch: " + _ProcessControlBlock.pid);
                 if (TSOS.PCB.pidint < partsAllowed + 1) {
                     _resList.addtoList(_ProcessControlBlock);
+                    _MemoryManager.memload(clean);
                 }
                 else {
-                    _hdDriver.createFile("pid" + _ProcessControlBlock.pid);
+                    var name = "pid" + _ProcessControlBlock.pid;
+                    this.shellCreatefile(name);
+                    sessionStorage.setItem(name, clean);
                 }
-                _MemoryManager.memload(clean);
                 if (args === "") {
                     _ProcessControlBlock.priority = 4;
                 }
