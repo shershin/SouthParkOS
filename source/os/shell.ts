@@ -555,7 +555,6 @@ module TSOS {
           var str = input.value;
           var isValid = false;
           var clean = "";
-          if (_resList.pcbint < partsAllowed){
             if (str.length > 0){
               var re = /([^abcdefABCDEF0123456789\s])/g;
               var test = str.search(re);
@@ -563,7 +562,7 @@ module TSOS {
                 _StdOut.putText("ERROR: Please enter a real program.");
               }else{
                 var re2 = /('^[0-9]+$')/g;
-                var test2 = args.search(re2);
+                var test2 = ("" + args).search(re2);
                 if (test2 || args === ""){
                   isValid = true;
                   clean = Utils.whiteBeGone(str);
@@ -577,7 +576,11 @@ module TSOS {
             if (isValid){
               _ProcessControlBlock = new PCB();
               console.log("PID Biotch: " +  _ProcessControlBlock.pid);
-              _resList.addtoList(_ProcessControlBlock);
+              if (PCB.pidint < partsAllowed + 1){
+                _resList.addtoList(_ProcessControlBlock);
+              } else {
+                _hdDriver.createFile("pid" + _ProcessControlBlock.pid);
+              }
               //Control.pcbTable();
               _MemoryManager.memload(clean);
               if (args === ""){
@@ -586,9 +589,6 @@ module TSOS {
                 _ProcessControlBlock.priority = args;
               }
             }
-          }else{
-            _StdOut.putText("Sorry can't load any more programs, friend.");
-          }
 
         }
         public shellBsod(args){

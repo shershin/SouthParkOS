@@ -388,43 +388,43 @@ var TSOS;
             var str = input.value;
             var isValid = false;
             var clean = "";
-            if (_resList.pcbint < partsAllowed) {
-                if (str.length > 0) {
-                    var re = /([^abcdefABCDEF0123456789\s])/g;
-                    var test = str.search(re);
-                    if (!test) {
-                        _StdOut.putText("ERROR: Please enter a real program.");
-                    }
-                    else {
-                        var re2 = /('^[0-9]+$')/g;
-                        var test2 = args.search(re2);
-                        if (test2 || args === "") {
-                            isValid = true;
-                            clean = TSOS.Utils.whiteBeGone(str);
-                        }
-                        else {
-                            _StdOut.putText("Oh no letters are not numbers.");
-                        }
-                    }
+            if (str.length > 0) {
+                var re = /([^abcdefABCDEF0123456789\s])/g;
+                var test = str.search(re);
+                if (!test) {
+                    _StdOut.putText("ERROR: Please enter a real program.");
                 }
                 else {
-                    _StdOut.putText("ERROR: No program detected.");
-                }
-                if (isValid) {
-                    _ProcessControlBlock = new TSOS.PCB();
-                    console.log("PID Biotch: " + _ProcessControlBlock.pid);
-                    _resList.addtoList(_ProcessControlBlock);
-                    _MemoryManager.memload(clean);
-                    if (args === "") {
-                        _ProcessControlBlock.priority = 4;
+                    var re2 = /('^[0-9]+$')/g;
+                    var test2 = ("" + args).search(re2);
+                    if (test2 || args === "") {
+                        isValid = true;
+                        clean = TSOS.Utils.whiteBeGone(str);
                     }
                     else {
-                        _ProcessControlBlock.priority = args;
+                        _StdOut.putText("Oh no letters are not numbers.");
                     }
                 }
             }
             else {
-                _StdOut.putText("Sorry can't load any more programs, friend.");
+                _StdOut.putText("ERROR: No program detected.");
+            }
+            if (isValid) {
+                _ProcessControlBlock = new TSOS.PCB();
+                console.log("PID Biotch: " + _ProcessControlBlock.pid);
+                if (TSOS.PCB.pidint < partsAllowed + 1) {
+                    _resList.addtoList(_ProcessControlBlock);
+                }
+                else {
+                    _hdDriver.createFile("pid" + _ProcessControlBlock.pid);
+                }
+                _MemoryManager.memload(clean);
+                if (args === "") {
+                    _ProcessControlBlock.priority = 4;
+                }
+                else {
+                    _ProcessControlBlock.priority = args;
+                }
             }
         };
         Shell.prototype.shellBsod = function (args) {
