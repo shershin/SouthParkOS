@@ -66,6 +66,10 @@ var TSOS;
                 console.log("nooooooo");
             }
         };
+        MemoryManager.prototype.readFromMem = function (pcb) {
+        };
+        MemoryManager.prototype.readToMem = function (pcb) {
+        };
         MemoryManager.part = [];
         return MemoryManager;
     })();

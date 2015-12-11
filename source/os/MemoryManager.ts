@@ -76,5 +76,13 @@ module TSOS {
           console.log("nooooooo");
         }
     }
+
+    public readFromMem(pcb: PCB){
+
+    }
+
+    public readToMem(pcb: PCB){
+      
+    }
     }
   }

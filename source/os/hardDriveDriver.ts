@@ -103,6 +103,18 @@ module TSOS {
           _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
         }
+        public createPgm(arg){
+          console.log("creating file");
+          var loc = this.openSpot();
+          if (loc === null || loc === undefined){
+            _StdOut.putText("Ran into an error please throw computer against wall to fix");
+          } else {
+            var hex = Utils.strToHex(arg);
+            console.log("creating " + arg + " " + hex + " in loc " + loc);
+            _hardDrive.hardDriveMem[loc] = hex;
+            _hardDrive.hDMeta[loc] = "1100";
+          }
+        }
 
       }
 }

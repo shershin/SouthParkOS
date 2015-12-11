@@ -576,12 +576,12 @@ module TSOS {
             if (isValid){
               _ProcessControlBlock = new PCB();
               console.log("PID Biotch: " +  _ProcessControlBlock.pid);
+              _resList.addtoList(_ProcessControlBlock);
               if (PCB.pidint < partsAllowed + 1){
-                _resList.addtoList(_ProcessControlBlock);
                 _MemoryManager.memload(clean);
               } else {
                 var name = "pid" + _ProcessControlBlock.pid;
-                this.shellCreatefile(name);
+                _hdDriver.createPgm(name);
                 sessionStorage.setItem(name, clean);
               }
               //Control.pcbTable();
