@@ -418,8 +418,7 @@ var TSOS;
                 }
                 else {
                     var name = "pid" + _ProcessControlBlock.pid;
-                    _hdDriver.createPgm(name);
-                    sessionStorage.setItem(name, clean);
+                    _hdDriver.createPgm(name, clean);
                 }
                 if (args === "") {
                     _ProcessControlBlock.priority = 4;
@@ -446,15 +445,20 @@ var TSOS;
                     _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
                 }
                 else {
-                    var intget = parseInt(args[0]);
-                    var getpcb = _resList.getID(intget);
-                    _currentPCB = getpcb;
-                    _currentPCB.proccessState = 'running';
-                    _CPU.setCPU(_currentPCB);
-                    _Queue.enqueue(_currentPCB);
-                    _CpuSched.init();
-                    _StdOut.putText("Executing.");
-                    _CPU.isExecuting = true;
+                    if (_hdDriver.nameCheck("pid" + args)) {
+                        _StdOut.putText("That PID happens to be in hard drive no in memory.");
+                    }
+                    else {
+                        var intget = parseInt(args[0]);
+                        var getpcb = _resList.getID(intget);
+                        _currentPCB = getpcb;
+                        _currentPCB.proccessState = 'running';
+                        _CPU.setCPU(_currentPCB);
+                        _Queue.enqueue(_currentPCB);
+                        _CpuSched.init();
+                        _StdOut.putText("Executing.");
+                        _CPU.isExecuting = true;
+                    }
                 }
             }
         };

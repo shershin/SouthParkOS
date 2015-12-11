@@ -80,7 +80,7 @@ var TSOS;
             _hardDrive.hardDriveMem[loc] = "";
             _hardDrive.hDMeta[loc] = "0000";
         };
-        hardDriveDriver.prototype.createPgm = function (arg) {
+        hardDriveDriver.prototype.createPgm = function (arg, pgm) {
             console.log("creating file");
             var loc = this.openSpot();
             if (loc === null || loc === undefined) {
@@ -91,6 +91,7 @@ var TSOS;
                 console.log("creating " + arg + " " + hex + " in loc " + loc);
                 _hardDrive.hardDriveMem[loc] = hex;
                 _hardDrive.hDMeta[loc] = "1100";
+                sessionStorage.setItem(arg, pgm);
             }
         };
         return hardDriveDriver;

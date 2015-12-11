@@ -103,7 +103,7 @@ module TSOS {
           _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
         }
-        public createPgm(arg){
+        public createPgm(arg, pgm){
           console.log("creating file");
           var loc = this.openSpot();
           if (loc === null || loc === undefined){
@@ -113,6 +113,7 @@ module TSOS {
             console.log("creating " + arg + " " + hex + " in loc " + loc);
             _hardDrive.hardDriveMem[loc] = hex;
             _hardDrive.hDMeta[loc] = "1100";
+            sessionStorage.setItem(arg, pgm);
           }
         }
 

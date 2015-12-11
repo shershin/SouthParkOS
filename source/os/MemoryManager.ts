@@ -77,12 +77,26 @@ module TSOS {
         }
     }
 
-    public readFromMem(pcb: PCB){
-
+    public readFromMem(pcb: PCB) : string{
+      var pgm = "";
+      for (var i = pcb.base; i < mem_size; i++){
+        pgm += _Memory.memory[i];
+      }
+      return pgm;
     }
 
     public readToMem(pcb: PCB){
-      
+      var currByte = "";
+      var memLoc = pcb.base;
+      for (var i = 0; i < mem_size; i++) {
+          currByte = currByte + pcb.codes[i];
+          if (currByte.length > 1) {
+              _Memory.memory[memLoc] = currByte;
+              memLoc++;
+              currByte = "";
+          }
+
+      }
     }
     }
   }

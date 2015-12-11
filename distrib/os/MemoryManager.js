@@ -67,8 +67,23 @@ var TSOS;
             }
         };
         MemoryManager.prototype.readFromMem = function (pcb) {
+            var pgm = "";
+            for (var i = pcb.base; i < mem_size; i++) {
+                pgm += _Memory.memory[i];
+            }
+            return pgm;
         };
         MemoryManager.prototype.readToMem = function (pcb) {
+            var currByte = "";
+            var memLoc = pcb.base;
+            for (var i = 0; i < mem_size; i++) {
+                currByte = currByte + pcb.codes[i];
+                if (currByte.length > 1) {
+                    _Memory.memory[memLoc] = currByte;
+                    memLoc++;
+                    currByte = "";
+                }
+            }
         };
         MemoryManager.part = [];
         return MemoryManager;
