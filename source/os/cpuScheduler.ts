@@ -25,12 +25,16 @@ module TSOS{
     }
     public quantumSwitch(){
       _currentPCB.updatePCB();
-      var base;
-      var limit;
+      var base = _currentPCB.base;
+      var limit = _currentPCB.limit;
+      var part = _currentPCB.part;
 
-
+      var re = /[0-9]/g;
       if (!_Queue.isEmpty()){
-        
+        if (_hdDriver.pgmFinder("pid"+re)){
+          var pid = Utils.stripper(hdPgm);
+          var oldPgm = _MemoryManager.readFromMem(_currentPCB); 
+        }
         if (_currentPCB.proccessState === 'terminated'){
           _currentPCB = _Queue.dequeue();
           _currentPCB.proccessState = 'running';

@@ -82,6 +82,7 @@ var _hardDrive : TSOS.hardDrive;
 var _hdDriver : TSOS.hardDriveDriver;
 var hdSpot: number = 1;
 var hdFormat: boolean = false;
+var hdPgm: string = null;
 
 
 var onDocumentLoad = function() {

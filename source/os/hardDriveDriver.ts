@@ -123,10 +123,19 @@ module TSOS {
           _hardDrive.hDMeta[loc] = "0000";
           sessionStorage.removeItem(arg);
         }
-        public pgmFinder(){
-          var re = /([0-9])/g;
-          this.nameCheck("pid" + re);
-          console.log("this works");
+        public pgmFinder(arg){
+          var i = 0;
+          var tester = Utils.strToHex(arg);
+          console.log("hex test " + tester + " = " + arg);
+          while (i < mem_size){
+            if (_hardDrive.hardDriveMem[i] === tester){
+              console.log(_hardDrive.hardDriveMem[i]);
+              hdPgm = Utils.fromHex(_hardDrive.hardDriveMem[i]);
+              return true;
+            }
+            i++;
+          }
+          console.log(_hardDrive.hardDriveMem[0]);
         }
 
       }

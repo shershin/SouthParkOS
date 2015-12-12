@@ -15,8 +15,7 @@ module TSOS {
       public partition : number = null,
       public proccessState : string = 'new',
       public priority : number = null,
-      public location : string = null,
-      public codes : string = null
+      public location : string = null
     ){
       this.init();
     }

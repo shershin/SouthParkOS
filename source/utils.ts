@@ -102,5 +102,13 @@ module TSOS {
           }
             return str;
           }
+          //not that kind of stripper
+          //this one takes the number from pid
+          public static stripper(arg){
+            var re = /[0-9]/g;
+            var match = (arg + "").match(re);
+            return match;
+            console.log("stripper function " + arg + " " + match);
+          }
 }
 }
