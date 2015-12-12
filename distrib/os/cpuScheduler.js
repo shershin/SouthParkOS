@@ -26,6 +26,8 @@ var TSOS;
         };
         CPU_Scheduler.prototype.quantumSwitch = function () {
             _currentPCB.updatePCB();
+            var base;
+            var limit;
             if (!_Queue.isEmpty()) {
                 if (_currentPCB.proccessState === 'terminated') {
                     _currentPCB = _Queue.dequeue();

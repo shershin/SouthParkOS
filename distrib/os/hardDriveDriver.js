@@ -94,6 +94,18 @@ var TSOS;
                 sessionStorage.setItem(arg, pgm);
             }
         };
+        hardDriveDriver.prototype.deletePgm = function (arg) {
+            var loc = this.fileLoc(arg);
+            console.log(loc);
+            _hardDrive.hardDriveMem[loc] = "";
+            _hardDrive.hDMeta[loc] = "0000";
+            sessionStorage.removeItem(arg);
+        };
+        hardDriveDriver.prototype.pgmFinder = function () {
+            var re = /([0-9])/g;
+            this.nameCheck("pid" + re);
+            console.log("this works");
+        };
         return hardDriveDriver;
     })();
     TSOS.hardDriveDriver = hardDriveDriver;

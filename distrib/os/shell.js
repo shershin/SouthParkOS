@@ -164,11 +164,7 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellTest = function (args) {
-            var i;
-            console.log("session storage");
-            for (i = 0; i < sessionStorage.length; i++) {
-                console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
-            }
+            _hdDriver.pgmFinder();
         };
         Shell.prototype.shellHelp = function (args) {
             _StdOut.putText("Commands:");
@@ -445,8 +441,8 @@ var TSOS;
                     _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
                 }
                 else {
-                    if (_hdDriver.nameCheck("pid" + args)) {
-                        _StdOut.putText("That PID happens to be in hard drive no in memory.");
+                    if (_hdDriver.nameCheck("pid" + args) && !_CPU.isExecuting) {
+                        _StdOut.putText("That PID happens to be in hard drive not in memory.");
                     }
                     else {
                         var intget = parseInt(args[0]);
@@ -480,11 +476,18 @@ var TSOS;
         };
         Shell.prototype.shellRunall = function (args) {
             var i = 0;
-            while (i < TSOS.PCB.pidint) {
-                var pcb = _resList.getID(i);
-                pcb.proccessState = 'ready';
-                _Queue.enqueue(pcb);
-                i++;
+            if (schedule === "priority") {
+                while (i < TSOS.PCB.pidint) {
+                    var pcb = _resList.getID(i);
+                }
+            }
+            else {
+                while (i < 3) {
+                    var pcb = _resList.getID(i);
+                    pcb.proccessState = 'ready';
+                    _Queue.enqueue(pcb);
+                    i++;
+                }
             }
             _currentPCB = _Queue.dequeue();
             _currentPCB.proccessState = 'running';

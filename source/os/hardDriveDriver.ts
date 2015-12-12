@@ -116,6 +116,18 @@ module TSOS {
             sessionStorage.setItem(arg, pgm);
           }
         }
+        public deletePgm(arg){
+          var loc = this.fileLoc(arg);
+          console.log(loc);
+          _hardDrive.hardDriveMem[loc] = "";
+          _hardDrive.hDMeta[loc] = "0000";
+          sessionStorage.removeItem(arg);
+        }
+        public pgmFinder(){
+          var re = /([0-9])/g;
+          this.nameCheck("pid" + re);
+          console.log("this works");
+        }
 
       }
 }
