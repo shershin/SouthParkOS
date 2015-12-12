@@ -330,7 +330,6 @@ module TSOS {
         }
 
         public shellTest(args) {
-          _hdDriver.pgmFinder();
           /*var i;
           console.log("session storage");
           for (i = 0; i < sessionStorage.length; i++) {

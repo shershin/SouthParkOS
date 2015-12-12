@@ -164,7 +164,6 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellTest = function (args) {
-            _hdDriver.pgmFinder();
         };
         Shell.prototype.shellHelp = function (args) {
             _StdOut.putText("Commands:");

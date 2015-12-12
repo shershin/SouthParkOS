@@ -25,27 +25,37 @@ module TSOS{
     }
     public quantumSwitch(){
       _currentPCB.updatePCB();
-      var base = _currentPCB.base;
-      var limit = _currentPCB.limit;
-      var part = _currentPCB.part;
 
       var re = /[0-9]/g;
       if (!_Queue.isEmpty()){
         if (_hdDriver.pgmFinder("pid"+re)){
-          var pid = Utils.stripper(hdPgm);
-          var oldPgm = _MemoryManager.readFromMem(_currentPCB); 
-        }
-        if (_currentPCB.proccessState === 'terminated'){
-          _currentPCB = _Queue.dequeue();
-          _currentPCB.proccessState = 'running';
-        } else {
-          _currentPCB.proccessState = 'waiting';
-          _Queue.enqueue(_currentPCB);
-          _currentPCB = _Queue.dequeue();
+          this.rollMem();
           if (_currentPCB.proccessState === 'terminated'){
-            this.quantumSwitch();
+            _currentPCB = _Queue.dequeue();
+            _currentPCB.proccessState = 'running';
+          } else {
+            _currentPCB.proccessState = 'waiting';
+            _hdDriver.createPgm("pid"+_currentPCB.pid, _currentPCB.codes);
+            _currentPCB = _Queue.dequeue();
+            if (_currentPCB.proccessState === 'terminated'){
+              this.quantumSwitch();
+            }
+            _currentPCB.proccessState = 'running';
           }
-          _currentPCB.proccessState = 'running';
+        } else {
+          //if there is no program in the hard drive
+          if (_currentPCB.proccessState === 'terminated'){
+            _currentPCB = _Queue.dequeue();
+            _currentPCB.proccessState = 'running';
+          } else {
+            _currentPCB.proccessState = 'waiting';
+            _Queue.enqueue(_currentPCB);
+            _currentPCB = _Queue.dequeue();
+            if (_currentPCB.proccessState === 'terminated'){
+              this.quantumSwitch();
+            }
+            _currentPCB.proccessState = 'running';
+          }
         }
       }
       _CPU.setCPU(_currentPCB);
@@ -56,6 +66,23 @@ module TSOS{
     public prioSwitch(){
 
 
+    }
+
+    public rollMem(){
+      var base  = _currentPCB.base;
+      var limit = _currentPCB.limit;
+      var part = _currentPCB.partition;
+
+      var pid = Utils.stripper(hdPgm);
+      _currentPCB.codes = _MemoryManager.readFromMem(_currentPCB);
+      var resPcb = _resList.getID(pid);
+      resPcb.base = base;
+      resPcb.limit = limit;
+      resPcb.partition = part;
+      resPcb.codes = sessionStorage.getItem(hdPgm);
+      resPcb.proccessState = "waiting";
+      _Queue.enqueue(resPcb);
+      _hdDriver.deletePgm(hdPgm);
     }
 
     public finished(){

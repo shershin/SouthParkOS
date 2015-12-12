@@ -26,21 +26,38 @@ var TSOS;
         };
         CPU_Scheduler.prototype.quantumSwitch = function () {
             _currentPCB.updatePCB();
-            var base;
-            var limit;
+            var re = /[0-9]/g;
             if (!_Queue.isEmpty()) {
-                if (_currentPCB.proccessState === 'terminated') {
-                    _currentPCB = _Queue.dequeue();
-                    _currentPCB.proccessState = 'running';
+                if (_hdDriver.pgmFinder("pid" + re)) {
+                    this.rollMem();
+                    if (_currentPCB.proccessState === 'terminated') {
+                        _currentPCB = _Queue.dequeue();
+                        _currentPCB.proccessState = 'running';
+                    }
+                    else {
+                        _currentPCB.proccessState = 'waiting';
+                        _hdDriver.createPgm("pid" + _currentPCB.pid, _currentPCB.codes);
+                        _currentPCB = _Queue.dequeue();
+                        if (_currentPCB.proccessState === 'terminated') {
+                            this.quantumSwitch();
+                        }
+                        _currentPCB.proccessState = 'running';
+                    }
                 }
                 else {
-                    _currentPCB.proccessState = 'waiting';
-                    _Queue.enqueue(_currentPCB);
-                    _currentPCB = _Queue.dequeue();
                     if (_currentPCB.proccessState === 'terminated') {
-                        this.quantumSwitch();
+                        _currentPCB = _Queue.dequeue();
+                        _currentPCB.proccessState = 'running';
                     }
-                    _currentPCB.proccessState = 'running';
+                    else {
+                        _currentPCB.proccessState = 'waiting';
+                        _Queue.enqueue(_currentPCB);
+                        _currentPCB = _Queue.dequeue();
+                        if (_currentPCB.proccessState === 'terminated') {
+                            this.quantumSwitch();
+                        }
+                        _currentPCB.proccessState = 'running';
+                    }
                 }
             }
             _CPU.setCPU(_currentPCB);
@@ -48,6 +65,21 @@ var TSOS;
             this.finished();
         };
         CPU_Scheduler.prototype.prioSwitch = function () {
+        };
+        CPU_Scheduler.prototype.rollMem = function () {
+            var base = _currentPCB.base;
+            var limit = _currentPCB.limit;
+            var part = _currentPCB.partition;
+            var pid = TSOS.Utils.stripper(hdPgm);
+            _currentPCB.codes = _MemoryManager.readFromMem(_currentPCB);
+            var resPcb = _resList.getID(pid);
+            resPcb.base = base;
+            resPcb.limit = limit;
+            resPcb.partition = part;
+            resPcb.codes = sessionStorage.getItem(hdPgm);
+            resPcb.proccessState = "waiting";
+            _Queue.enqueue(resPcb);
+            _hdDriver.deletePgm(hdPgm);
         };
         CPU_Scheduler.prototype.finished = function () {
             if (_Queue.isEmpty() && _currentPCB.proccessState === 'terminated') {

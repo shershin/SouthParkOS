@@ -130,7 +130,7 @@ module TSOS {
           while (i < mem_size){
             if (_hardDrive.hardDriveMem[i] === tester){
               console.log(_hardDrive.hardDriveMem[i]);
-              hdPgm = Utils.fromHex(_hardDrive.hardDriveMem[i]);
+              hdPgm = (Utils.fromHex(_hardDrive.hardDriveMem[i]) + "");
               return true;
             }
             i++;
