@@ -26,15 +26,15 @@ module TSOS {
     }
     //quickly we must find the id search the list search it fast
     public getID(arg): PCB{
+      var num = Number(arg);
       for (var i = 0; i<this.pcbint; i++){
-        console.log("pcb " + this.pcbint + " i " + i);
-        if (this.pcblist[i].pid === arg){
+        //console.log("pcb " + this.pcbint + " i " + i + " arg " + num);
+        if (this.pcblist[i].pid === num){
           return this.pcblist[i];
         }
       }
       console.log("da fuck is this showing " + this.pcbint);
       _StdOut.putText("Hey Buddy, What you talking aboot.");
-      return null;
     }
 
     //clear out the parts in hope to be able to load again

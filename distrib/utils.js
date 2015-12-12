@@ -70,10 +70,17 @@ var TSOS;
         };
         Utils.hexToStr = function (arg) {
             var str = '';
+            console.log(arg.length);
             for (var i = 0; i < arg.length; i += 2) {
                 str += String.fromCharCode(parseInt(arg.substr(i, 2), 16));
             }
             return str;
+        };
+        Utils.stripper = function (arg) {
+            var re = /[0-9]/g;
+            var match = (arg + "").match(re);
+            console.log("stripper function " + arg + " " + match);
+            return match;
         };
         return Utils;
     })();

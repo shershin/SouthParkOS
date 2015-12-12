@@ -97,6 +97,7 @@ module TSOS {
         }
         public static hexToStr(arg) {
           var str = '';
+          console.log(arg.length);
           for (var i = 0; i < arg.length; i += 2){
             str += String.fromCharCode(parseInt(arg.substr(i, 2), 16));
           }
@@ -107,8 +108,8 @@ module TSOS {
           public static stripper(arg){
             var re = /[0-9]/g;
             var match = (arg + "").match(re);
-            return match;
             console.log("stripper function " + arg + " " + match);
+            return match;
           }
 }
 }

@@ -22,15 +22,14 @@ var TSOS;
             console.log(this.pcbint);
         };
         residentList.prototype.getID = function (arg) {
+            var num = Number(arg);
             for (var i = 0; i < this.pcbint; i++) {
-                console.log("pcb " + this.pcbint + " i " + i);
-                if (this.pcblist[i].pid === arg) {
+                if (this.pcblist[i].pid === num) {
                     return this.pcblist[i];
                 }
             }
             console.log("da fuck is this showing " + this.pcbint);
             _StdOut.putText("Hey Buddy, What you talking aboot.");
-            return null;
         };
         residentList.prototype.clearParts = function () {
             var i = 0;

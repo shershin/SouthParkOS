@@ -101,19 +101,20 @@ var TSOS;
             _hardDrive.hDMeta[loc] = "0000";
             sessionStorage.removeItem(arg);
         };
-        hardDriveDriver.prototype.pgmFinder = function (arg) {
+        hardDriveDriver.prototype.pgmFinder = function () {
+            var re = /pid[0-9]/g;
             var i = 0;
-            var tester = TSOS.Utils.strToHex(arg);
-            console.log("hex test " + tester + " = " + arg);
             while (i < mem_size) {
-                if (_hardDrive.hardDriveMem[i] === tester) {
+                var str = TSOS.Utils.hexToStr(_hardDrive.hardDriveMem[i]);
+                if (re.test(str)) {
                     console.log(_hardDrive.hardDriveMem[i]);
-                    hdPgm = (TSOS.Utils.fromHex(_hardDrive.hardDriveMem[i]) + "");
+                    hdPgm = str;
+                    console.log("program finder true");
                     return true;
                 }
                 i++;
             }
-            console.log(_hardDrive.hardDriveMem[0]);
+            console.log("program finder false");
         };
         return hardDriveDriver;
     })();

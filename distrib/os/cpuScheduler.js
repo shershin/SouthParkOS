@@ -26,9 +26,10 @@ var TSOS;
         };
         CPU_Scheduler.prototype.quantumSwitch = function () {
             _currentPCB.updatePCB();
-            var re = /[0-9]/g;
+            console.log("changer " + _currentPCB.pid + " " + _currentPCB.proccessState);
             if (!_Queue.isEmpty()) {
-                if (_hdDriver.pgmFinder("pid" + re)) {
+                if (_hdDriver.pgmFinder()) {
+                    console.log("entering the hard drive");
                     this.rollMem();
                     if (_currentPCB.proccessState === 'terminated') {
                         _currentPCB = _Queue.dequeue();
@@ -70,6 +71,7 @@ var TSOS;
             var base = _currentPCB.base;
             var limit = _currentPCB.limit;
             var part = _currentPCB.partition;
+            console.log("hdPgm " + hdPgm);
             var pid = TSOS.Utils.stripper(hdPgm);
             _currentPCB.codes = _MemoryManager.readFromMem(_currentPCB);
             var resPcb = _resList.getID(pid);
