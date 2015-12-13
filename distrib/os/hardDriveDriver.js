@@ -105,16 +105,23 @@ var TSOS;
             var re = /pid[0-9]/g;
             var i = 0;
             while (i < mem_size) {
-                var str = TSOS.Utils.hexToStr(_hardDrive.hardDriveMem[i]);
-                if (re.test(str)) {
-                    console.log(_hardDrive.hardDriveMem[i]);
-                    hdPgm = str;
-                    console.log("program finder true");
-                    return true;
+                if (_hardDrive.hardDriveMem[i] === "" ||
+                    _hardDrive.hardDriveMem[i] === undefined ||
+                    _hardDrive.hardDriveMem[i] === null) {
+                }
+                else {
+                    console.log("_hardDrive.hardDriveMem " + _hardDrive.hardDriveMem[i]);
+                    var str = TSOS.Utils.hexToStr(_hardDrive.hardDriveMem[i]);
+                    if (re.test(str)) {
+                        console.log(_hardDrive.hardDriveMem[i]);
+                        hdPgm = str;
+                        console.log("program finder true");
+                        return true;
+                    }
+                    console.log("program finder false");
                 }
                 i++;
             }
-            console.log("program finder false");
         };
         return hardDriveDriver;
     })();

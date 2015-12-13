@@ -1,19 +1,19 @@
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
-        function PCB(pid, xreg, yreg, zflag, progCounter, accumulater, base, limit, partition, proccessState, priority, location, codes) {
+        function PCB(pid, xreg, yreg, zflag, progCounter, accumulater, base, limit, partition, priority, proccessState, loc, codes) {
             if (pid === void 0) { pid = 0; }
             if (xreg === void 0) { xreg = 0; }
             if (yreg === void 0) { yreg = 0; }
             if (zflag === void 0) { zflag = 0; }
             if (progCounter === void 0) { progCounter = 0; }
             if (accumulater === void 0) { accumulater = 0; }
-            if (base === void 0) { base = null; }
-            if (limit === void 0) { limit = null; }
+            if (base === void 0) { base = 0; }
+            if (limit === void 0) { limit = 0; }
             if (partition === void 0) { partition = null; }
-            if (proccessState === void 0) { proccessState = 'new'; }
             if (priority === void 0) { priority = null; }
-            if (location === void 0) { location = null; }
+            if (proccessState === void 0) { proccessState = 'new'; }
+            if (loc === void 0) { loc = null; }
             if (codes === void 0) { codes = null; }
             this.pid = pid;
             this.xreg = xreg;
@@ -24,9 +24,9 @@ var TSOS;
             this.base = base;
             this.limit = limit;
             this.partition = partition;
-            this.proccessState = proccessState;
             this.priority = priority;
-            this.location = location;
+            this.proccessState = proccessState;
+            this.loc = loc;
             this.codes = codes;
             this.init();
         }

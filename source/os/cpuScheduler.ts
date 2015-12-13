@@ -36,6 +36,7 @@ module TSOS{
           } else {
             _currentPCB.proccessState = 'waiting';
             _hdDriver.createPgm("pid"+_currentPCB.pid, _currentPCB.codes);
+            _currentPCB.loc = "harddrive";
             _currentPCB = _Queue.dequeue();
             if (_currentPCB.proccessState === 'terminated'){
               this.quantumSwitch();
@@ -64,9 +65,39 @@ module TSOS{
     }
 
     public prioSwitch(){
+      if (!_Queue.isEmpty()){
+        if (_hdDriver.pgmFinder()){
+          var stripper = Utils.stripper(hdPgm);
+          var resPcb = _resList.getID(stripper);
+          var peekPcb = _Queue.peek(0);
+          if (_currentPCB.priority > resPcb.priority){
+            //change this to the current pcb
+          } else if (_currentPCB.proccessState === 'terminated'){
+            //need to roll the program in to the queue
+            this.rollMem();
+            _currentPCB = _Queue.dequeue();
+            _currentPCB.proccessState = 'running';
+          } else if (_currentPCB.priority > peekPcb.priority){
+            _currentPCB.proccessState = 'waiting';
+            _Queue.enqueue(_currentPCB);
+            _currentPCB = _Queue.dequeue();
+          }
+        } else {
+          if (_currentPCB.proccessState === 'terminated'){
+            _currentPCB = _Queue.dequeue();
+            _currentPCB.proccessState = 'running';
+          } else if (_currentPCB.priority > peekPcb.priority){
+            _currentPCB.proccessState = 'waiting';
+            _Queue.enqueue(_currentPCB);
+            _currentPCB = _Queue.dequeue();
+          }
+        }
 
-
-    }
+      }
+      _CPU.setCPU(_currentPCB);
+      this.cpuCycle = 0;
+      this.finished();
+      }
 
     public rollMem(){
       var base  = _currentPCB.base;
@@ -76,9 +107,11 @@ module TSOS{
       var pid = Utils.stripper(hdPgm);
       _currentPCB.codes = _MemoryManager.readFromMem(_currentPCB);
       var resPcb = _resList.getID(pid);
+      Utils.pcFix(resPcb);
       resPcb.base = base;
       resPcb.limit = limit;
       resPcb.partition = part;
+      resPcb.loc = "memory";
       resPcb.codes = sessionStorage.getItem(hdPgm);
       resPcb.proccessState = "waiting";
       _Queue.enqueue(resPcb);

@@ -164,6 +164,22 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellTest = function (args) {
+            var arry = _resList.pcblist.sort(function (a, b) {
+                if (a.priority > b.priority) {
+                    return 1;
+                }
+                if (a.priority < b.priority) {
+                    return -1;
+                }
+                return 0;
+            });
+            for (var i = 0; i < TSOS.PCB.pidint; i++) {
+                _Queue.enqueue(arry[i]);
+                console.log(arry[i].pid + " prio " + arry[i].priority);
+            }
+            for (var i = 0; i < _Queue.getSize(); i++) {
+                console.log("test " + _Queue.peek(i));
+            }
         };
         Shell.prototype.shellHelp = function (args) {
             _StdOut.putText("Commands:");
@@ -415,8 +431,11 @@ var TSOS;
                     var name = "pid" + _ProcessControlBlock.pid;
                     _hdDriver.createPgm(name, clean);
                 }
-                if (args === "") {
+                var hold = args.toString();
+                console.log(hold);
+                if (hold === "") {
                     _ProcessControlBlock.priority = 4;
+                    console.log(4);
                 }
                 else {
                     _ProcessControlBlock.priority = args;
@@ -476,8 +495,18 @@ var TSOS;
         Shell.prototype.shellRunall = function (args) {
             var i = 0;
             if (schedule === "priority") {
-                while (i < TSOS.PCB.pidint) {
-                    var pcb = _resList.getID(i);
+                var arry = _resList.pcblist.sort(function (a, b) {
+                    if (a.priority > b.priority) {
+                        return 1;
+                    }
+                    if (a.priority < b.priority) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                for (var i = 0; i < TSOS.PCB.pidint; i++) {
+                    _Queue.enqueue(arry[i]);
+                    console.log(arry[i].pid + " prio " + arry[i].priority);
                 }
             }
             else {
@@ -624,6 +653,7 @@ var TSOS;
             else if (sche === "priority" || args === "prio") {
                 _StdOut.putText("Congrats you changed the scheduler to priority.");
                 schedule = "priority";
+                schedulerTime = mem_size;
             }
             else {
                 _StdOut.putText("Great now the scheduler is going into dire mode.");

@@ -335,6 +335,24 @@ module TSOS {
           for (i = 0; i < sessionStorage.length; i++) {
             console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
           }*/
+          var arry = _resList.pcblist.sort(function (a, b) {
+            if (a.priority > b.priority) {
+              return 1;
+            }
+            if (a.priority < b.priority) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;});
+
+          for (var i = 0; i < PCB.pidint; i++){
+            _Queue.enqueue(arry[i]);
+            console.log(arry[i].pid + " prio " + arry[i].priority);
+          }
+          for (var i = 0; i < _Queue.getSize(); i++){
+            console.log("test " + _Queue.peek(i));
+          }
+
         }
 
         public shellHelp(args) {
@@ -584,8 +602,11 @@ module TSOS {
                 _hdDriver.createPgm(name, clean);
               }
               //Control.pcbTable();
-              if (args === ""){
+              var hold = args.toString();
+              console.log(hold);
+              if (hold === ""){
                 _ProcessControlBlock.priority = 4;
+                console.log(4);
               } else {
                 _ProcessControlBlock.priority = args;
               }
@@ -642,9 +663,19 @@ module TSOS {
         public shellRunall(args){
           var i = 0;
           if (schedule === "priority"){
-            while (i < PCB.pidint){
-              var pcb = _resList.getID(i);
+            var arry = _resList.pcblist.sort(function (a, b) {
+              if (a.priority > b.priority) {
+                return 1;
+              }
+              if (a.priority < b.priority) {
+                return -1;
+              }
+              // a must be equal to b
+              return 0;});
 
+            for (var i = 0; i < PCB.pidint; i++){
+              _Queue.enqueue(arry[i]);
+              console.log(arry[i].pid + " prio " + arry[i].priority);
             }
           } else {
             while (i < 3){
@@ -781,6 +812,7 @@ module TSOS {
           } else if (sche === "priority" || args === "prio"){
             _StdOut.putText("Congrats you changed the scheduler to priority.");
             schedule = "priority";
+            schedulerTime = mem_size;
           } else {
             _StdOut.putText("Great now the scheduler is going into dire mode.");
             _StdOut.advanceLine();

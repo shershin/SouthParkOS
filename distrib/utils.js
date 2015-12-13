@@ -70,7 +70,8 @@ var TSOS;
         };
         Utils.hexToStr = function (arg) {
             var str = '';
-            console.log(arg.length);
+            arg + "";
+            console.log("hextostr " + arg + " " + arg.length);
             for (var i = 0; i < arg.length; i += 2) {
                 str += String.fromCharCode(parseInt(arg.substr(i, 2), 16));
             }
@@ -81,6 +82,12 @@ var TSOS;
             var match = (arg + "").match(re);
             console.log("stripper function " + arg + " " + match);
             return match;
+        };
+        Utils.pcFix = function (pcb) {
+            var base = _currentPCB.base;
+            var diff = pcb.progCounter - pcb.base;
+            pcb.progCounter = base + diff;
+            console.log("pcFix " + base + " " + diff + " " + pcb.progCounter);
         };
         return Utils;
     })();
