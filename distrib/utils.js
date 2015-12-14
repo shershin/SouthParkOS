@@ -59,6 +59,7 @@ var TSOS;
         };
         Utils.addBase = function (arg) {
             var combined = arg + _currentPCB.base;
+            console.log(_currentPCB.pid + " combined " + combined);
             return combined;
         };
         Utils.strToHex = function (arg) {

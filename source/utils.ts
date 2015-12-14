@@ -85,6 +85,7 @@ module TSOS {
         }
         public static addBase(arg){
           var combined = arg + _currentPCB.base;
+          console.log(_currentPCB.pid + " combined " + combined);
           return combined;
         }
         //convert all the strings to hex muhahahahaha

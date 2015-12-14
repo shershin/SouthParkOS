@@ -39,10 +39,8 @@ module TSOS {
 
     //clear out the parts in hope to be able to load again
     public clearParts(){
-      var i = 0;
-      while (i < this.pcbint){
-        this.removefromList(i);
-      }
+      this.pcbint = 0;
+      this.pcblist = [];
     }
     }
 }

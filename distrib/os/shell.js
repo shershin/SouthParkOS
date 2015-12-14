@@ -488,19 +488,17 @@ var TSOS;
             _MemoryManager.clearMem();
             TSOS.Control.memoryTable();
             _resList.clearParts();
-            for (var i = 0; i < partsAllowed; i++) {
-                _MemoryManager.clearPart(i);
-            }
+            TSOS.MemoryManager.part = [];
         };
         Shell.prototype.shellRunall = function (args) {
             var i = 0;
             if (schedule === "priority") {
                 var arry = _resList.pcblist.sort(function (a, b) {
                     if (a.priority > b.priority) {
-                        return 1;
+                        return b - a;
                     }
                     if (a.priority < b.priority) {
-                        return -1;
+                        return a - b;
                     }
                     return 0;
                 });
@@ -526,7 +524,7 @@ var TSOS;
         Shell.prototype.shellQuantum = function (args) {
             var time = schedulerTime;
             schedulerTime = args;
-            _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
+            _StdOut.putText("CPU clock time changed from " + time + " to " + schedulerTime + ".");
         };
         Shell.prototype.shellCreatefile = function (args) {
             if (hdFormat) {

@@ -656,19 +656,17 @@ module TSOS {
           _MemoryManager.clearMem();
           Control.memoryTable();
           _resList.clearParts();
-          for (var i = 0; i < partsAllowed; i++){
-            _MemoryManager.clearPart(i);
-          }
+          MemoryManager.part = [];
         }
         public shellRunall(args){
           var i = 0;
           if (schedule === "priority"){
             var arry = _resList.pcblist.sort(function (a, b) {
               if (a.priority > b.priority) {
-                return 1;
+                return b - a;
               }
               if (a.priority < b.priority) {
-                return -1;
+                return a - b;
               }
               // a must be equal to b
               return 0;});
@@ -698,7 +696,7 @@ module TSOS {
           //thus this would change the global from defult to args
           var time = schedulerTime;
           schedulerTime = args;
-          _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
+          _StdOut.putText("CPU clock time changed from " + time + " to " + schedulerTime + ".");
         }
         public shellCreatefile(args){
           if (hdFormat){

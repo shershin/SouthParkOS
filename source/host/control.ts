@@ -223,8 +223,8 @@ module TSOS {
          for (var i = 0; i < 4; i++){
            for (var j = 0; j < 8; j++){
              for (var x = 0; x < 8; x++){
-               console.log(i + ":" + j + ":" + x);
-               console.log("memloc " + memLoc);
+              // console.log(i + ":" + j + ":" + x);
+               //console.log("memloc " + memLoc);
                table += "<tr>";
                table += "<td>" + i + ":" + j + ":" + x + "</td>";
                table += "<td>" + _hardDrive.hDMeta[memLoc] + "</td>";

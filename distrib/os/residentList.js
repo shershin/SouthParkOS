@@ -32,10 +32,8 @@ var TSOS;
             _StdOut.putText("Hey Buddy, What you talking aboot.");
         };
         residentList.prototype.clearParts = function () {
-            var i = 0;
-            while (i < this.pcbint) {
-                this.removefromList(i);
-            }
+            this.pcbint = 0;
+            this.pcblist = [];
         };
         return residentList;
     })();
