@@ -544,7 +544,6 @@ var TSOS;
             else {
                 _StdOut.putText("Please format the disk first.");
             }
-            TSOS.Control.hdTable();
         };
         Shell.prototype.shellReadfile = function (args) {
             if (hdFormat) {
@@ -561,7 +560,6 @@ var TSOS;
             else {
                 _StdOut.putText("Please format the disk first.");
             }
-            TSOS.Control.hdTable();
         };
         Shell.prototype.shellWritefile = function (args) {
             if (hdFormat) {
@@ -610,7 +608,6 @@ var TSOS;
             else {
                 _StdOut.putText("Please Format the disk first.");
             }
-            TSOS.Control.hdTable();
         };
         Shell.prototype.shellFormat = function (args) {
             if (_hdDriver.isEmpty()) {
@@ -620,6 +617,7 @@ var TSOS;
             else {
                 _StdOut.putText("Please delete all files before formatting.");
             }
+            TSOS.Control.hdTable();
         };
         Shell.prototype.shellLs = function (args) {
             var i = 0;

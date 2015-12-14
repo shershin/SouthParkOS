@@ -58,7 +58,7 @@ module TSOS {
             _hardDrive.hardDriveMem[i] = "";
             i++;
           }
-
+          Control.hdTable();
         }
         public fileLoc(arg): number{
           var i = 0;
@@ -96,12 +96,14 @@ module TSOS {
             _hardDrive.hardDriveMem[loc] = hex;
             _hardDrive.hDMeta[loc] = "1000";
           }
+          Control.hdTable();
         }
         public deleteFile(arg){
           var loc = this.fileLoc(arg);
           console.log(loc);
           _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
+          Control.hdTable();
         }
         public createPgm(arg, pgm){
           console.log("creating file");
@@ -115,6 +117,7 @@ module TSOS {
             _hardDrive.hDMeta[loc] = "1100";
             sessionStorage.setItem(arg, pgm);
           }
+          Control.hdTable();
         }
         public deletePgm(arg){
           var loc = this.fileLoc(arg);
@@ -122,6 +125,7 @@ module TSOS {
           _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
           sessionStorage.removeItem(arg);
+          Control.hdTable();
         }
         public pgmFinder(){
           var re = /pid[0-9]/g;

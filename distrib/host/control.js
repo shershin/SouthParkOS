@@ -126,13 +126,32 @@ var TSOS;
                 table += "<td>" + pcb.partition + "</td>";
                 table += "<td>" + pcb.base + "</td>";
                 table += "<td>" + pcb.limit + "</td>";
+                table += "<td>" + pcb.priority + "</td>";
                 table += "<td>" + pcb.proccessState + "</td>";
+                table += "<td>" + pcb.loc + "</td>";
                 table += "</tr>";
                 i++;
             }
             document.getElementById("pcbTableBody").innerHTML = table;
         };
         Control.hdTable = function () {
+            var table = "";
+            var memLoc = 0;
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 8; j++) {
+                    for (var x = 0; x < 8; x++) {
+                        console.log(i + ":" + j + ":" + x);
+                        console.log("memloc " + memLoc);
+                        table += "<tr>";
+                        table += "<td>" + i + ":" + j + ":" + x + "</td>";
+                        table += "<td>" + _hardDrive.hDMeta[memLoc] + "</td>";
+                        table += "<td>" + _hardDrive.hardDriveMem[memLoc] + "</td>";
+                        table += "</tr>";
+                        memLoc++;
+                    }
+                }
+            }
+            document.getElementById("hardDriveTable").innerHTML = table;
         };
         Control.singleStep = false;
         return Control;

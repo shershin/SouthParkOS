@@ -35,6 +35,7 @@ var TSOS;
                 _hardDrive.hardDriveMem[i] = "";
                 i++;
             }
+            TSOS.Control.hdTable();
         };
         hardDriveDriver.prototype.fileLoc = function (arg) {
             var i = 0;
@@ -73,12 +74,14 @@ var TSOS;
                 _hardDrive.hardDriveMem[loc] = hex;
                 _hardDrive.hDMeta[loc] = "1000";
             }
+            TSOS.Control.hdTable();
         };
         hardDriveDriver.prototype.deleteFile = function (arg) {
             var loc = this.fileLoc(arg);
             console.log(loc);
             _hardDrive.hardDriveMem[loc] = "";
             _hardDrive.hDMeta[loc] = "0000";
+            TSOS.Control.hdTable();
         };
         hardDriveDriver.prototype.createPgm = function (arg, pgm) {
             console.log("creating file");
@@ -93,6 +96,7 @@ var TSOS;
                 _hardDrive.hDMeta[loc] = "1100";
                 sessionStorage.setItem(arg, pgm);
             }
+            TSOS.Control.hdTable();
         };
         hardDriveDriver.prototype.deletePgm = function (arg) {
             var loc = this.fileLoc(arg);
@@ -100,6 +104,7 @@ var TSOS;
             _hardDrive.hardDriveMem[loc] = "";
             _hardDrive.hDMeta[loc] = "0000";
             sessionStorage.removeItem(arg);
+            TSOS.Control.hdTable();
         };
         hardDriveDriver.prototype.pgmFinder = function () {
             var re = /pid[0-9]/g;

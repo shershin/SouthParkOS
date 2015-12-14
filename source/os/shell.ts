@@ -714,7 +714,7 @@ module TSOS {
           } else {
             _StdOut.putText("Please format the disk first.");
           }
-          Control.hdTable();
+
         }
         public shellReadfile(args){
           if (hdFormat){
@@ -729,7 +729,6 @@ module TSOS {
           } else {
             _StdOut.putText("Please format the disk first.");
           }
-          Control.hdTable();
         }
         public shellWritefile(args){
           if (hdFormat){
@@ -773,7 +772,7 @@ module TSOS {
           } else {
             _StdOut.putText("Please Format the disk first.");
           }
-          Control.hdTable();
+
         }
         public shellFormat(args){
           if (_hdDriver.isEmpty()){
@@ -782,6 +781,7 @@ module TSOS {
           } else {
             _StdOut.putText("Please delete all files before formatting.");
           }
+          Control.hdTable();
         }
         public shellLs(args){
           var i = 0;
