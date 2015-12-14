@@ -8,7 +8,7 @@ module TSOS {
     public static part = [];
 
 
-    public memload (str : String){
+    public memload(str : String){
       var partnum = this.getNextPart();
       if (this.validPart(partnum)){
         var currByte : String = "";
@@ -83,7 +83,7 @@ module TSOS {
         if (_Memory.memory[i] === undefined){
           pgm += "00"
         }else {
-          pgm += _Memory.memory[i];  
+          pgm += _Memory.memory[i];
         }
       }
       console.log("readingMem " + pcb.pid + " base " +  pcb.base + " pgm " + pgm);

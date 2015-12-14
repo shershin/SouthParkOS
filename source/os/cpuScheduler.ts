@@ -14,12 +14,12 @@ module TSOS{
       console.log("Cycle: " + this.cpuCycle + " time: " + schedulerTime);
       if (this.cpuCycle >= schedulerTime && (schedule === "fcfs" || schedule === "rr")){
         this.quantumSwitch();
-      } else if (_currentPCB.proccessState === 'terminated'){
+      } else if (_currentPCB.proccessState === 'terminated' && (schedule === "fcfs" || schedule === "rr")){
         this.quantumSwitch();
       }
       if (this.cpuCycle >= schedulerTime && (schedule === "priority")){
         this.prioSwitch();
-      } else if (_currentPCB.proccessState === 'terminated'){
+      } else if (_currentPCB.proccessState === 'terminated'&& (schedule === "priority")){
         this.prioSwitch();
       }
     }
@@ -107,6 +107,7 @@ module TSOS{
       var pid = Utils.stripper(hdPgm);
       _currentPCB.codes = _MemoryManager.readFromMem(_currentPCB);
       var resPcb = _resList.getID(pid);
+      console.log(_currentPCB.pid + " Switching " + resPcb.pid);
       Utils.pcFix(resPcb);
       resPcb.base = base;
       resPcb.limit = limit;
