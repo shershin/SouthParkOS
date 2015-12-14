@@ -18,6 +18,7 @@ var TSOS;
             this.krnTrace(_krnKeyboardDriver.status);
             this.krnTrace("Loading the hard drive driver");
             _hdDriver = new TSOS.hardDriveDriver();
+            TSOS.Control.hdTable();
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();
             this.krnTrace("Creating and Launching the shell.");

@@ -196,7 +196,7 @@ module TSOS {
          var table: string = "";
          var i = 0;
          while (i < PCB.pidint){
-           var pcb = _resList.getID(i);
+           var pcb = _resList.pcblist[i];
            table += "<tr>";
            table += "<td>" + pcb.pid + "</td>";
            table += "<td>" + pcb.progCounter + "</td>";

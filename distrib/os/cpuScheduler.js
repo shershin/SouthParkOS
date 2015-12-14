@@ -113,7 +113,6 @@ var TSOS;
             resPcb.loc = "memory";
             resPcb.codes = sessionStorage.getItem(hdPgm);
             resPcb.proccessState = "waiting";
-            _MemoryManager.readToMem(resPcb);
             _Queue.enqueue(resPcb);
             _hdDriver.deletePgm(hdPgm);
         };

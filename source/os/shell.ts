@@ -678,7 +678,7 @@ module TSOS {
             }
           } else {
             while (i < 3){
-              var pcb = _resList.getID(i);
+              var pcb = _resList.pcblist[i];
               pcb.proccessState = 'ready';
               _Queue.enqueue(pcb);
               i++;
