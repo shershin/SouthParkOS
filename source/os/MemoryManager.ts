@@ -80,12 +80,18 @@ module TSOS {
     public readFromMem(pcb: PCB) : string{
       var pgm = "";
       for (var i = pcb.base; i < mem_size; i++){
-        pgm += _Memory.memory[i];
+        if (_Memory.memory[i] === undefined){
+          pgm += "00"
+        }else {
+          pgm += _Memory.memory[i];  
+        }
       }
+      console.log("readingMem " + pcb.pid + " base " +  pcb.base + " pgm " + pgm);
       return pgm;
     }
 
     public readToMem(pcb: PCB){
+      console.log(pcb.pid);
       var currByte = "";
       var memLoc = pcb.base;
       for (var i = 0; i < mem_size; i++) {
@@ -93,9 +99,9 @@ module TSOS {
           if (currByte.length > 1) {
               _Memory.memory[memLoc] = currByte;
               memLoc++;
+              console.log(currByte);
               currByte = "";
           }
-
       }
     }
     }

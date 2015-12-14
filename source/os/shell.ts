@@ -335,7 +335,7 @@ module TSOS {
           for (i = 0; i < sessionStorage.length; i++) {
             console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
           }*/
-          var arry = _resList.pcblist.sort(function (a, b) {
+          /*var arry = _resList.pcblist.sort(function (a, b) {
             if (a.priority > b.priority) {
               return 1;
             }
@@ -348,9 +348,9 @@ module TSOS {
           for (var i = 0; i < PCB.pidint; i++){
             _Queue.enqueue(arry[i]);
             console.log(arry[i].pid + " prio " + arry[i].priority);
-          }
-          for (var i = 0; i < _Queue.getSize(); i++){
-            console.log("test " + _Queue.peek(i));
+          }*/
+          for (var i = 0; i < _resList.pcblist.length; i++){
+            console.log(_resList.pcblist[i].pid);
           }
 
         }
@@ -595,8 +595,9 @@ module TSOS {
               _ProcessControlBlock = new PCB();
               console.log("PID Biotch: " +  _ProcessControlBlock.pid);
               _resList.addtoList(_ProcessControlBlock);
-              if (PCB.pidint < partsAllowed + 1){
+              if (_resList.pcbint < partsAllowed + 1){
                 _MemoryManager.memload(clean);
+                _ProcessControlBlock.codes = clean;
               } else {
                 var name = "pid" + _ProcessControlBlock.pid;
                 _hdDriver.createPgm(name, clean);

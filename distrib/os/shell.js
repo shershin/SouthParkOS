@@ -164,21 +164,8 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellTest = function (args) {
-            var arry = _resList.pcblist.sort(function (a, b) {
-                if (a.priority > b.priority) {
-                    return 1;
-                }
-                if (a.priority < b.priority) {
-                    return -1;
-                }
-                return 0;
-            });
-            for (var i = 0; i < TSOS.PCB.pidint; i++) {
-                _Queue.enqueue(arry[i]);
-                console.log(arry[i].pid + " prio " + arry[i].priority);
-            }
-            for (var i = 0; i < _Queue.getSize(); i++) {
-                console.log("test " + _Queue.peek(i));
+            for (var i = 0; i < _resList.pcblist.length; i++) {
+                console.log(_resList.pcblist[i].pid);
             }
         };
         Shell.prototype.shellHelp = function (args) {
@@ -424,8 +411,9 @@ var TSOS;
                 _ProcessControlBlock = new TSOS.PCB();
                 console.log("PID Biotch: " + _ProcessControlBlock.pid);
                 _resList.addtoList(_ProcessControlBlock);
-                if (TSOS.PCB.pidint < partsAllowed + 1) {
+                if (_resList.pcbint < partsAllowed + 1) {
                     _MemoryManager.memload(clean);
+                    _ProcessControlBlock.codes = clean;
                 }
                 else {
                     var name = "pid" + _ProcessControlBlock.pid;

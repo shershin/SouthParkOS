@@ -24,6 +24,7 @@ var TSOS;
         residentList.prototype.getID = function (arg) {
             var num = Number(arg);
             for (var i = 0; i < this.pcbint; i++) {
+                console.log("pcb pidint " + this.pcbint + " i " + i + " arg " + num + " what " + this.pcblist[i].pid);
                 if (this.pcblist[i].pid === num) {
                     return this.pcblist[i];
                 }

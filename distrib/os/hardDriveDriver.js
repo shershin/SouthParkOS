@@ -18,15 +18,12 @@ var TSOS;
         hardDriveDriver.prototype.nameCheck = function (arg) {
             var i = 0;
             var tester = TSOS.Utils.strToHex(arg);
-            console.log("hex test " + tester + " = " + arg);
             while (i < mem_size) {
                 if (_hardDrive.hardDriveMem[i] === tester) {
-                    console.log(_hardDrive.hardDriveMem[i]);
                     return true;
                 }
                 i++;
             }
-            console.log(_hardDrive.hardDriveMem[0]);
         };
         hardDriveDriver.prototype.hdMemClear = function () {
             var i = 0;
@@ -41,10 +38,8 @@ var TSOS;
             var i = 0;
             var loc = null;
             var tester = TSOS.Utils.strToHex(arg);
-            console.log("hex test " + tester + " = " + arg);
             while (i < mem_size) {
                 if (_hardDrive.hardDriveMem[i] === tester) {
-                    console.log(_hardDrive.hardDriveMem[i]);
                     return loc = i;
                 }
                 i++;
@@ -63,14 +58,12 @@ var TSOS;
             }
         };
         hardDriveDriver.prototype.createFile = function (arg) {
-            console.log("creating file");
             var loc = this.openSpot();
             if (loc === null || loc === undefined) {
                 _StdOut.putText("Ran into an error please throw computer against wall to fix");
             }
             else {
                 var hex = TSOS.Utils.strToHex(arg);
-                console.log("creating " + arg + " " + hex + " in loc " + loc);
                 _hardDrive.hardDriveMem[loc] = hex;
                 _hardDrive.hDMeta[loc] = "1000";
             }
@@ -78,20 +71,17 @@ var TSOS;
         };
         hardDriveDriver.prototype.deleteFile = function (arg) {
             var loc = this.fileLoc(arg);
-            console.log(loc);
             _hardDrive.hardDriveMem[loc] = "";
             _hardDrive.hDMeta[loc] = "0000";
             TSOS.Control.hdTable();
         };
         hardDriveDriver.prototype.createPgm = function (arg, pgm) {
-            console.log("creating file");
             var loc = this.openSpot();
             if (loc === null || loc === undefined) {
                 _StdOut.putText("Ran into an error please throw computer against wall to fix");
             }
             else {
                 var hex = TSOS.Utils.strToHex(arg);
-                console.log("creating " + arg + " " + hex + " in loc " + loc);
                 _hardDrive.hardDriveMem[loc] = hex;
                 _hardDrive.hDMeta[loc] = "1100";
                 sessionStorage.setItem(arg, pgm);
@@ -100,7 +90,6 @@ var TSOS;
         };
         hardDriveDriver.prototype.deletePgm = function (arg) {
             var loc = this.fileLoc(arg);
-            console.log(loc);
             _hardDrive.hardDriveMem[loc] = "";
             _hardDrive.hDMeta[loc] = "0000";
             sessionStorage.removeItem(arg);
@@ -115,15 +104,11 @@ var TSOS;
                     _hardDrive.hardDriveMem[i] === null) {
                 }
                 else {
-                    console.log("_hardDrive.hardDriveMem " + _hardDrive.hardDriveMem[i]);
                     var str = TSOS.Utils.hexToStr(_hardDrive.hardDriveMem[i]);
                     if (re.test(str)) {
-                        console.log(_hardDrive.hardDriveMem[i]);
                         hdPgm = str;
-                        console.log("program finder true");
                         return true;
                     }
-                    console.log("program finder false");
                 }
                 i++;
             }

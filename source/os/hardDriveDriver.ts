@@ -40,15 +40,15 @@ module TSOS {
         public nameCheck(arg):boolean{
           var i = 0;
           var tester = Utils.strToHex(arg);
-          console.log("hex test " + tester + " = " + arg);
+          //console.log("hex test " + tester + " = " + arg);
           while (i < mem_size){
             if (_hardDrive.hardDriveMem[i] === tester){
-              console.log(_hardDrive.hardDriveMem[i]);
+              //console.log(_hardDrive.hardDriveMem[i]);
               return true;
             }
             i++;
           }
-          console.log(_hardDrive.hardDriveMem[0]);
+          //console.log(_hardDrive.hardDriveMem[0]);
         }
 
         public hdMemClear(){
@@ -64,10 +64,10 @@ module TSOS {
           var i = 0;
           var loc = null;
           var tester = Utils.strToHex(arg);
-          console.log("hex test " + tester + " = " + arg);
+          //console.log("hex test " + tester + " = " + arg);
           while (i < mem_size){
             if (_hardDrive.hardDriveMem[i] === tester){
-              console.log(_hardDrive.hardDriveMem[i]);
+              //console.log(_hardDrive.hardDriveMem[i]);
               return loc = i;
             }
             i++;
@@ -86,13 +86,13 @@ module TSOS {
           }
         }
         public createFile(arg){
-          console.log("creating file");
+          //console.log("creating file");
           var loc = this.openSpot();
           if (loc === null || loc === undefined){
             _StdOut.putText("Ran into an error please throw computer against wall to fix");
           } else {
             var hex = Utils.strToHex(arg);
-            console.log("creating " + arg + " " + hex + " in loc " + loc);
+            //console.log("creating " + arg + " " + hex + " in loc " + loc);
             _hardDrive.hardDriveMem[loc] = hex;
             _hardDrive.hDMeta[loc] = "1000";
           }
@@ -100,19 +100,19 @@ module TSOS {
         }
         public deleteFile(arg){
           var loc = this.fileLoc(arg);
-          console.log(loc);
+          //console.log(loc);
           _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
           Control.hdTable();
         }
         public createPgm(arg, pgm){
-          console.log("creating file");
+          //console.log("creating file");
           var loc = this.openSpot();
           if (loc === null || loc === undefined){
             _StdOut.putText("Ran into an error please throw computer against wall to fix");
           } else {
             var hex = Utils.strToHex(arg);
-            console.log("creating " + arg + " " + hex + " in loc " + loc);
+            //console.log("creating " + arg + " " + hex + " in loc " + loc);
             _hardDrive.hardDriveMem[loc] = hex;
             _hardDrive.hDMeta[loc] = "1100";
             sessionStorage.setItem(arg, pgm);
@@ -121,7 +121,7 @@ module TSOS {
         }
         public deletePgm(arg){
           var loc = this.fileLoc(arg);
-          console.log(loc);
+          //console.log(loc);
           _hardDrive.hardDriveMem[loc] = "";
           _hardDrive.hDMeta[loc] = "0000";
           sessionStorage.removeItem(arg);
@@ -137,15 +137,15 @@ module TSOS {
                 _hardDrive.hardDriveMem[i] === null){
 
             } else {
-              console.log("_hardDrive.hardDriveMem " + _hardDrive.hardDriveMem[i]);
+              //console.log("_hardDrive.hardDriveMem " + _hardDrive.hardDriveMem[i]);
               var str = Utils.hexToStr(_hardDrive.hardDriveMem[i]);
               if (re.test(str)){
-                console.log(_hardDrive.hardDriveMem[i]);
+                //console.log(_hardDrive.hardDriveMem[i]);
                 hdPgm = str;
-                console.log("program finder true");
+                //console.log("program finder true");
                 return true;
               }
-              console.log("program finder false");
+              //console.log("program finder false");
             }
             i++;
             }
