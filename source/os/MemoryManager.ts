@@ -79,6 +79,7 @@ module TSOS {
 
     public readFromMem(pcb: PCB) : string{
       var pgm = "";
+      console.log("readfrommem" + pcb.pid + " " +pcb.base);
       for (var i = pcb.base; i < mem_size; i++){
         if (_Memory.memory[i] === undefined){
           pgm += "00"
@@ -86,7 +87,7 @@ module TSOS {
           pgm += _Memory.memory[i];
         }
       }
-      console.log("readingMem " + pcb.pid + " base " +  pcb.base + " pgm " + pgm);
+      //console.log("readingMem " + pcb.pid + " base " +  pcb.base + " pgm " + pgm);
       return pgm;
     }
 

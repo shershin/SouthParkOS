@@ -68,6 +68,7 @@ var TSOS;
         };
         MemoryManager.prototype.readFromMem = function (pcb) {
             var pgm = "";
+            console.log("readfrommem" + pcb.pid + " " + pcb.base);
             for (var i = pcb.base; i < mem_size; i++) {
                 if (_Memory.memory[i] === undefined) {
                     pgm += "00";
@@ -76,7 +77,6 @@ var TSOS;
                     pgm += _Memory.memory[i];
                 }
             }
-            console.log("readingMem " + pcb.pid + " base " + pcb.base + " pgm " + pgm);
             return pgm;
         };
         MemoryManager.prototype.readToMem = function (pcb) {
