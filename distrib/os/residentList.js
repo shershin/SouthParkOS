@@ -15,28 +15,22 @@ var TSOS;
             this.pcbint++;
         };
         residentList.prototype.removefromList = function (arg) {
-            console.log(arg);
             var spot = this.pcblist.indexOf(arg.pid);
             this.pcblist.splice(spot, 1);
             this.pcbint--;
-            console.log(this.pcbint);
         };
         residentList.prototype.getID = function (arg) {
+            var num = Number(arg);
             for (var i = 0; i < this.pcbint; i++) {
-                console.log("pcb " + this.pcbint + " i " + i);
-                if (this.pcblist[i].pid === arg) {
+                if (this.pcblist[i].pid === num) {
                     return this.pcblist[i];
                 }
             }
-            console.log("da fuck is this showing " + this.pcbint);
             _StdOut.putText("Hey Buddy, What you talking aboot.");
-            return null;
         };
         residentList.prototype.clearParts = function () {
-            var i = 0;
-            while (i < this.pcbint) {
-                this.removefromList(i);
-            }
+            this.pcbint = 0;
+            this.pcblist = [];
         };
         return residentList;
     })();

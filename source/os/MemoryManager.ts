@@ -8,8 +8,7 @@ module TSOS {
     public static part = [];
 
 
-    public memload (str : String){
-      var partnum = this.getNextPart();
+    public memload(str : String, partnum){
       if (this.validPart(partnum)){
         var currByte : String = "";
         var memLoc = (mem_size * partnum);
@@ -22,7 +21,6 @@ module TSOS {
             }
         }
         Control.memoryTable();
-        _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
         this.setPart(partnum);
       } else {
         _StdOut.putText("Please clear out a partition");
@@ -59,7 +57,7 @@ module TSOS {
       }
     }
     //must find empty space
-    //says all the marist student when commuting
+    //says all the marist students when commuting and trying to find a parking spot
     public getNextPart(){
       for(var i = 0; i < partsAllowed; i++){
         if (MemoryManager.part[i] === true || MemoryManager.part[i] === undefined){
@@ -71,9 +69,22 @@ module TSOS {
     public clearPart(args){
         if (this.validPart(args)){
           MemoryManager.part[args] = true;
+          //console.log("clearning");
         } else {
-          console.log("nooooooo");
+          //console.log("nooooooo");
         }
     }
+
+    public readFromMem(pcb: PCB): String {
+      var str = "";
+      //console.log("readfrommem" + pcb.pid + " " +pcb.base);
+      for (var i = pcb.base; i < pcb.limit; i++){
+        str += _Memory.memory[i];
+      }
+      console.log(str);
+      return str;
+    }
+
+    
     }
   }

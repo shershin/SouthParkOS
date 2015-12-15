@@ -46,7 +46,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- to death the computer goes.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Choose a program to run.");
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> || all- Choose a program to run.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellMemory, "memory", "- list all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
@@ -55,6 +55,22 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellRunall, "runall", "- runs all the programs in memory.");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - sets the amount of clock ticks for round robin.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellCreatefile, "create", "<filename> - create the file.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellReadfile, "read", "<filename> - tead the bloody file already...this isn't a library.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellWritefile, "write", "<filename> \"data\"- what to put here, ugh the fear of a blank page.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellDeletefile, "delete", "<filename> || all- cybermen the file.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellFormat, "format", "- initialize all blocks in all sectors.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- list the files.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellSetschedule, "setschedule", "<schedule> - choose which schedule to use rr, fcfs, priority.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellGetschedule, "getschedule", "- returns the current schedule.");
             this.commandList[this.commandList.length] = sc;
             this.putPrompt();
         };
@@ -148,9 +164,8 @@ var TSOS;
             _StdOut.putText(APP_NAME + " version " + APP_VERSION);
         };
         Shell.prototype.shellTest = function (args) {
-            for (var i = 0; i < 10; i++) {
-                console.log(_currentPCB.progCounter);
-                _currentPCB.incerPC();
+            for (var i = 0; i < _resList.pcblist.length; i++) {
+                console.log(_resList.pcblist[i].pid);
             }
         };
         Shell.prototype.shellHelp = function (args) {
@@ -366,35 +381,55 @@ var TSOS;
             }
         };
         Shell.prototype.shellLoad = function (args) {
+            console.log("load args " + args);
             var input = document.getElementById("taProgramInput");
             var str = input.value;
             var isValid = false;
             var clean = "";
-            if (_resList.pcbint < partsAllowed) {
-                if (str.length > 0) {
-                    var re = /([^abcdefABCDEF0123456789\s])/g;
-                    var test = str.search(re);
-                    if (!test) {
-                        _StdOut.putText("ERROR: Please enter a real program.");
-                    }
-                    else {
+            if (str.length > 0) {
+                var re = /([^abcdefABCDEF0123456789\s])/g;
+                var test = str.search(re);
+                if (!test) {
+                    _StdOut.putText("ERROR: Please enter a real program.");
+                }
+                else {
+                    var re2 = /('^[0-9]+$')/g;
+                    var test2 = ("" + args).search(re2);
+                    if (test2 || args === "") {
                         isValid = true;
                         clean = TSOS.Utils.whiteBeGone(str);
                     }
-                }
-                else {
-                    _StdOut.putText("ERROR: No program detected.");
-                }
-                if (isValid) {
-                    _ProcessControlBlock = new TSOS.PCB();
-                    console.log("PID Biotch: " + _ProcessControlBlock.pid);
-                    _resList.addtoList(_ProcessControlBlock);
-                    TSOS.Control.pcbTable();
-                    _MemoryManager.memload(clean);
+                    else {
+                        _StdOut.putText("Oh no letters are not numbers.");
+                    }
                 }
             }
             else {
-                _StdOut.putText("Sorry can't load any more programs, friend.");
+                _StdOut.putText("ERROR: No program detected.");
+            }
+            if (isValid) {
+                _ProcessControlBlock = new TSOS.PCB();
+                console.log("PID Biotch: " + _ProcessControlBlock.pid);
+                _resList.addtoList(_ProcessControlBlock);
+                if (_resList.pcbint < partsAllowed + 1) {
+                    var partnum = _MemoryManager.getNextPart();
+                    _MemoryManager.memload(clean, partnum);
+                    _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
+                }
+                else {
+                    var name = "pid" + _ProcessControlBlock.pid;
+                    _hdDriver.createPgm(name, clean);
+                    _ProcessControlBlock.codes = TSOS.Utils.stringToArry(clean);
+                }
+                var hold = args.toString();
+                console.log(hold);
+                if (hold === "") {
+                    _ProcessControlBlock.priority = 4;
+                    console.log(4);
+                }
+                else {
+                    _ProcessControlBlock.priority = args;
+                }
             }
         };
         Shell.prototype.shellBsod = function (args) {
@@ -414,15 +449,20 @@ var TSOS;
                     _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
                 }
                 else {
-                    var intget = parseInt(args[0]);
-                    var getpcb = _resList.getID(intget);
-                    _currentPCB = getpcb;
-                    _currentPCB.proccessState = 'running';
-                    _CPU.setCPU(_currentPCB);
-                    _Queue.enqueue(_currentPCB);
-                    _CpuSched.init();
-                    _StdOut.putText("Executing.");
-                    _CPU.isExecuting = true;
+                    if (_hdDriver.nameCheck("pid" + args) && !_CPU.isExecuting) {
+                        _StdOut.putText("That PID happens to be in hard drive not in memory.");
+                    }
+                    else {
+                        var intget = parseInt(args[0]);
+                        var getpcb = _resList.getID(intget);
+                        _currentPCB = getpcb;
+                        _currentPCB.proccessState = 'running';
+                        _CPU.setCPU(_currentPCB);
+                        _Queue.enqueue(_currentPCB);
+                        _CpuSched.init();
+                        _StdOut.putText("Executing.");
+                        _CPU.isExecuting = true;
+                    }
                 }
             }
         };
@@ -438,17 +478,32 @@ var TSOS;
             _MemoryManager.clearMem();
             TSOS.Control.memoryTable();
             _resList.clearParts();
-            for (var i = 0; i < partsAllowed; i++) {
-                _MemoryManager.clearPart(i);
-            }
+            TSOS.MemoryManager.part = [];
         };
         Shell.prototype.shellRunall = function (args) {
             var i = 0;
-            while (i < TSOS.PCB.pidint) {
-                var pcb = _resList.getID(i);
-                pcb.proccessState = 'ready';
-                _Queue.enqueue(pcb);
-                i++;
+            if (schedule === "priority") {
+                var arry = _resList.pcblist.sort(function (a, b) {
+                    if (a.priority > b.priority) {
+                        return b - a;
+                    }
+                    if (a.priority < b.priority) {
+                        return a - b;
+                    }
+                    return 0;
+                });
+                for (var i = 0; i < TSOS.PCB.pidint; i++) {
+                    _Queue.enqueue(arry[i]);
+                    console.log(arry[i].pid + " prio " + arry[i].priority);
+                }
+            }
+            else {
+                while (i < 3) {
+                    var pcb = _resList.pcblist[i];
+                    pcb.proccessState = 'ready';
+                    _Queue.enqueue(pcb);
+                    i++;
+                }
             }
             _currentPCB = _Queue.dequeue();
             _currentPCB.proccessState = 'running';
@@ -459,7 +514,143 @@ var TSOS;
         Shell.prototype.shellQuantum = function (args) {
             var time = schedulerTime;
             schedulerTime = args;
-            _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
+            _StdOut.putText("CPU clock time changed from " + time + " to " + schedulerTime + ".");
+        };
+        Shell.prototype.shellCreatefile = function (args) {
+            if (hdFormat) {
+                var str = args.toString();
+                if (_hdDriver.nameCheck(str)) {
+                    _StdOut.putText("The file name is already taken please choose a different filename.");
+                }
+                else {
+                    sessionStorage.setItem(str, "");
+                    console.log("created " + str);
+                    _StdOut.putText("File created.");
+                    _hdDriver.createFile(str);
+                }
+            }
+            else {
+                _StdOut.putText("Please format the disk first.");
+            }
+        };
+        Shell.prototype.shellReadfile = function (args) {
+            if (hdFormat) {
+                var str = args.toString();
+                if (_hdDriver.nameCheck(str)) {
+                    var ssItem = sessionStorage.getItem(str);
+                    _StdOut.putText(ssItem);
+                    console.log("reading " + str + " which contains " + ssItem);
+                }
+                else {
+                    _StdOut.putText("There is no file by that name please create the file first.");
+                }
+            }
+            else {
+                _StdOut.putText("Please format the disk first.");
+            }
+        };
+        Shell.prototype.shellWritefile = function (args) {
+            if (hdFormat) {
+                var name = args[0].toString();
+                if (_hdDriver.nameCheck(name)) {
+                    var re = /\"(.*?)\"/g;
+                    var matching = args.toString();
+                    var str = matching.match(re);
+                    console.log(str);
+                    var reString = (str + "").replace(/,/g, " ");
+                    var reString2 = (reString + "").replace(/\"/g, "");
+                    var loc = _hdDriver.fileLoc(name);
+                    _hardDrive.hDMeta[loc] = "1100";
+                    _StdOut.putText("File Succesfully writed to.");
+                    sessionStorage.setItem(name, reString2);
+                    console.log("write " + str + " with " + reString2);
+                }
+                else {
+                    _StdOut.putText("The file doesn't exist please create it first.");
+                }
+            }
+            else {
+                _StdOut.putText("Please format the disk first.");
+            }
+            TSOS.Control.hdTable();
+        };
+        Shell.prototype.shellDeletefile = function (args) {
+            if (hdFormat) {
+                var str = args.toString();
+                if (str === "all") {
+                    _hdDriver.hdMemClear();
+                    _StdOut.putText("All Files have been deleted.");
+                }
+                else {
+                    if (_hdDriver.nameCheck(str)) {
+                        sessionStorage.removeItem(str);
+                        _StdOut.putText("Deleted File.");
+                        _hdDriver.deleteFile(str);
+                        console.log("deleting " + str);
+                    }
+                    else {
+                        _StdOut.putText("There is no file by that name please create the file first.");
+                    }
+                }
+            }
+            else {
+                _StdOut.putText("Please Format the disk first.");
+            }
+        };
+        Shell.prototype.shellFormat = function (args) {
+            if (_hdDriver.isEmpty()) {
+                _StdOut.putText("Formating complete.");
+                hdFormat = true;
+            }
+            else {
+                _StdOut.putText("Please delete all files before formatting.");
+            }
+            TSOS.Control.hdTable();
+        };
+        Shell.prototype.shellLs = function (args) {
+            var i = 0;
+            while (i < mem_size) {
+                if (_hardDrive.hDMeta[i] === "1000" ||
+                    _hardDrive.hDMeta[i] === "1100") {
+                    var varHolder = _hardDrive.hardDriveMem[i];
+                    var str = TSOS.Utils.hexToStr(varHolder);
+                    _StdOut.putText("" + str);
+                    console.log("ls: " + varHolder + " string " + str);
+                    _StdOut.advanceLine();
+                }
+                i++;
+            }
+        };
+        Shell.prototype.shellSetschedule = function (args) {
+            var sche = args.toString();
+            console.log(sche + " scheduler " + schedule);
+            if (sche === schedule) {
+                _StdOut.putText("Hey buddy, that is the current scheduler type.");
+            }
+            else if (sche === "fcfs" || args === "first come first serve") {
+                _StdOut.putText("Congrats you changed the scheduler to fcfs.");
+                schedule = "fcfs";
+                schedulerTime = mem_size;
+            }
+            else if (sche === "rr" || args === "round robin") {
+                _StdOut.putText("Congrats you changed the scheduler to rr.");
+                schedule = "rr";
+            }
+            else if (sche === "priority" || args === "prio") {
+                _StdOut.putText("Congrats you changed the scheduler to priority.");
+                schedule = "priority";
+                schedulerTime = mem_size;
+            }
+            else {
+                _StdOut.putText("Great now the scheduler is going into dire mode.");
+                _StdOut.advanceLine();
+                _StdOut.putText("It is like a normal schedular but canadian and evil.");
+                _StdOut.advanceLine();
+                _StdOut.putText("Just kidding buddy, relax. There are no dires here.");
+            }
+        };
+        Shell.prototype.shellGetschedule = function (args) {
+            _StdOut.putText("The schedular is " + schedule + "!");
         };
         return Shell;
     })();

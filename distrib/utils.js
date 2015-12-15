@@ -59,7 +59,56 @@ var TSOS;
         };
         Utils.addBase = function (arg) {
             var combined = arg + _currentPCB.base;
+            console.log(_currentPCB.pid + " combined " + combined);
             return combined;
+        };
+        Utils.strToHex = function (arg) {
+            var hex = '';
+            for (var i = 0; i < arg.length; i++) {
+                hex += '' + arg.charCodeAt(i).toString(16);
+            }
+            return hex.toUpperCase();
+        };
+        Utils.hexToStr = function (arg) {
+            var str = '';
+            arg + "";
+            console.log("hextostr " + arg + " " + arg.length);
+            for (var i = 0; i < arg.length; i += 2) {
+                str += String.fromCharCode(parseInt(arg.substr(i, 2), 16));
+            }
+            return str;
+        };
+        Utils.stripper = function (arg) {
+            var re = /[0-9]/g;
+            var match = (arg + "").match(re);
+            console.log("stripper function " + arg + " " + match);
+            return match;
+        };
+        Utils.pcFix = function (pcb) {
+            var base = _currentPCB.base;
+            var diff = pcb.progCounter - pcb.base;
+            pcb.progCounter = base + diff;
+            console.log("pcFix " + base + " " + diff + " " + pcb.progCounter);
+        };
+        Utils.stringToArry = function (str) {
+            console.log("arg " + str);
+            var arry = [];
+            var byte = "";
+            var memLoc = 0;
+            for (var x = str.length; x < 512; x++) {
+                str += "0";
+            }
+            console.log("post zeros str " + str);
+            for (var i = 0; i < str.length; i++) {
+                byte = byte + str[i];
+                if (byte.length > 1) {
+                    arry[i] = byte;
+                    console.log("byte " + byte);
+                    memLoc++;
+                    byte = "";
+                }
+            }
+            return arry;
         };
         return Utils;
     })();

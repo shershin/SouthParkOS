@@ -10,10 +10,13 @@ module TSOS {
       public zflag: number = 0,
       public progCounter = 0,
       public accumulater = 0,
-      public base : number = null,
-      public limit : number = null,
+      public base : number = 0,
+      public limit : number = 0,
       public partition : number = null,
-      public proccessState : string = 'new'
+      public priority : number = null,
+      public proccessState : string = 'new',
+      public loc : string = null,
+      public codes = []
     ){
       this.init();
     }

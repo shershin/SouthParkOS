@@ -14,6 +14,7 @@
    <script type="text/javascript" src="distrib/globals.js"></script>
 
    <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
+   <script type="text/javascript" src="distrib/host/hardDrive.js"></script>
    <script type="text/javascript" src="distrib/host/memory.js"></script>
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
@@ -23,6 +24,7 @@
 
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+   <script type="text/javascript" src="distrib/os/hardDriveDriver.js"></script>
    <script type="text/javascript" src="distrib/os/PCB.js"></script>
    <script type="text/javascript" src="distrib/os/MemoryManager.js"></script>
    <script type="text/javascript" src="distrib/os/cpuScheduler.js"></script>
@@ -45,7 +47,7 @@
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment this line below to enable GLaDOS testing -->
-<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+<!--<script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>-->
 
 </head>
 
@@ -71,7 +73,6 @@
     </div>
 
     <div class="row">
-
      <div id="divButtonBar" style="margin:4px;" class="col-md-12">
         <input type="button"
                id = "btnStartOS"
@@ -145,11 +146,11 @@
           </div>
     </div>
     <div class="col-md-6">
-      <div id="pcbDiv" style="margin:4px; width:250px; height:100px; float:left">
+      <div id="pcbDiv" style="margin:4px; width:300px; height:100px; float:left">
         <label><font color="orange">
            Ready Queue
         </font></label>
-        <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:510px; height:150px;">
+        <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:625px; height:150px; overflow:scroll">
          <table class="table table-bordered" id="pcbTable">
            <thead>
              <tr>
@@ -163,7 +164,9 @@
                <th>Part</th>
                <th>Base</th>
                <th>Limit</th>
+               <th>Priority</th>
                <th>Proccess State</th>
+               <th>Location</th>
              </tr>
            </thead>
            <tbody id="pcbTableBody"></tbody>
@@ -206,12 +209,25 @@
          </font></label>
        </div>
         <div id="memoryDiv" style="width:500px; height:200px;">
-          <label><font color="orange">
-             Memory Display
-          </font></label>
-          <div id="memoryTableDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
-           <table class="table table-bordered" id="memoryTable"></table>
-         </div>
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#mem">Memory Display</a></li>
+            <li><a data-toggle="tab" href="#harddrive">Hard Drive</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="mem">
+              <!--<label><font color="orange">
+                 Memory Display
+              </font></label>-->
+              <div id="memoryTableDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
+               <table class="table table-bordered" id="memoryTable"></table>
+             </div>
+            </div>
+            <div class="tab-pane" id="harddrive">
+              <div id="hardDriveDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
+               <table class="table table-bordered" id="hardDriveTable"></table>
+             </div>
+            </div>
+          </div>
         </div>
       <div id="divUserProgramInput">
          <label><font color="orange">

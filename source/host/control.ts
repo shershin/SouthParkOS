@@ -94,15 +94,19 @@ module TSOS {
 
             _Memory = new Memory();
             _Memory.init();
+            _hardDrive = new hardDrive();
+            _hardDrive.init();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
             _CpuSched = new CPU_Scheduler();
             _resList = new residentList();
+            //_hardDrive = new HardDrive();
 
             _MemoryManager = new MemoryManager();
             _MemoryManager.clearMem();
+
 
             _Queue = new Queue();
 
@@ -192,7 +196,7 @@ module TSOS {
          var table: string = "";
          var i = 0;
          while (i < PCB.pidint){
-           var pcb = _resList.getID(i);
+           var pcb = _resList.pcblist[i];
            table += "<tr>";
            table += "<td>" + pcb.pid + "</td>";
            table += "<td>" + pcb.progCounter + "</td>";
@@ -204,11 +208,34 @@ module TSOS {
            table += "<td>" + pcb.partition + "</td>";
            table += "<td>" + pcb.base + "</td>";
            table += "<td>" + pcb.limit + "</td>";
+           table += "<td>" + pcb.priority + "</td>";
            table += "<td>" + pcb.proccessState + "</td>";
+           table += "<td>" + pcb.loc + "</td>";
            table += "</tr>";
            i++;
          }
         (<HTMLInputElement> document.getElementById("pcbTableBody")).innerHTML = table;
+       }
+
+       public static hdTable(): void {
+         var table = "";
+         var memLoc = 0;
+         for (var i = 0; i < 4; i++){
+           for (var j = 0; j < 8; j++){
+             for (var x = 0; x < 8; x++){
+              // console.log(i + ":" + j + ":" + x);
+               //console.log("memloc " + memLoc);
+               table += "<tr>";
+               table += "<td>" + i + ":" + j + ":" + x + "</td>";
+               table += "<td>" + _hardDrive.hDMeta[memLoc] + "</td>";
+               table += "<td>" + _hardDrive.hardDriveMem[memLoc] + "</td>";
+               table += "</tr>";
+               memLoc++;
+             }
+           }
+         }
+
+         (<HTMLInputElement> document.getElementById("hardDriveTable")).innerHTML = table;
        }
     }
 }

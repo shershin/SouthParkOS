@@ -85,7 +85,62 @@ module TSOS {
         }
         public static addBase(arg){
           var combined = arg + _currentPCB.base;
+          console.log(_currentPCB.pid + " combined " + combined);
           return combined;
         }
-    }
+        //convert all the strings to hex muhahahahaha
+        public static strToHex(arg): string{
+	           var hex = '';
+	            for (var i=0;i<arg.length;i++) {
+		              hex += ''+arg.charCodeAt(i).toString(16);
+	               }
+	                return hex.toUpperCase();
+        }
+        public static hexToStr(arg) {
+          var str = '';
+          arg + "";
+          console.log("hextostr " + arg + " " + arg.length);
+          for (var i = 0; i < arg.length; i += 2){
+            str += String.fromCharCode(parseInt(arg.substr(i, 2), 16));
+          }
+            return str;
+          }
+          //not that kind of stripper
+          //this one takes the number from pid
+          public static stripper(arg){
+            var re = /[0-9]/g;
+            var match = (arg + "").match(re);
+            console.log("stripper function " + arg + " " + match);
+            return match;
+          }
+
+          public static pcFix(pcb:PCB){
+            var base = _currentPCB.base;
+            var diff = pcb.progCounter - pcb.base;
+            pcb.progCounter = base + diff;
+            console.log("pcFix " + base + " " + diff + " " + pcb.progCounter);
+          }
+
+          public static stringToArry(str){
+            console.log("arg " + str);
+            var arry = [];
+            var byte = "";
+            var memLoc = 0;
+            for (var x = str.length; x < 512; x++){
+              str += "0";
+            }
+            console.log("post zeros str " + str);
+            for (var i = 0; i < str.length; i++) {
+                byte = byte + str[i];
+                if (byte.length > 1) {
+                    arry[i] = byte;
+                    console.log("byte " + byte);
+                    memLoc++;
+                    byte = "";
+                }
+            }
+            //console.log(arry.toString());
+            return arry;
+          }
+}
 }

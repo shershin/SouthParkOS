@@ -77,6 +77,13 @@ var _CpuSched : TSOS.CPU_Scheduler;
 var _currentPCB: TSOS.PCB = null;
 var _Queue : TSOS.Queue;
 var partsAllowed : number = 3;
+var schedule : string = "rr";
+var _hardDrive : TSOS.hardDrive;
+var _hdDriver : TSOS.hardDriveDriver;
+var hdSpot: number = 1;
+var hdFormat: boolean = false;
+var hdPgm: string = null;
+
 
 var onDocumentLoad = function() {
 	TSOS.Control.hostInit();

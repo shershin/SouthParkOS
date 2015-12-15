@@ -3,8 +3,7 @@ var TSOS;
     var MemoryManager = (function () {
         function MemoryManager() {
         }
-        MemoryManager.prototype.memload = function (str) {
-            var partnum = this.getNextPart();
+        MemoryManager.prototype.memload = function (str, partnum) {
             if (this.validPart(partnum)) {
                 var currByte = "";
                 var memLoc = (mem_size * partnum);
@@ -17,7 +16,6 @@ var TSOS;
                     }
                 }
                 TSOS.Control.memoryTable();
-                _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
                 this.setPart(partnum);
             }
             else {
@@ -62,8 +60,15 @@ var TSOS;
                 MemoryManager.part[args] = true;
             }
             else {
-                console.log("nooooooo");
             }
+        };
+        MemoryManager.prototype.readFromMem = function (pcb) {
+            var str = "";
+            for (var i = pcb.base; i < pcb.limit; i++) {
+                str += _Memory.memory[i];
+            }
+            console.log(str);
+            return str;
         };
         MemoryManager.part = [];
         return MemoryManager;

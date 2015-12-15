@@ -41,6 +41,12 @@ module TSOS {
             _krnKeyboardDriver.driverEntry();                    // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
 
+            this.krnTrace("Loading the hard drive driver");
+            _hdDriver = new hardDriveDriver();
+            Control.hdTable();
+            //_hdDriver.driverEntry();
+            //this.krnTrace(_hdDriver.status);
+
             //
             // ... more?
             //

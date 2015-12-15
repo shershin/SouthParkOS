@@ -140,7 +140,7 @@ module TSOS {
             //run <pid> - choose a program to run
             sc = new ShellCommand(this.shellRun,
                                   "run",
-                                  "<pid> - Choose a program to run.");
+                                  "<pid> || all- Choose a program to run.");
             this.commandList[this.commandList.length] = sc;
             //Memory - list all the programs in memory
             sc = new ShellCommand(this.shellMemory,
@@ -161,6 +161,46 @@ module TSOS {
             sc = new ShellCommand(this.shellQuantum,
                                   "quantum",
                                   "<int> - sets the amount of clock ticks for round robin.");
+            this.commandList[this.commandList.length] = sc;
+            //create <filename> - create the file
+            sc = new ShellCommand(this.shellCreatefile,
+                                  "create",
+                                  "<filename> - create the file.");
+            this.commandList[this.commandList.length] = sc;
+            //read <filename> - read the bloody file already...this isn't a library
+            sc = new ShellCommand(this.shellReadfile,
+                                  "read",
+                                  "<filename> - tead the bloody file already...this isn't a library.");
+            this.commandList[this.commandList.length] = sc;
+            //write <filename> - what to put here, ugh the fear of a blank page
+            sc = new ShellCommand(this.shellWritefile,
+                                  "write",
+                                  "<filename> \"data\"- what to put here, ugh the fear of a blank page.");
+            this.commandList[this.commandList.length] = sc;
+            //delete <filename> - cybermen the file
+            sc = new ShellCommand(this.shellDeletefile,
+                                  "delete",
+                                  "<filename> || all- cybermen the file.");
+            this.commandList[this.commandList.length] = sc;
+            //format - initialize all blocks in all sectors
+            sc = new ShellCommand(this.shellFormat,
+                                  "format",
+                                  "- initialize all blocks in all sectors.");
+            this.commandList[this.commandList.length] = sc;
+            //ls - list the files
+            sc = new ShellCommand(this.shellLs,
+                                  "ls",
+                                  "- list the files.");
+            this.commandList[this.commandList.length] = sc;
+            //setschedule <schedule> - choose which schedule to use rr, fcfs, priority
+            sc = new ShellCommand(this.shellSetschedule,
+                                  "setschedule",
+                                  "<schedule> - choose which schedule to use rr, fcfs, priority.");
+            this.commandList[this.commandList.length] = sc;
+            //getschedule - returns the current schedule
+            sc = new ShellCommand(this.shellGetschedule,
+                                  "getschedule",
+                                  "- returns the current schedule.");
             this.commandList[this.commandList.length] = sc;
             // Display the initial prompt.
             this.putPrompt();
@@ -290,10 +330,29 @@ module TSOS {
         }
 
         public shellTest(args) {
-          for(var i = 0; i < 10; i++){
-              console.log(_currentPCB.progCounter);
-              _currentPCB.incerPC();
+          /*var i;
+          console.log("session storage");
+          for (i = 0; i < sessionStorage.length; i++) {
+            console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
+          }*/
+          /*var arry = _resList.pcblist.sort(function (a, b) {
+            if (a.priority > b.priority) {
+              return 1;
+            }
+            if (a.priority < b.priority) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;});
+
+          for (var i = 0; i < PCB.pidint; i++){
+            _Queue.enqueue(arry[i]);
+            console.log(arry[i].pid + " prio " + arry[i].priority);
+          }*/
+          for (var i = 0; i < _resList.pcblist.length; i++){
+            console.log(_resList.pcblist[i].pid);
           }
+
         }
 
         public shellHelp(args) {
@@ -509,19 +568,25 @@ module TSOS {
           }
         }
         public shellLoad(args){
+          console.log("load args " + args);
           var input = <HTMLInputElement>document.getElementById("taProgramInput");
           var str = input.value;
           var isValid = false;
           var clean = "";
-          if (_resList.pcbint < partsAllowed){
             if (str.length > 0){
               var re = /([^abcdefABCDEF0123456789\s])/g;
               var test = str.search(re);
               if (!test){
                 _StdOut.putText("ERROR: Please enter a real program.");
               }else{
-                isValid = true;
-                clean = Utils.whiteBeGone(str);
+                var re2 = /('^[0-9]+$')/g;
+                var test2 = ("" + args).search(re2);
+                if (test2 || args === ""){
+                  isValid = true;
+                  clean = Utils.whiteBeGone(str);
+                } else {
+                  _StdOut.putText("Oh no letters are not numbers.");
+                }
             }
             }else{
             _StdOut.putText("ERROR: No program detected.");
@@ -530,12 +595,26 @@ module TSOS {
               _ProcessControlBlock = new PCB();
               console.log("PID Biotch: " +  _ProcessControlBlock.pid);
               _resList.addtoList(_ProcessControlBlock);
-              Control.pcbTable();
-              _MemoryManager.memload(clean);
+              if (_resList.pcbint < partsAllowed + 1){
+                var partnum = _MemoryManager.getNextPart();
+                _MemoryManager.memload(clean, partnum);
+                //_ProcessControlBlock.codes = clean;
+                _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
+              } else {
+                var name = "pid" + _ProcessControlBlock.pid;
+                _hdDriver.createPgm(name, clean);
+                _ProcessControlBlock.codes = Utils.stringToArry(clean);
+              }
+              //Control.pcbTable();
+              var hold = args.toString();
+              console.log(hold);
+              if (hold === ""){
+                _ProcessControlBlock.priority = 4;
+                console.log(4);
+              } else {
+                _ProcessControlBlock.priority = args;
+              }
             }
-          }else{
-            _StdOut.putText("Sorry can't load any more programs, friend.");
-          }
 
         }
         public shellBsod(args){
@@ -553,15 +632,19 @@ module TSOS {
               _StdOut.advanceLine();
               _StdOut.putText("Tip: you can use the memory fucntion to see all PIDS");
             }else {
-              var intget = parseInt(args[0]);
-              var getpcb = _resList.getID(intget);
-              _currentPCB = getpcb;
-              _currentPCB.proccessState = 'running';
-              _CPU.setCPU(_currentPCB);
-              _Queue.enqueue(_currentPCB);
-              _CpuSched.init();
-              _StdOut.putText("Executing.");
-              _CPU.isExecuting = true;
+              if (_hdDriver.nameCheck("pid" + args) && !_CPU.isExecuting){
+                _StdOut.putText("That PID happens to be in hard drive not in memory.");
+              } else {
+                var intget = parseInt(args[0]);
+                var getpcb = _resList.getID(intget);
+                _currentPCB = getpcb;
+                _currentPCB.proccessState = 'running';
+                _CPU.setCPU(_currentPCB);
+                _Queue.enqueue(_currentPCB);
+                _CpuSched.init();
+                _StdOut.putText("Executing.");
+                _CPU.isExecuting = true;
+              }
             }
           }
         }
@@ -577,17 +660,33 @@ module TSOS {
           _MemoryManager.clearMem();
           Control.memoryTable();
           _resList.clearParts();
-          for (var i = 0; i < partsAllowed; i++){
-            _MemoryManager.clearPart(i);
-          }
+          MemoryManager.part = [];
         }
         public shellRunall(args){
           var i = 0;
-          while (i < PCB.pidint){
-            var pcb = _resList.getID(i);
-            pcb.proccessState = 'ready';
-            _Queue.enqueue(pcb);
-            i++;
+          if (schedule === "priority"){
+            var arry = _resList.pcblist.sort(function (a, b) {
+              if (a.priority > b.priority) {
+                return b - a;
+              }
+              if (a.priority < b.priority) {
+                return a - b;
+              }
+              // a must be equal to b
+              return 0;});
+
+            for (var i = 0; i < PCB.pidint; i++){
+              _Queue.enqueue(arry[i]);
+              console.log(arry[i].pid + " prio " + arry[i].priority);
+            }
+          } else {
+            while (i < 3){
+              var pcb = _resList.pcblist[i];
+              pcb.proccessState = 'ready';
+              _Queue.enqueue(pcb);
+              i++;
+            }
+
           }
           _currentPCB = _Queue.dequeue();
           _currentPCB.proccessState = 'running';
@@ -601,7 +700,131 @@ module TSOS {
           //thus this would change the global from defult to args
           var time = schedulerTime;
           schedulerTime = args;
-          _StdOut.putText("Round Robin time changed from " + time + " to " + schedulerTime + ".");
+          _StdOut.putText("CPU clock time changed from " + time + " to " + schedulerTime + ".");
+        }
+        public shellCreatefile(args){
+          if (hdFormat){
+            var str = args.toString();
+            if (_hdDriver.nameCheck(str)){
+              _StdOut.putText("The file name is already taken please choose a different filename.");
+            } else {
+              sessionStorage.setItem(str, "");
+              console.log("created " + str);
+              _StdOut.putText("File created.");
+              _hdDriver.createFile(str);
+            }
+          } else {
+            _StdOut.putText("Please format the disk first.");
+          }
+
+        }
+        public shellReadfile(args){
+          if (hdFormat){
+            var str = args.toString();
+            if (_hdDriver.nameCheck(str)){
+              var ssItem = sessionStorage.getItem(str);
+              _StdOut.putText(ssItem);
+              console.log("reading " + str + " which contains " + ssItem);
+            } else {
+              _StdOut.putText("There is no file by that name please create the file first.");
+            }
+          } else {
+            _StdOut.putText("Please format the disk first.");
+          }
+        }
+        public shellWritefile(args){
+          if (hdFormat){
+            var name = args[0].toString();
+            if (_hdDriver.nameCheck(name)){
+              var re = /\"(.*?)\"/g;
+              var matching = args.toString();
+              var str = matching.match(re);
+              console.log(str);
+              var reString = (str + "").replace(/,/g, " ");
+              var reString2 = (reString + "").replace(/\"/g, "");
+              var loc = _hdDriver.fileLoc(name);
+              _hardDrive.hDMeta[loc] = "1100";
+              _StdOut.putText("File Succesfully writed to.");
+              sessionStorage.setItem(name, reString2);
+              console.log("write " + str + " with " + reString2);
+            } else {
+              _StdOut.putText("The file doesn't exist please create it first.");
+            }
+          } else {
+            _StdOut.putText("Please format the disk first.");
+          }
+          Control.hdTable();
+        }
+        public shellDeletefile(args){
+          if (hdFormat){
+            var str = args.toString();
+            if (str === "all"){
+              _hdDriver.hdMemClear();
+              _StdOut.putText("All Files have been deleted.");
+            }else{
+              if (_hdDriver.nameCheck(str)){
+                sessionStorage.removeItem(str);
+                _StdOut.putText("Deleted File.")
+                _hdDriver.deleteFile(str);
+                console.log("deleting " + str);
+             } else {
+               _StdOut.putText("There is no file by that name please create the file first.");
+             }
+            }
+          } else {
+            _StdOut.putText("Please Format the disk first.");
+          }
+
+        }
+        public shellFormat(args){
+          if (_hdDriver.isEmpty()){
+            _StdOut.putText("Formating complete.");
+            hdFormat = true;
+          } else {
+            _StdOut.putText("Please delete all files before formatting.");
+          }
+          Control.hdTable();
+        }
+        public shellLs(args){
+          var i = 0;
+          while (i < mem_size){
+            if (_hardDrive.hDMeta[i] === "1000" ||
+                _hardDrive.hDMeta[i] === "1100"){
+                  var varHolder = _hardDrive.hardDriveMem[i];
+                  var str = Utils.hexToStr(varHolder);
+                  _StdOut.putText("" + str);
+                  console.log("ls: " + varHolder + " string " + str);
+                  _StdOut.advanceLine();
+                }
+                i++;
+          }
+        }
+        public shellSetschedule(args){
+          var sche = args.toString();
+          console.log(sche + " scheduler " + schedule);
+          if (sche === schedule){
+            _StdOut.putText("Hey buddy, that is the current scheduler type.");
+          } else if (sche === "fcfs" || args === "first come first serve"){
+            _StdOut.putText("Congrats you changed the scheduler to fcfs.");
+            schedule = "fcfs";
+            schedulerTime = mem_size;
+          } else if (sche === "rr" || args === "round robin"){
+            _StdOut.putText("Congrats you changed the scheduler to rr.");
+            schedule = "rr";
+          } else if (sche === "priority" || args === "prio"){
+            _StdOut.putText("Congrats you changed the scheduler to priority.");
+            schedule = "priority";
+            schedulerTime = mem_size;
+          } else {
+            _StdOut.putText("Great now the scheduler is going into dire mode.");
+            _StdOut.advanceLine();
+            _StdOut.putText("It is like a normal schedular but canadian and evil.");
+            _StdOut.advanceLine();
+            _StdOut.putText("Just kidding buddy, relax. There are no dires here.");
+          }
+        }
+        public shellGetschedule(args){
+          _StdOut.putText("The schedular is " + schedule + "!");
         }
     }
 }
