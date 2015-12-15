@@ -50,7 +50,7 @@ module TSOS {
         public execute (){
           var holder = _Memory.memory[_currentPCB.progCounter];
           console.log(_currentPCB.progCounter + " memory " + _Memory.memory[_currentPCB.progCounter] + " pid " + _currentPCB.pid);
-          console.log("codes for " + _currentPCB.pid + " " + _currentPCB.codes)
+          //console.log("codes for " + _currentPCB.pid + " " + _currentPCB.codes)
           _currentPCB.incerPC();
           _CpuSched.cpuCycle++;
           var caps = holder.toUpperCase();

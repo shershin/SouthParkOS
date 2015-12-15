@@ -8,8 +8,7 @@ module TSOS {
     public static part = [];
 
 
-    public memload(str : String){
-      var partnum = this.getNextPart();
+    public memload(str : String, partnum){
       if (this.validPart(partnum)){
         var currByte : String = "";
         var memLoc = (mem_size * partnum);
@@ -22,7 +21,6 @@ module TSOS {
             }
         }
         Control.memoryTable();
-        _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
         this.setPart(partnum);
       } else {
         _StdOut.putText("Please clear out a partition");
@@ -71,37 +69,22 @@ module TSOS {
     public clearPart(args){
         if (this.validPart(args)){
           MemoryManager.part[args] = true;
-          console.log("clearning");
+          //console.log("clearning");
         } else {
-          console.log("nooooooo");
+          //console.log("nooooooo");
         }
     }
 
-    public readFromMem(pcb: PCB){
-      var x = 0;
-      console.log("readfrommem" + pcb.pid + " " +pcb.base);
+    public readFromMem(pcb: PCB): String {
+      var str = "";
+      //console.log("readfrommem" + pcb.pid + " " +pcb.base);
       for (var i = pcb.base; i < pcb.limit; i++){
-        if (_Memory.memory[i] === undefined){
-          pcb.codes[x] = "00";
-        }else {
-          pcb.codes[x] = _Memory.memory[i];
-          //console.log(pcb.pid + " pgm " + pgm);
-        }
-        x++;
+        str += _Memory.memory[i];
       }
-
+      console.log(str);
+      return str;
     }
 
-    public writeToMem(pcb: PCB){
-      console.log(pcb.pid);
-      var memLoc = pcb.base;
-      for (var i = 0; i < mem_size; i++) {
-        if (pcb.codes[i] === undefined){
-          _Memory.memory[memLoc] = "00";
-        } else {
-          _Memory.memory[memLoc] = pcb.codes[i];
-        }
-      }
-    }
+    
     }
   }

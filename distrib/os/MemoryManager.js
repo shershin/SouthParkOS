@@ -3,8 +3,7 @@ var TSOS;
     var MemoryManager = (function () {
         function MemoryManager() {
         }
-        MemoryManager.prototype.memload = function (str) {
-            var partnum = this.getNextPart();
+        MemoryManager.prototype.memload = function (str, partnum) {
             if (this.validPart(partnum)) {
                 var currByte = "";
                 var memLoc = (mem_size * partnum);
@@ -17,7 +16,6 @@ var TSOS;
                     }
                 }
                 TSOS.Control.memoryTable();
-                _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
                 this.setPart(partnum);
             }
             else {
@@ -60,36 +58,17 @@ var TSOS;
         MemoryManager.prototype.clearPart = function (args) {
             if (this.validPart(args)) {
                 MemoryManager.part[args] = true;
-                console.log("clearning");
             }
             else {
-                console.log("nooooooo");
             }
         };
         MemoryManager.prototype.readFromMem = function (pcb) {
-            var x = 0;
-            console.log("readfrommem" + pcb.pid + " " + pcb.base);
+            var str = "";
             for (var i = pcb.base; i < pcb.limit; i++) {
-                if (_Memory.memory[i] === undefined) {
-                    pcb.codes[x] = "00";
-                }
-                else {
-                    pcb.codes[x] = _Memory.memory[i];
-                }
-                x++;
+                str += _Memory.memory[i];
             }
-        };
-        MemoryManager.prototype.writeToMem = function (pcb) {
-            console.log(pcb.pid);
-            var memLoc = pcb.base;
-            for (var i = 0; i < mem_size; i++) {
-                if (pcb.codes[i] === undefined) {
-                    _Memory.memory[memLoc] = "00";
-                }
-                else {
-                    _Memory.memory[memLoc] = pcb.codes[i];
-                }
-            }
+            console.log(str);
+            return str;
         };
         MemoryManager.part = [];
         return MemoryManager;

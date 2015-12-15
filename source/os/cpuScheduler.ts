@@ -11,7 +11,7 @@ module TSOS{
     public cycle(){
       //check to see if the current cycle is greater than
       //quantum aka schedulerTime and if it is then change program
-      console.log("Cycle: " + this.cpuCycle + " time: " + schedulerTime);
+      //console.log("Cycle: " + this.cpuCycle + " time: " + schedulerTime);
       if (this.cpuCycle >= schedulerTime && (schedule === "fcfs" || schedule === "rr")){
         this.quantumSwitch();
       } else if (_currentPCB.proccessState === 'terminated' && (schedule === "fcfs" || schedule === "rr")){
@@ -29,13 +29,32 @@ module TSOS{
       if (!_Queue.isEmpty()){
         if (_hdDriver.pgmFinder()){
           //console.log("entering the hard drive");
-          this.rollMem();
+          var base  = _currentPCB.base;
+          var limit = _currentPCB.limit;
+          var part = _currentPCB.partition;
+          //
+          var oldpgm = _MemoryManager.readFromMem(_currentPCB);
+          //
+          var pid = Utils.stripper(hdPgm);
+          var str = sessionStorage.getItem(hdPgm);
+          var resPcb = _resList.getID(pid);
+          //
+          Utils.pcFix(resPcb);
+          resPcb.base = base;
+          resPcb.limit = limit;
+          resPcb.partition = part;
+          resPcb.loc = "memory";
+          resPcb.proccessState = "waiting";
+          _MemoryManager.memload(str, part);
+          console.log("str " + str + " oldpgm " + oldpgm);
+          _Queue.enqueue(resPcb);
+          _hdDriver.deletePgm(hdPgm);
           if (_currentPCB.proccessState === 'terminated'){
             _currentPCB = _Queue.dequeue();
             _currentPCB.proccessState = 'running';
           } else {
             _currentPCB.proccessState = 'waiting';
-            _hdDriver.createPgm("pid"+_currentPCB.pid, _currentPCB.codes);
+            _hdDriver.createPgm("pid"+_currentPCB.pid, oldpgm);
             _currentPCB.loc = "harddrive";
             _currentPCB = _Queue.dequeue();
             if (_currentPCB.proccessState === 'terminated'){
@@ -74,7 +93,26 @@ module TSOS{
             //change this to the current pcb
           } else if (_currentPCB.proccessState === 'terminated'){
             //need to roll the program in to the queue
-            this.rollMem();
+            var base  = _currentPCB.base;
+            var limit = _currentPCB.limit;
+            var part = _currentPCB.partition;
+            //console.log("hdPgm " + hdPgm);
+            var pid = Utils.stripper(hdPgm);
+            //_MemoryManager.readFromMem(_currentPCB);
+            var str = sessionStorage.getItem(hdPgm);
+            var clean = str.replace(/,/g, "");
+            var resPcb = _resList.getID(pid);
+            //console.log(_currentPCB.pid + " Switching " + resPcb.pid);
+            Utils.pcFix(resPcb);
+            resPcb.base = base;
+            resPcb.limit = limit;
+            resPcb.partition = part;
+            resPcb.loc = "memory";
+            console.log(sessionStorage.getItem(hdPgm));
+            resPcb.proccessState = "waiting";
+            _MemoryManager.memload(clean, part);
+            _Queue.enqueue(resPcb);
+            _hdDriver.deletePgm(hdPgm);
             _currentPCB = _Queue.dequeue();
             _currentPCB.proccessState = 'running';
           } else if (_currentPCB.priority > peekPcb.priority){
@@ -98,27 +136,6 @@ module TSOS{
       this.cpuCycle = 0;
       this.finished();
       }
-
-    public rollMem(){
-      var base  = _currentPCB.base;
-      var limit = _currentPCB.limit;
-      var part = _currentPCB.partition;
-      //console.log("hdPgm " + hdPgm);
-      var pid = Utils.stripper(hdPgm);
-      _MemoryManager.readFromMem(_currentPCB);
-      var resPcb = _resList.getID(pid);
-      console.log(_currentPCB.pid + " Switching " + resPcb.pid);
-      Utils.pcFix(resPcb);
-      resPcb.base = base;
-      resPcb.limit = limit;
-      resPcb.partition = part;
-      resPcb.loc = "memory";
-      resPcb.codes = Utils.stringToArry(sessionStorage.getItem(hdPgm));
-      resPcb.proccessState = "waiting";
-      _MemoryManager.writeToMem(resPcb);
-      _Queue.enqueue(resPcb);
-      _hdDriver.deletePgm(hdPgm);
-    }
 
     public finished(){
       if (_Queue.isEmpty() && _currentPCB.proccessState === 'terminated'){

@@ -91,21 +91,23 @@ var TSOS;
             console.log("pcFix " + base + " " + diff + " " + pcb.progCounter);
         };
         Utils.stringToArry = function (str) {
+            console.log("arg " + str);
             var arry = [];
             var byte = "";
             var memLoc = 0;
             for (var x = str.length; x < 512; x++) {
                 str += "0";
             }
+            console.log("post zeros str " + str);
             for (var i = 0; i < str.length; i++) {
                 byte = byte + str[i];
                 if (byte.length > 1) {
                     arry[i] = byte;
+                    console.log("byte " + byte);
                     memLoc++;
                     byte = "";
                 }
             }
-            console.log(arry.toString());
             return arry;
         };
         return Utils;

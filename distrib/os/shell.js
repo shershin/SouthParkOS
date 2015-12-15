@@ -412,11 +412,14 @@ var TSOS;
                 console.log("PID Biotch: " + _ProcessControlBlock.pid);
                 _resList.addtoList(_ProcessControlBlock);
                 if (_resList.pcbint < partsAllowed + 1) {
-                    _MemoryManager.memload(clean);
+                    var partnum = _MemoryManager.getNextPart();
+                    _MemoryManager.memload(clean, partnum);
+                    _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
                 }
                 else {
                     var name = "pid" + _ProcessControlBlock.pid;
                     _hdDriver.createPgm(name, clean);
+                    _ProcessControlBlock.codes = TSOS.Utils.stringToArry(clean);
                 }
                 var hold = args.toString();
                 console.log(hold);
