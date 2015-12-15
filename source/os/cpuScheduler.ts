@@ -105,7 +105,7 @@ module TSOS{
       var part = _currentPCB.partition;
       //console.log("hdPgm " + hdPgm);
       var pid = Utils.stripper(hdPgm);
-      _currentPCB.codes = _MemoryManager.readFromMem(_currentPCB);
+      _MemoryManager.readFromMem(_currentPCB);
       var resPcb = _resList.getID(pid);
       console.log(_currentPCB.pid + " Switching " + resPcb.pid);
       Utils.pcFix(resPcb);
@@ -113,9 +113,9 @@ module TSOS{
       resPcb.limit = limit;
       resPcb.partition = part;
       resPcb.loc = "memory";
-      resPcb.codes = sessionStorage.getItem(hdPgm);
+      resPcb.codes = Utils.stringToArry(sessionStorage.getItem(hdPgm));
       resPcb.proccessState = "waiting";
-      //_MemoryManager.readToMem(resPcb);
+      _MemoryManager.writeToMem(resPcb);
       _Queue.enqueue(resPcb);
       _hdDriver.deletePgm(hdPgm);
     }

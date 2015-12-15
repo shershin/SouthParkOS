@@ -67,29 +67,27 @@ var TSOS;
             }
         };
         MemoryManager.prototype.readFromMem = function (pcb) {
-            var pgm = "";
+            var x = 0;
             console.log("readfrommem" + pcb.pid + " " + pcb.base);
-            for (var i = pcb.base; i < mem_size; i++) {
+            for (var i = pcb.base; i < pcb.limit; i++) {
                 if (_Memory.memory[i] === undefined) {
-                    pgm += "00";
+                    pcb.codes[x] = "00";
                 }
                 else {
-                    pgm += _Memory.memory[i];
+                    pcb.codes[x] = _Memory.memory[i];
                 }
+                x++;
             }
-            return pgm;
         };
-        MemoryManager.prototype.readToMem = function (pcb) {
+        MemoryManager.prototype.writeToMem = function (pcb) {
             console.log(pcb.pid);
-            var currByte = "";
             var memLoc = pcb.base;
             for (var i = 0; i < mem_size; i++) {
-                currByte = currByte + pcb.codes[i];
-                if (currByte.length > 1) {
-                    _Memory.memory[memLoc] = currByte;
-                    memLoc++;
-                    console.log(currByte);
-                    currByte = "";
+                if (pcb.codes[i] === undefined) {
+                    _Memory.memory[memLoc] = "00";
+                }
+                else {
+                    _Memory.memory[memLoc] = pcb.codes[i];
                 }
             }
         };

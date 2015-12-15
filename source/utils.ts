@@ -120,5 +120,24 @@ module TSOS {
             pcb.progCounter = base + diff;
             console.log("pcFix " + base + " " + diff + " " + pcb.progCounter);
           }
+
+          public static stringToArry(str){
+            var arry = [];
+            var byte = "";
+            var memLoc = 0;
+            for (var x = str.length; x < 512; x++){
+              str += "0";
+            }
+            for (var i = 0; i < str.length; i++) {
+                byte = byte + str[i];
+                if (byte.length > 1) {
+                    arry[i] = byte;
+                    memLoc++;
+                    byte = "";
+                }
+            }
+            console.log(arry.toString());
+            return arry;
+          }
 }
 }

@@ -413,7 +413,6 @@ var TSOS;
                 _resList.addtoList(_ProcessControlBlock);
                 if (_resList.pcbint < partsAllowed + 1) {
                     _MemoryManager.memload(clean);
-                    _ProcessControlBlock.codes = clean;
                 }
                 else {
                     var name = "pid" + _ProcessControlBlock.pid;

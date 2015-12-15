@@ -597,7 +597,7 @@ module TSOS {
               _resList.addtoList(_ProcessControlBlock);
               if (_resList.pcbint < partsAllowed + 1){
                 _MemoryManager.memload(clean);
-                _ProcessControlBlock.codes = clean;
+                //_ProcessControlBlock.codes = clean;
               } else {
                 var name = "pid" + _ProcessControlBlock.pid;
                 _hdDriver.createPgm(name, clean);

@@ -14,7 +14,7 @@ var TSOS;
             if (priority === void 0) { priority = null; }
             if (proccessState === void 0) { proccessState = 'new'; }
             if (loc === void 0) { loc = null; }
-            if (codes === void 0) { codes = null; }
+            if (codes === void 0) { codes = []; }
             this.pid = pid;
             this.xreg = xreg;
             this.yreg = yreg;

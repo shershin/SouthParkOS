@@ -16,7 +16,7 @@ module TSOS {
       public priority : number = null,
       public proccessState : string = 'new',
       public loc : string = null,
-      public codes : string = null
+      public codes = []
     ){
       this.init();
     }
