@@ -21,7 +21,6 @@ module TSOS {
             }
         }
         Control.memoryTable();
-        this.setPart(partnum);
       } else {
         _StdOut.putText("Please clear out a partition");
       }
@@ -85,6 +84,6 @@ module TSOS {
       return str;
     }
 
-    
+
     }
   }

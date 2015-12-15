@@ -88,7 +88,7 @@ var TSOS;
             var base = _currentPCB.base;
             var diff = pcb.progCounter - pcb.base;
             pcb.progCounter = base + diff;
-            console.log("pcFix " + base + " " + diff + " " + pcb.progCounter);
+            console.log("pcFix " + pcb.pid + " " + base + " " + diff + " " + pcb.progCounter);
         };
         Utils.stringToArry = function (str) {
             console.log("arg " + str);
