@@ -414,6 +414,7 @@ var TSOS;
                 if (_resList.pcbint < partsAllowed + 1) {
                     var partnum = _MemoryManager.getNextPart();
                     _MemoryManager.memload(clean, partnum);
+                    _MemoryManager.setPart(partnum);
                     _StdOut.putText("Program loaded at PID: " + _ProcessControlBlock.pid);
                 }
                 else {
