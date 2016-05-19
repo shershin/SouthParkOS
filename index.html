@@ -73,7 +73,9 @@
     </div>
 
     <div class="row">
-     <div id="divButtonBar" style="margin:4px;" class="col-md-12">
+      <div class="col-md-4">
+      </div>
+     <div id="divButtonBar" style="margin:4px;" class="col-md-6">
         <input type="button"
                id = "btnStartOS"
                name="brnStartOS"
@@ -124,55 +126,10 @@
     <div class="col-md-2">
     </div>
     <div class="col-md-4">
-      <div id="cpuDiv" style="margin:4px; width:200px; height:100px;">
-            <label><font color="orange">
-               CPU Display
-            </font></label>
-            <div id="cpuTable" style="background-color:#FFFFFF; float:left; width:200px; height:75px;">
-             <table class="table table-bordered" id="cpuTable">
-               <thead>
-                 <tr>
-                   <th>PC</th>
-                   <th>AC</th>
-                   <th>IR</th>
-                   <th>X</th>
-                   <th>Y</th>
-                   <th>Z</th>
-                 </tr>
-               </thead>
-               <tbody id="cpuTableBody"></tbody>
-             </table>
-           </div>
-          </div>
+
     </div>
     <div class="col-md-6">
-      <div id="pcbDiv" style="margin:4px; width:300px; height:100px; float:left">
-        <label><font color="orange">
-           Ready Queue
-        </font></label>
-        <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:625px; height:150px; overflow:scroll">
-         <table class="table table-bordered" id="pcbTable">
-           <thead>
-             <tr>
-               <th>PID</th>
-               <th>PC</th>
-               <th>AC</th>
-               <th>IR</th>
-               <th>X</th>
-               <th>Y</th>
-               <th>Z</th>
-               <th>Part</th>
-               <th>Base</th>
-               <th>Limit</th>
-               <th>Priority</th>
-               <th>Proccess State</th>
-               <th>Location</th>
-             </tr>
-           </thead>
-           <tbody id="pcbTableBody"></tbody>
-         </table>
-       </div>
-      </div>
+
     </div>
   </div>
 
@@ -197,27 +154,17 @@
     <div class="col-md-1">
     </div>
     <div class="col-md-4">
-      <div id="divLog">
-         <label><font color="orange">
-            Host Log
-            <br>
-            <textarea name="taHostLog"
-                      id  ="taHostLog"
-                      rows="8"
-                      cols="48"
-            ></textarea>
-         </font></label>
-       </div>
         <div id="memoryDiv" style="width:500px; height:200px;">
           <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#mem">Memory Display</a></li>
             <li><a data-toggle="tab" href="#harddrive">Hard Drive</a></li>
+            <li><a data-toggle="tab" href="#cpu">CPU Display</a></li>
+            <li><a data-toggle="tab" href="#readyq">Ready Queue</a></li>
+            <li><a data-toggle="tab" href="#host">Host Log</a></li>
+            <li><a data-toggle="tab" href="#userinput">User Program Input</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="mem">
-              <!--<label><font color="orange">
-                 Memory Display
-              </font></label>-->
               <div id="memoryTableDiv" style="background-color:#FFFFFF; width:500px; height:160px; overflow:scroll">
                <table class="table table-bordered" id="memoryTable"></table>
              </div>
@@ -227,24 +174,77 @@
                <table class="table table-bordered" id="hardDriveTable"></table>
              </div>
             </div>
-          </div>
+            <div class="tab-pane" id="cpu">
+              <div id="cpuDiv" style="margin:4px; width:500px; height:160px;">
+                    <div id="cpuTable" style="background-color:#FFFFFF; width:500px; height:160px;">
+                     <table class="table table-bordered" id="cpuTable">
+                       <thead>
+                         <tr>
+                           <th>PC</th>
+                           <th>AC</th>
+                           <th>IR</th>
+                           <th>X</th>
+                           <th>Y</th>
+                           <th>Z</th>
+                         </tr>
+                       </thead>
+                       <tbody id="cpuTableBody"></tbody>
+                     </table>
+                   </div>
+                  </div>
+            </div>
+
+            <div class="tab-pane" id="readyq">
+              <div id="pcbDiv" style="margin:4px; width:300px; height:100px; float:left">
+                <div id="pcbTableDiv" style="background-color:#FFFFFF; float:left; width:625px; height:150px; overflow:scroll">
+                 <table class="table table-bordered" id="pcbTable">
+                   <thead>
+                     <tr>
+                       <th>PID</th>
+                       <th>PC</th>
+                       <th>AC</th>
+                       <th>IR</th>
+                       <th>X</th>
+                       <th>Y</th>
+                       <th>Z</th>
+                       <th>Part</th>
+                       <th>Base</th>
+                       <th>Limit</th>
+                       <th>Priority</th>
+                       <th>Proccess State</th>
+                       <th>Location</th>
+                     </tr>
+                   </thead>
+                   <tbody id="pcbTableBody"></tbody>
+                 </table>
+               </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="host">
+              <div id="divLog">
+                    <br>
+                    <textarea name="taHostLog"
+                              id  ="taHostLog"
+                              rows="8"
+                              cols="48"
+                    ></textarea>
+               </div>
+            </div>
+
+            <div class="tab-pane" id="userinput">
+              <div id="divUserProgramInput">
+                    <br>
+                    <textarea name="taProgramInput"
+                              id  ="taProgramInput"
+                              rows="8"
+                              cols="48"
+                    >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
+              </div>
+            </div>
+
         </div>
-      <div id="divUserProgramInput">
-         <label><font color="orange">
-            User Program Input
-            <br>
-            <textarea name="taProgramInput"
-                      id  ="taProgramInput"
-                      rows="8"
-                      cols="48"
-            >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00</textarea>
-         </font></label>
-      </div>
-
     </div>
-  </div>
-  <div class="row">
-
   </div>
 </div>
 
